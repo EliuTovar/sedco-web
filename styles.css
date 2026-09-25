@@ -63,6 +63,20 @@ header {
     gap: 0.5rem;
 }
 
+/* --- Estilos para los nuevos logos --- */
+.nav-logo {
+    height: 45px;
+    width: auto;
+    display: block;
+}
+
+.footer-logo {
+    height: 35px;
+    width: auto;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
 .nav-links {
     display: flex;
     gap: 2rem;
@@ -529,27 +543,70 @@ header {
     max-width: 750px;
     margin: 0 auto;
     background: var(--white);
-    padding: 3rem;
+    padding: 2.5rem 3rem;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     border-top: 5px solid var(--primary-blue);
 }
 
-.contact-header {
-    text-align: center;
-    margin-bottom: 2.5rem;
+/* Animación del encabezado desplegable */
+.toggle-header {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: opacity 0.3s ease;
+    user-select: none;
 }
 
-.contact-header h2 {
+.toggle-header:hover {
+    opacity: 0.8;
+}
+
+.contact-title-group h2 {
     font-size: 2.2rem;
     color: var(--primary-blue);
     margin-bottom: 0.5rem;
 }
 
-.contact-header p {
+.contact-title-group p {
     color: var(--gray-text);
 }
 
+.toggle-icon-box {
+    background: var(--light-bg);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-blue);
+    font-size: 1.2rem;
+    transition: transform 0.4s ease, background 0.3s ease;
+}
+
+.toggle-icon-box.rotate {
+    transform: rotate(180deg);
+    background: var(--primary-blue);
+    color: var(--white);
+}
+
+/* Animación de apertura del formulario */
+.contact-form-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease, margin-top 0.4s ease;
+}
+
+.contact-form-wrapper.open {
+    max-height: 700px;
+    opacity: 1;
+    margin-top: 2.5rem;
+}
+
+/* Estilos de los inputs del formulario */
 .contact-form .form-group {
     margin-bottom: 1.4rem;
 }
@@ -728,6 +785,9 @@ header {
 
 /* RESPONSIVE DESIGN */
 @media (max-width: 900px) {
+    .nav-logo {
+        height: 35px;
+    }
     .hero-content h1 {
         font-size: 2.3rem;
     }

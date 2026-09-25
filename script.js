@@ -247,3 +247,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedLang = localStorage.getItem('selectedLang') || 'es';
     changeLanguage(savedLang);
 });
+
+// Función para el menú desplegable de contacto
+function toggleContactForm() {
+    const formWrapper = document.getElementById('contactFormWrapper');
+    const iconBox = document.querySelector('.toggle-icon-box');
+    
+    // Alterna la clase 'open' para mostrar/ocultar el formulario
+    formWrapper.classList.toggle('open');
+    
+    // Alterna la clase 'rotate' para girar la flecha y cambiar su color
+    iconBox.classList.toggle('rotate');
+}

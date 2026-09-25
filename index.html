@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sedco Asesores | Despacho Internacional de Abogados</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/2025_Sedco_Asesores_Isotipo_Azul.png">
+    
     <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -14,8 +18,8 @@
     <!-- Header / Navegación -->
     <header>
         <nav class="navbar">
-            <a href="#" class="logo-text">
-                <i class="fa-solid fa-scale-balanced"></i> sedco asesores
+            <a href="#" class="logo-link">
+                <img src="img/2025_Sedco_Asesores_Logo2.png" alt="Sedco Asesores" class="nav-logo">
             </a>
             <div class="menu-toggle" onclick="toggleMenu()">
                 <i class="fa-solid fa-bars"></i>
@@ -334,28 +338,39 @@
         </div>
     </section>
 
-    <!-- 5. Contacto (Fondo Claro Elegante) -->
+    <!-- 5. Contacto (Fondo Claro Elegante con Desplegable) -->
     <section class="contact" id="contacto">
         <div class="contact-card-box">
-            <div class="contact-header">
-                <h2 data-i18n="contact_title">CONTÁCTANOS</h2>
-                <p data-i18n="contact_subtitle">Envíanos un mensaje y te responderemos lo antes posible.</p>
+            <!-- Encabezado Clickable -->
+            <div class="contact-header toggle-header" onclick="toggleContactForm()">
+                <div class="contact-title-group">
+                    <h2 data-i18n="contact_title">CONTÁCTANOS</h2>
+                    <p data-i18n="contact_subtitle">Envíanos un mensaje y te responderemos lo antes posible.</p>
+                </div>
+                <div class="toggle-icon-box">
+                    <i class="fa-solid fa-chevron-down" id="contactIcon"></i>
+                </div>
             </div>
-            <form class="contact-form">
-                <div class="form-group">
-                    <label data-i18n="lbl_name">Nombre Completo *</label>
-                    <input type="text" required>
-                </div>
-                <div class="form-group">
-                    <label data-i18n="lbl_email">Email *</label>
-                    <input type="email" required>
-                </div>
-                <div class="form-group">
-                    <label data-i18n="lbl_message">Mensaje *</label>
-                    <textarea rows="4" required></textarea>
-                </div>
-                <button type="submit" class="btn-submit" data-i18n="btn_send">Enviar Mensaje</button>
-            </form>
+            
+            <!-- Contenedor del Formulario (Oculto) -->
+            <div class="contact-form-wrapper" id="contactFormWrapper">
+                <!-- RECUERDA: Reemplaza el action="#" con tu enlace final de Formspree -->
+                <form class="contact-form" action="#" method="POST">
+                    <div class="form-group">
+                        <label data-i18n="lbl_name">Nombre Completo *</label>
+                        <input type="text" name="Nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="lbl_email">Email *</label>
+                        <input type="email" name="Correo" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="lbl_message">Mensaje *</label>
+                        <textarea rows="4" name="Mensaje" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit" data-i18n="btn_send">Enviar Mensaje</button>
+                </form>
+            </div>
         </div>
     </section>
 
@@ -393,6 +408,7 @@
         </div>
 
         <div class="footer-bottom">
+            <img src="img/2025_Sedco_Asesores_Logo_Blanco.png" alt="Sedco Asesores" class="footer-logo">
             <p>&copy; 2026 Sedco Asesores - <span data-i18n="footer_rights">Todos los derechos reservados.</span></p>
         </div>
     </footer>
