@@ -52,18 +52,6 @@ header {
     padding: 1rem 2rem;
 }
 
-.logo-text {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--primary-blue);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-/* --- Estilos para los nuevos logos --- */
 .nav-logo {
     height: 45px;
     width: auto;
@@ -96,7 +84,6 @@ header {
     color: var(--primary-blue);
 }
 
-/* Selector de Idiomas ES | EN */
 .lang-switch {
     display: inline-flex;
     align-items: center;
@@ -134,7 +121,7 @@ header {
     color: var(--dark);
 }
 
-/* Hero Section (Pantalla Completa Imponente) */
+/* Hero Section */
 .hero-fullscreen {
     background: linear-gradient(135deg, rgba(10, 30, 60, 0.92) 0%, rgba(10, 67, 134, 0.8) 100%), 
                 url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
@@ -181,6 +168,7 @@ header {
     margin-bottom: 1.2rem;
     color: var(--white);
     text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    min-height: 120px;
 }
 
 .hero-content p.subtitle {
@@ -228,7 +216,7 @@ header {
     transform: translateY(-2px);
 }
 
-/* Quiénes Somos (Con Tarjetas de Métricas de Confianza) */
+/* Quiénes Somos */
 .about {
     padding: 6rem 2rem;
     background-color: var(--white);
@@ -271,7 +259,6 @@ header {
     font-size: 1.05rem;
 }
 
-/* Grid de Métricas / Stats */
 .about-stats-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -310,7 +297,7 @@ header {
     color: var(--gray-text);
 }
 
-/* Sección de Servicios Premium (2 Columnas con Galería) */
+/* Sección de Servicios */
 .services {
     padding: 6rem 0;
     background: radial-gradient(circle at center, #0F4C81 0%, #082952 100%);
@@ -386,7 +373,6 @@ header {
     margin-bottom: 2rem;
 }
 
-/* Badges / Pills para Servicios */
 .services-pills {
     display: flex;
     flex-wrap: wrap;
@@ -410,17 +396,26 @@ header {
     color: #60A5FA;
 }
 
-/* Imagen Informativa del Servicio */
+/* === Efecto de Zoom Interactivo en Imágenes de Servicios === */
+.slide-media {
+    overflow: hidden; /* Evita que la imagen se salga del borde redondeado al hacer zoom */
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
 .slide-media img {
     width: 100%;
     height: 320px;
     object-fit: cover;
-    border-radius: 14px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: block;
 }
 
-/* Botones Navegadores del Carrusel */
+.carousel-slide-card:hover .slide-media img {
+    transform: scale(1.08); /* Crece un 8% al pasar el ratón */
+}
+
 .carousel-btn {
     position: absolute;
     top: 50%;
@@ -450,7 +445,6 @@ header {
 .prev-btn { left: -10px; }
 .next-btn { right: -10px; }
 
-/* Indicadores de Puntos */
 .carousel-dots-services {
     display: flex;
     justify-content: center;
@@ -473,7 +467,7 @@ header {
     border-radius: 10px;
 }
 
-/* Tarjeta Oficinas / Cobertura Interactivas con Efecto Elevación */
+/* Oficinas / Cobertura */
 .offices {
     padding: 5rem 2rem;
     background-color: var(--white);
@@ -520,7 +514,6 @@ header {
     line-height: 1.6;
 }
 
-/* Efecto Hover interactivo */
 .office-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 15px 30px rgba(10, 67, 134, 0.12);
@@ -533,7 +526,7 @@ header {
     color: var(--accent-blue);
 }
 
-/* Sección de Contacto (Clara y Elegante) */
+/* Sección de Contacto */
 .contact {
     padding: 5rem 2rem;
     background-color: var(--light-bg);
@@ -549,7 +542,6 @@ header {
     border-top: 5px solid var(--primary-blue);
 }
 
-/* Animación del encabezado desplegable */
 .toggle-header {
     cursor: pointer;
     display: flex;
@@ -592,7 +584,6 @@ header {
     color: var(--white);
 }
 
-/* Animación de apertura del formulario */
 .contact-form-wrapper {
     max-height: 0;
     overflow: hidden;
@@ -606,7 +597,6 @@ header {
     margin-top: 2.5rem;
 }
 
-/* Estilos de los inputs del formulario */
 .contact-form .form-group {
     margin-bottom: 1.4rem;
 }
@@ -654,7 +644,7 @@ header {
     background: var(--accent-blue);
 }
 
-/* Footer Oscuro Minimalista */
+/* Footer */
 .footer-section {
     background-color: #0A0F1D;
     color: var(--white);
@@ -728,7 +718,6 @@ header {
     background: var(--accent-blue);
 }
 
-/* Layout de Redes Sociales para 3 Botones */
 .social-links-grid {
     display: flex;
     flex-direction: column;
@@ -775,12 +764,60 @@ header {
     color: #25F4EE;
 }
 
+.social-btn.linkedin:hover {
+    background: #0077B5;
+    border-color: transparent;
+}
+
 .footer-bottom {
     text-align: center;
     border-top: 1px solid #1E293B;
     padding-top: 1.5rem;
     color: #64748B;
     font-size: 0.85rem;
+}
+
+.type-cursor {
+    font-weight: 400;
+    color: var(--white);
+    animation: blink 0.8s infinite;
+    margin-left: 4px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* =========================================
+   ANIMACIONES DE SCROLL Y REVEAL
+   ========================================= */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+}
+
+.fade-in-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+}
+
+.fade-in-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+}
+
+.fade-in-up.visible, 
+.fade-in-left.visible, 
+.fade-in-right.visible {
+    opacity: 1;
+    transform: translate(0, 0);
 }
 
 /* RESPONSIVE DESIGN */
@@ -790,6 +827,7 @@ header {
     }
     .hero-content h1 {
         font-size: 2.3rem;
+        min-height: 100px;
     }
     .about-container {
         grid-template-columns: 1fr;
@@ -831,5 +869,10 @@ header {
     }
     .newsletter-form {
         flex-direction: column;
+    }
+    
+    /* En móviles es mejor que todo suba y no venga de los lados para evitar problemas de scroll horizontal */
+    .fade-in-left, .fade-in-right {
+        transform: translateY(30px);
     }
 }

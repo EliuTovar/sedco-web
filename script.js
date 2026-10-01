@@ -225,7 +225,39 @@ const translations = {
     }
 };
 
-// Función para cambiar el idioma de la página
+let typeWriterTimeout;
+let isDeleting = false;
+let typeTxt = '';
+
+function typeWriter() {
+    const h1Element = document.querySelector('h1[data-i18n="hero_title"]');
+    if (!h1Element) return;
+
+    const currentLang = localStorage.getItem('selectedLang') || 'es';
+    const fullText = translations[currentLang]['hero_title'];
+
+    if (isDeleting) {
+        typeTxt = fullText.substring(0, typeTxt.length - 1);
+    } else {
+        typeTxt = fullText.substring(0, typeTxt.length + 1);
+    }
+
+    h1Element.innerHTML = typeTxt + '<span class="type-cursor">|</span>';
+
+    let speed = isDeleting ? 30 : 70;
+
+    if (!isDeleting && typeTxt === fullText) {
+        speed = 3000;
+        isDeleting = true;
+    } else if (isDeleting && typeTxt === '') {
+        isDeleting = false;
+        speed = 500;
+    }
+
+    clearTimeout(typeWriterTimeout);
+    typeWriterTimeout = setTimeout(typeWriter, speed);
+}
+
 function changeLanguage(lang) {
     document.getElementById('btn-es').classList.toggle('active', lang === 'es');
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
@@ -234,28 +266,90 @@ function changeLanguage(lang) {
     elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
         if (translations[lang] && translations[lang][key]) {
-            element.textContent = translations[lang][key];
+            if (key === 'hero_title') {
+                isDeleting = false;
+                typeTxt = '';
+                clearTimeout(typeWriterTimeout);
+                typeWriter();
+            } else {
+                element.textContent = translations[lang][key];
+            }
         }
     });
 
     localStorage.setItem('selectedLang', lang);
 }
 
-// Inicializar funciones al cargar la página
+// ==========================================
+// ANIMACIONES AL HACER SCROLL & CONTADORES
+// ==========================================
+const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.15 
+};
+
+// Función matemática para animar los números progresivamente
+function animateCounter(obj, start, end, duration, prefix, suffix) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        
+        // Curva de aceleración (easeOutExpo)
+        const easeOut = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        let current = Math.floor(easeOut * (end - start) + start);
+        
+        obj.innerHTML = prefix + current + suffix;
+        
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        } else {
+            obj.innerHTML = prefix + end + suffix; // Asegurar que termine exacto
+        }
+    };
+    window.requestAnimationFrame(step);
+}
+
+const scrollObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            
+            // Si el elemento visible tiene contadores dentro, disparar la animación
+            const counters = entry.target.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const prefix = counter.getAttribute('data-prefix') || '';
+                const suffix = counter.getAttribute('data-suffix') || '';
+                animateCounter(counter, 0, target, 2000, prefix, suffix);
+            });
+            
+            observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
 document.addEventListener('DOMContentLoaded', () => {
     initServiceDots();
     const savedLang = localStorage.getItem('selectedLang') || 'es';
     changeLanguage(savedLang);
+
+    // Asignar observador a las secciones que se van a animar
+    const elementsToAnimate = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .office-card');
+    
+    elementsToAnimate.forEach((el, index) => {
+        if(el.classList.contains('office-card')) {
+            el.style.transitionDelay = `${index * 0.1}s`;
+        }
+        scrollObserver.observe(el);
+    });
 });
 
-// Función para el menú desplegable de contacto
 function toggleContactForm() {
     const formWrapper = document.getElementById('contactFormWrapper');
     const iconBox = document.querySelector('.toggle-icon-box');
     
-    // Alterna la clase 'open' para mostrar/ocultar el formulario
     formWrapper.classList.toggle('open');
-    
-    // Alterna la clase 'rotate' para girar la flecha y cambiar su color
     iconBox.classList.toggle('rotate');
 }
