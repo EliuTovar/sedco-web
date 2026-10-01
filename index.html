@@ -112,6 +112,7 @@
 
             <div class="carousel-track-container">
                 <div class="carousel-track" id="servicesTrack">
+                    
                     <!-- Slide 1: Corporativo -->
                     <div class="carousel-slide-card">
                         <div class="slide-grid">
@@ -306,31 +307,80 @@
                 </div>
             </div>
 
+            <!-- Indicadores (Puntos) -->
             <div class="carousel-dots-services" id="servicesDots"></div>
         </div>
     </section>
 
-    <!-- 4. Oficinas / Cobertura -->
+    <!-- 4. Oficinas / Cobertura (Layout Folleto Alineado) -->
     <section class="offices" id="oficinas">
         <div class="offices-container">
-            <h2 class="fade-in-up" style="text-align: center; color: var(--primary-blue);" data-i18n="offices_title">Nuestra Presencia Internacional</h2>
-            <div class="offices-grid">
-                <div class="office-card fade-in-up">
-                    <h3><i class="fa-solid fa-location-dot"></i> <span data-i18n="off_mexico">México</span></h3>
-                    <p><strong>Chihuahua:</strong> Av. de la Cantera 9119-int 19, C.P. 31115</p>
-                    <p><strong>CDMX:</strong> Paseo de la Reforma 369 Desp. 4</p>
+            <h2 class="fade-in-up" style="text-align: center; color: var(--primary-blue); margin-bottom: 4rem;" data-i18n="offices_title">Nuestra Presencia Internacional</h2>
+            
+            <div class="offices-layout">
+                <!-- Columna Izquierda: Mapa Low-Poly de Alta Fidelidad -->
+                <div class="offices-map-col fade-in-left">
+                    <div class="custom-map-container">
+                        <!-- Mapa Vectorial Dibujado en HTML -->
+                        <svg viewBox="0 0 1000 1000" class="base-vector-map" xmlns="http://www.w3.org/2000/svg">
+                            <filter id="drop-shadow">
+                                <feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="#0A4386" flood-opacity="0.06"/>
+                            </filter>
+                            
+                            <g filter="url(#drop-shadow)" class="map-polygons">
+                                <!-- Polígono Estados Unidos -->
+                                <polygon points="150,200 450,210 520,270 580,240 780,180 820,250 780,350 720,400 740,550 680,480 580,470 550,550 480,480 380,500 320,530 200,450 120,300" 
+                                         fill="#E2E8F0" stroke="#CBD5E1" stroke-width="3" stroke-linejoin="round"/>
+                                
+                                <!-- Polígono México -->
+                                <polygon points="200,450 320,530 380,500 480,480 550,550 600,600 680,600 720,650 650,720 550,750 450,700 350,620 280,750 240,730 280,550" 
+                                         fill="#CBD5E1" stroke="#94A3B8" stroke-width="3" stroke-linejoin="round"/>
+                            </g>
+                        </svg>
+
+                        <!-- Marcadores Animados Exactos -->
+                        <div class="map-marker" style="top: 28%; left: 79%;" title="Nueva York, NY">
+                            <span class="marker-label">NYC</span>
+                        </div>
+                        <div class="map-marker" style="top: 44%; left: 49%;" title="Dallas, TX">
+                            <span class="marker-label">DFW</span>
+                        </div>
+                        <div class="map-marker" style="top: 52%; left: 73%;" title="Miami, FL">
+                            <span class="marker-label">MIA</span>
+                        </div>
+                        <div class="map-marker" style="top: 54%; left: 42%;" title="Chihuahua, México">
+                            <span class="marker-label">CUU</span>
+                        </div>
+                        <div class="map-marker" style="top: 66%; left: 51%;" title="Ciudad de México">
+                            <span class="marker-label">CDMX</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="office-card fade-in-up">
-                    <h3><i class="fa-solid fa-location-dot"></i> Miami</h3>
-                    <p>1441 Brickell Avenue, Suite 1400<br>Miami, FL 33131</p>
-                </div>
-                <div class="office-card fade-in-up">
-                    <h3><i class="fa-solid fa-location-dot"></i> <span data-i18n="off_ny">Nueva York</span></h3>
-                    <p>14 Wall Street, 20th floor<br>New York, NY 10005</p>
-                </div>
-                <div class="office-card fade-in-up">
-                    <h3><i class="fa-solid fa-location-dot"></i> Dallas</h3>
-                    <p>129 S Main Street, Suite 260<br>Grapevine, TX 76051</p>
+
+                <!-- Columna Derecha: 4 Tarjetas Interactivas con Enlaces a Google Maps -->
+                <div class="offices-cards-col fade-in-right">
+                    
+                    <div class="office-card" onclick="window.open('https://www.google.com/maps/search/?api=1&query=Av.+de+la+Cantera+9119,+Chihuahua', '_blank')">
+                        <h3><i class="fa-solid fa-location-dot"></i> <span data-i18n="off_mexico">México</span></h3>
+                        <p><strong>Chihuahua:</strong> Av. de la Cantera 9119-int 19, C.P. 31115</p>
+                        <p><strong>CDMX:</strong> Paseo de la Reforma 369 Desp. 4</p>
+                    </div>
+                    
+                    <div class="office-card" onclick="window.open('https://www.google.com/maps/search/?api=1&query=1441+Brickell+Avenue,+Suite+1400,+Miami,+FL+33131', '_blank')">
+                        <h3><i class="fa-solid fa-location-dot"></i> Miami</h3>
+                        <p>1441 Brickell Avenue, Suite 1400<br>Miami, FL 33131</p>
+                    </div>
+                    
+                    <div class="office-card" onclick="window.open('https://www.google.com/maps/search/?api=1&query=14+Wall+Street,+New+York,+NY+10005', '_blank')">
+                        <h3><i class="fa-solid fa-location-dot"></i> <span data-i18n="off_ny">Nueva York</span></h3>
+                        <p>14 Wall Street, 20th floor<br>New York, NY 10005</p>
+                    </div>
+                    
+                    <div class="office-card" onclick="window.open('https://www.google.com/maps/search/?api=1&query=129+S+Main+Street,+Suite+260,+Grapevine,+TX+76051', '_blank')">
+                        <h3><i class="fa-solid fa-location-dot"></i> Dallas</h3>
+                        <p>129 S Main Street, Suite 260<br>Grapevine, TX 76051</p>
+                    </div>
+
                 </div>
             </div>
         </div>
