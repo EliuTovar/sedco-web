@@ -321,38 +321,44 @@
                 <!-- Columna Izquierda: Mapa Low-Poly de Alta Fidelidad -->
                 <div class="offices-map-col fade-in-left">
                     <div class="custom-map-container">
-                        <!-- Mapa Vectorial Dibujado en HTML -->
-                        <svg viewBox="0 0 1000 1000" class="base-vector-map" xmlns="http://www.w3.org/2000/svg">
-                            <filter id="drop-shadow">
-                                <feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="#0A4386" flood-opacity="0.06"/>
-                            </filter>
+                        
+                        <!-- NUEVO: Contenedor interno para bloquear la proporción y evitar desfases -->
+                        <div class="map-inner-wrapper">
                             
-                            <g filter="url(#drop-shadow)" class="map-polygons">
-                                <!-- Polígono Estados Unidos -->
-                                <polygon points="150,200 450,210 520,270 580,240 780,180 820,250 780,350 720,400 740,550 680,480 580,470 550,550 480,480 380,500 320,530 200,450 120,300" 
-                                         fill="#E2E8F0" stroke="#CBD5E1" stroke-width="3" stroke-linejoin="round"/>
+                            <!-- Mapa Vectorial Dibujado en HTML -->
+                            <svg viewBox="0 0 1000 1000" class="base-vector-map" xmlns="http://www.w3.org/2000/svg">
+                                <filter id="drop-shadow">
+                                    <feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="#0A4386" flood-opacity="0.06"/>
+                                </filter>
                                 
-                                <!-- Polígono México -->
-                                <polygon points="200,450 320,530 380,500 480,480 550,550 600,600 680,600 720,650 650,720 550,750 450,700 350,620 280,750 240,730 280,550" 
-                                         fill="#CBD5E1" stroke="#94A3B8" stroke-width="3" stroke-linejoin="round"/>
-                            </g>
-                        </svg>
+                                <g filter="url(#drop-shadow)" class="map-polygons">
+                                    <!-- Polígono Estados Unidos (Coordenadas Mejoradas) -->
+                                    <polygon points="150,250 400,200 600,250 750,200 850,220 800,350 750,450 780,550 820,680 750,700 700,580 600,580 550,650 450,620 400,550 300,520 220,480 150,380" 
+                                             fill="#E2E8F0" stroke="#CBD5E1" stroke-width="3" stroke-linejoin="round"/>
+                                    
+                                    <!-- Polígono México (Coordenadas Mejoradas) -->
+                                    <polygon points="220,480 300,520 400,550 450,620 550,650 580,720 650,750 780,700 820,750 750,850 650,850 550,880 450,800 380,700 300,600 250,750 200,720" 
+                                             fill="#CBD5E1" stroke="#94A3B8" stroke-width="3" stroke-linejoin="round"/>
+                                </g>
+                            </svg>
 
-                        <!-- Marcadores Animados Exactos -->
-                        <div class="map-marker" style="top: 28%; left: 79%;" title="Nueva York, NY">
-                            <span class="marker-label">NYC</span>
-                        </div>
-                        <div class="map-marker" style="top: 44%; left: 49%;" title="Dallas, TX">
-                            <span class="marker-label">DFW</span>
-                        </div>
-                        <div class="map-marker" style="top: 52%; left: 73%;" title="Miami, FL">
-                            <span class="marker-label">MIA</span>
-                        </div>
-                        <div class="map-marker" style="top: 54%; left: 42%;" title="Chihuahua, México">
-                            <span class="marker-label">CUU</span>
-                        </div>
-                        <div class="map-marker" style="top: 66%; left: 51%;" title="Ciudad de México">
-                            <span class="marker-label">CDMX</span>
+                            <!-- Marcadores Animados Exactos (Porcentajes bloqueados) -->
+                            <div class="map-marker" style="top: 34%; left: 78%;" title="Nueva York, NY">
+                                <span class="marker-label">NYC</span>
+                            </div>
+                            <div class="map-marker" style="top: 56%; left: 50%;" title="Dallas, TX">
+                                <span class="marker-label">DFW</span>
+                            </div>
+                            <div class="map-marker" style="top: 65%; left: 79%;" title="Miami, FL">
+                                <span class="marker-label">MIA</span>
+                            </div>
+                            <div class="map-marker" style="top: 60%; left: 40%;" title="Chihuahua, México">
+                                <span class="marker-label">CUU</span>
+                            </div>
+                            <div class="map-marker" style="top: 78%; left: 52%;" title="Ciudad de México">
+                                <span class="marker-label">CDMX</span>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -438,15 +444,15 @@
                         <i class="fa-brands fa-instagram"></i>
                         <span>Instagram</span>
                     </a>
-                    <a href="https://www.facebook.com/" target="_blank" class="social-btn facebook" title="Facebook">
+                    <a href="https://www.facebook.com/profile.php?id=61582775624234" target="_blank" class="social-btn facebook" title="Facebook">
                         <i class="fa-brands fa-facebook-f"></i>
                         <span>Facebook</span>
                     </a>
-                    <a href="https://www.tiktok.com/" target="_blank" class="social-btn tiktok" title="TikTok">
+                    <a href="https://www.tiktok.com/@sedco_asesores" target="_blank" class="social-btn tiktok" title="TikTok">
                         <i class="fa-brands fa-tiktok"></i>
                         <span>TikTok</span>
                     </a>
-                    <a href="https://www.linkedin.com/" target="_blank" class="social-btn linkedin" title="LinkedIn">
+                    <a href="https://www.linkedin.com/company/sedco-asesores/" target="_blank" class="social-btn linkedin" title="LinkedIn">
                         <i class="fa-brands fa-linkedin-in"></i>
                         <span>LinkedIn</span>
                     </a>
