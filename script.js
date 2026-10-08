@@ -69,7 +69,7 @@ const translations = {
         about_title: "Quiénes Somos",
         about_highlight: "Conectamos tu negocio con el mundo.",
         about_text: "Sedco Asesores es una firma legal internacional con sede en México y oficinas en Nueva York, Miami, Dallas y Chihuahua que brinda asesoría especializada a empresas latinoamericanas y españolas para expandir sus operaciones a Estados Unidos, ofreciendo un servicio integral con experiencia local y transfronteriza.",
-        stat_offices: "Oficinas Clave en México y EE. UU.",
+        stat_offices: "Oficinas Clave en México y<br>EE. UU.",
         stat_exp: "Años de Experiencia Legal",
         stat_focus: "Enfoque Transfronterizo",
         stat_areas: "Áreas de Especialización",
@@ -101,7 +101,7 @@ const translations = {
         srv_ip_li2: "Derechos de autor",
         srv_ip_li3: "Secretos industriales",
         srv_trade_title: "Comercio Exterior",
-        srv_trade_desc: "Apoyo en operaciones de importación, exportación y regímenes aduaneros, así como programas preferenciales IMMEX, ALTEX y ECEX.",
+        srv_trade_desc: "Apoyo en operaciones de importación, exportación y regímenes aduaneros, así como programas IMMEX.",
         srv_trade_li1: "Avisos aduaneros",
         srv_trade_li2: "Certificados de origen",
         srv_trade_li3: "Cuotas compensatorias",
@@ -153,7 +153,7 @@ const translations = {
         about_title: "About Us",
         about_highlight: "We connect your business with the world.",
         about_text: "Sedco Asesores is an international law firm headquartered in Mexico with offices in New York, Miami, Dallas, and Chihuahua, providing specialized advice to Latin American and Spanish companies to expand their operations to the United States, offering comprehensive service with local and cross-border expertise.",
-        stat_offices: "Key Offices in Mexico and USA",
+        stat_offices: "Key Offices in Mexico and<br>USA",
         stat_exp: "Years of Legal Experience",
         stat_focus: "Cross-border Focus",
         stat_areas: "Areas of Expertise",
@@ -185,7 +185,7 @@ const translations = {
         srv_ip_li2: "Copyrights",
         srv_ip_li3: "Trade secrets",
         srv_trade_title: "Foreign Trade",
-        srv_trade_desc: "Support in import, export operations, and customs regimes, as well as preferential programs IMMEX, ALTEX, and ECEX.",
+        srv_trade_desc: "Support in import, export operations, and customs regimes, as well as IMMEX programs.",
         srv_trade_li1: "Customs notices",
         srv_trade_li2: "Certificates of origin",
         srv_trade_li3: "Countervailing duties",
@@ -273,6 +273,8 @@ function changeLanguage(lang) {
                 typeTxt = '';
                 clearTimeout(typeWriterTimeout);
                 typeWriter();
+            } else if (translations[lang][key].includes('<br>')) {
+                element.innerHTML = translations[lang][key];
             } else {
                 element.textContent = translations[lang][key];
             }
