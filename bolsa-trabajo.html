@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolsa de Trabajo | Sedco Asesores</title>
+    
+    <link rel="icon" type="image/png" href="img/2025_Sedco_Asesores_Isotipo_Azul_Cuadrado.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="bolsa-trabajo.css"> 
+</head>
+<body style="background-color: var(--light-bg);"> 
+
+    <!-- Header / Navegación: Versión Oscura -->
+    <header class="header-oscuro">
+        <nav class="navbar">
+            <a href="index.html" class="logo-link">
+                <img src="img/2025_Sedco_Asesores_Logo_Blanco.png" alt="Sedco Asesores" class="nav-logo">
+            </a>
+            <ul class="nav-links" style="display:flex; align-items: center; gap: 2rem;">
+                <li><a href="index.html" class="btn-volver">
+                    <i class="fa-solid fa-arrow-left"></i> <span data-i18n="nav_back_home">Volver al Inicio</span>
+                </a></li>
+                <!-- Selector de Idioma -->
+                <li>
+                    <div class="lang-switch" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);">
+                        <button type="button" id="btn-es" class="lang-btn active" style="color: white;" onclick="changeLanguage('es')">ES</button>
+                        <span class="divider" style="color: rgba(255,255,255,0.4);">|</span>
+                        <button type="button" id="btn-en" class="lang-btn" style="color: white;" onclick="changeLanguage('en')">EN</button>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sección Única: Cultura y Formulario -->
+    <section class="about" id="postulacion" style="padding: 4rem 0 5rem 0;">
+        <div class="careers-layout">
+            
+            <!-- Columna Izquierda: Beneficios -->
+            <div class="benefits-col">
+                <h2 class="benefits-title" data-i18n="careers_title">Desarrolla tu carrera con nosotros</h2>
+                <div class="title-accent"></div>
+                <p class="benefits-subtitle" data-i18n="careers_subtitle">Únete a una firma legal internacional con presencia transfronteriza y expande tu potencial profesional.</p>
+                
+                <div class="benefits-container">
+                    <!-- Tarjeta 1 -->
+                    <div class="benefit-card">
+                        <i class="fa-solid fa-globe benefit-icon"></i>
+                        <h3 data-i18n="ben_card1_title">Proyección Internacional</h3>
+                        <p data-i18n="ben_card1_desc">Participa en operaciones y transacciones transfronterizas complejas entre México y EE.UU., colaborando con clientes globales y expandiendo tu visión.</p>
+                        <div class="benefit-pills">
+                            <span data-i18n="ben_card1_pill1">Enfoque Binacional</span>
+                            <span data-i18n="ben_card1_pill2">Clientes Globales</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Tarjeta 2 -->
+                    <div class="benefit-card">
+                        <i class="fa-solid fa-arrow-trend-up benefit-icon"></i>
+                        <h3 data-i18n="ben_card2_title">Crecimiento Continuo</h3>
+                        <p data-i18n="ben_card2_desc">Desarrolla tus habilidades con planes de carrera personalizados, mentoría activa y un entorno de aprendizaje constante.</p>
+                        <div class="benefit-pills">
+                            <span data-i18n="ben_card2_pill1">Plan de Carrera</span>
+                            <span data-i18n="ben_card2_pill2">Capacitación</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Tarjeta 3 -->
+                    <div class="benefit-card">
+                        <i class="fa-solid fa-handshake-angle benefit-icon"></i>
+                        <h3 data-i18n="ben_card3_title">Cultura Colaborativa</h3>
+                        <p data-i18n="ben_card3_desc">Trabaja con un equipo de profesionales comprometidos, en un ambiente que fomenta el respeto, la diversidad y el alto rendimiento.</p>
+                        <div class="benefit-pills">
+                            <span data-i18n="ben_card3_pill1">Trabajo en Equipo</span>
+                            <span data-i18n="ben_card3_pill2">Gran Ambiente</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Formulario de C.V. -->
+            <div class="form-col">
+                <div class="form-cv-card">
+                    <h2 class="form-title" data-i18n="form_cv_title">ENVÍANOS TU C.V.</h2>
+                    <p class="form-subtitle" data-i18n="form_cv_subtitle">Déjanos tus datos y te contactaremos cuando se abra una oportunidad acorde a tu perfil.</p>
+                    
+                    <form class="cv-form" id="cvForm" action="#" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="text" name="Nombre" data-i18n="ph_name" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="Correo" data-i18n="ph_email" placeholder="Correo electrónico" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" name="Telefono" data-i18n="ph_phone" placeholder="Teléfono" required>
+                        </div>
+                        
+                        <!-- Zona Drag and Drop -->
+                        <div class="form-group">
+                            <div class="drag-drop-zone" id="drop-zone">
+                                <span class="drop-text" id="drop-text" data-i18n="drop_text">Arrastra y suelta tu C.V. aquí o<br>Selecciona Archivo (PDF, Word)</span>
+                                <input type="file" id="cvFile" name="cvFile" accept=".pdf,.doc,.docx" required hidden>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit" style="margin-top: 1rem;" data-i18n="btn_submit_cv">Enviar Postulación</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer-section" style="padding-top: 2rem;">
+        <div class="footer-bottom" style="border-top: none;">
+            <img src="img/2025_Sedco_Asesores_Logo_Blanco.png" alt="Sedco Asesores" class="footer-logo">
+            <p>&copy; 2026 Sedco Asesores - <span data-i18n="footer_rights">Todos los derechos reservados.</span></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script> 
+    <script src="drag-drop.js"></script> 
+</body>
+</html>

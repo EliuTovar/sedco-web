@@ -6,7 +6,7 @@
     <title>Sedco Asesores</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="img/2025_Sedco_Asesores_Isotipo_Azul_Cuadrado.png">
+    <link rel="icon" type="image/png" href="img/2025_Sedco_Asesores_Isotipo_Azul.png">
     
     <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -30,6 +30,14 @@
                 <li><a href="javascript:void(0)" onclick="scrollToSection('servicios')" data-i18n="nav_services">Servicios</a></li>
                 <li><a href="javascript:void(0)" onclick="scrollToSection('oficinas')" data-i18n="nav_offices">Oficinas</a></li>
                 <li><a href="javascript:void(0)" onclick="scrollToSection('contacto')" data-i18n="nav_contact">Contáctanos</a></li>
+                
+                <!-- NUEVO BOTÓN SIN target="_blank" -->
+                <li>
+                    <a href="bolsa-trabajo.html" style="background: var(--primary-blue); color: white; padding: 6px 12px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.3s;" onmouseover="this.style.background='#0056B3'" onmouseout="this.style.background='var(--primary-blue)'">
+                        Únete al Equipo
+                    </a>
+                </li>
+
                 <li>
                     <div class="lang-switch">
                         <button type="button" id="btn-es" class="lang-btn active" onclick="changeLanguage('es')">ES</button>
@@ -335,7 +343,7 @@
 
                     <div class="office-card" onclick="window.open('https://www.google.com/maps/search/?api=1&query=Paseo+de+la+Reforma+369,+Col.+Cuauhtemoc,+Ciudad+de+Mexico', '_blank')">
                         <h3><i class="fa-solid fa-location-dot"></i> <span data-i18n="off_cdmx">Ciudad de México</span></h3>
-                        <p>Paseo de la Reforma 369<br>Desp. 4, Ciudad de México 06500</p>
+                        <p>Paseo de la Reforma 369<br>Desp. 4, Col. Cuauhtémoc<br>Ciudad de México 06500</p>
                     </div>
                     
                     <div class="office-card" onclick="window.open('https://www.google.com/maps/search/?api=1&query=1441+Brickell+Avenue,+Suite+1400,+Miami,+FL+33131', '_blank')">

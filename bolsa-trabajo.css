@@ -1,0 +1,205 @@
+/* ====================================================
+   Header Oscuro Específico para Bolsa de Trabajo
+==================================================== */
+.header-oscuro {
+    background-color: var(--primary-blue) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+    border-bottom: 2px solid #082952;
+}
+
+.header-oscuro .btn-volver {
+    color: var(--white) !important;
+    font-weight: 700;
+    transition: opacity 0.3s ease;
+}
+
+.header-oscuro .btn-volver:hover {
+    opacity: 0.8;
+}
+
+/* ====================================================
+   Layout Principal de Bolsa de Trabajo
+==================================================== */
+body {
+    background-color: #F0F4F9 !important; 
+}
+
+.careers-layout {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 3.5rem;
+    align-items: start;
+    padding: 0 2rem;
+}
+
+/* ====================================================
+   Columna Izquierda: Tarjetas de Beneficios
+==================================================== */
+.benefits-title {
+    font-size: 2.2rem;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.title-accent {
+    width: 60px;
+    height: 4px;
+    background-color: var(--primary-blue);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+}
+
+.benefits-subtitle {
+    color: var(--gray-text);
+    margin-bottom: 2.5rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.benefits-container {
+    display: flex;
+    gap: 1.2rem;
+}
+
+.benefit-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    border: none;
+    border-left: 5px solid var(--primary-blue);
+    flex: 1;
+    box-shadow: 0 8px 25px rgba(10, 67, 134, 0.06); 
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(10, 67, 134, 0.12);
+}
+
+.benefit-icon {
+    font-size: 1.8rem;
+    color: var(--primary-blue); 
+    margin-bottom: 1rem;
+}
+
+.benefit-card h3 {
+    font-size: 1.05rem;
+    color: var(--dark);
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.3;
+}
+
+.benefit-card p {
+    font-size: 0.85rem;
+    color: var(--gray-text);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.benefit-pills {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.benefit-pills span {
+    background: #E0F2FE; 
+    color: var(--primary-blue);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+}
+
+/* ====================================================
+   Columna Derecha: Formulario de CV
+==================================================== */
+.form-cv-card {
+    background: #FFFFFF;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(10, 67, 134, 0.12);
+    border-top: 6px solid var(--primary-blue); 
+}
+
+.form-title {
+    font-size: 1.6rem;
+    color: var(--dark);
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.form-subtitle {
+    font-size: 0.9rem;
+    color: var(--gray-text);
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+}
+
+.cv-form .form-group {
+    margin-bottom: 1.2rem;
+}
+
+.cv-form input[type="text"],
+.cv-form input[type="email"],
+.cv-form input[type="tel"] {
+    width: 100%;
+    background: #F8FAFC; 
+    border: 1px solid #CBD5E1;
+    padding: 0.9rem 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: var(--dark);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.cv-form input[type="text"]:focus,
+.cv-form input[type="email"]:focus,
+.cv-form input[type="tel"]:focus {
+    border-color: var(--primary-blue);
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(10, 67, 134, 0.1);
+}
+
+.drag-drop-zone {
+    border: 1.5px dashed #94A3B8;
+    border-radius: 8px;
+    padding: 2rem 1rem;
+    text-align: center;
+    background: #F8FAFC;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.drag-drop-zone:hover, .drag-drop-zone.dragover {
+    border-color: var(--primary-blue);
+    background-color: #EFF6FF;
+}
+
+.drop-text {
+    font-size: 0.9rem;
+    color: var(--gray-text);
+    line-height: 1.5;
+}
+
+@media (max-width: 1024px) {
+    .careers-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    .benefits-container {
+        flex-direction: column;
+    }
+}

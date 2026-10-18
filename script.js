@@ -1,19 +1,17 @@
-// Menú Hamburguesa para Móviles
 function toggleMenu() {
     const navLinks = document.getElementById('navLinks');
     navLinks.classList.toggle('active');
 }
 
-// Desplazamiento suave
 function scrollToSection(id) {
     const section = document.getElementById(id);
     if (section) {
         section.scrollIntoView({ behavior: 'smooth' });
-        document.getElementById('navLinks').classList.remove('active');
+        const navLinks = document.getElementById('navLinks');
+        if(navLinks) navLinks.classList.remove('active');
     }
 }
 
-// Lógica del Carrusel de Servicios
 let currentServiceSlide = 0;
 
 function initServiceDots() {
@@ -35,9 +33,7 @@ function updateServiceCarousel() {
     const track = document.getElementById('servicesTrack');
     const dots = document.querySelectorAll('.dot-service');
 
-    if (track) {
-        track.style.transform = `translateX(-${currentServiceSlide * 100}%)`;
-    }
+    if (track) track.style.transform = `translateX(-${currentServiceSlide * 100}%)`;
 
     dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentServiceSlide);
@@ -46,6 +42,7 @@ function updateServiceCarousel() {
 
 function moveServiceSlide(direction) {
     const totalSlides = document.querySelectorAll('.carousel-slide-card').length;
+    if(totalSlides === 0) return;
     currentServiceSlide = (currentServiceSlide + direction + totalSlides) % totalSlides;
     updateServiceCarousel();
 }
@@ -55,7 +52,6 @@ function goToServiceSlide(index) {
     updateServiceCarousel();
 }
 
-// Diccionario de Traducciones Bilingüe (Español / Inglés)
 const translations = {
     es: {
         nav_home: "Inicio",
@@ -139,7 +135,29 @@ const translations = {
         newsletter_title: "Suscríbete a nuestro newsletter",
         newsletter_desc: "Recibe actualizaciones sobre derecho corporativo e internacional.",
         newsletter_btn: "Suscribirme",
-        footer_rights: "Todos los derechos reservados."
+        footer_rights: "Todos los derechos reservados.",
+        nav_back_home: "Volver al Inicio",
+        careers_title: "Desarrolla tu carrera con nosotros",
+        careers_subtitle: "Únete a una firma legal internacional con presencia transfronteriza y expande tu potencial profesional.",
+        ben_card1_title: "Proyección Internacional",
+        ben_card1_desc: "Participa en operaciones y transacciones transfronterizas complejas entre México y EE.UU., colaborando con clientes globales y expandiendo tu visión.",
+        ben_card1_pill1: "Enfoque Binacional",
+        ben_card1_pill2: "Clientes Globales",
+        ben_card2_title: "Crecimiento Continuo",
+        ben_card2_desc: "Desarrolla tus habilidades con planes de carrera personalizados, mentoría activa y un entorno de aprendizaje constante.",
+        ben_card2_pill1: "Plan de Carrera",
+        ben_card2_pill2: "Capacitación",
+        ben_card3_title: "Cultura Colaborativa",
+        ben_card3_desc: "Trabaja con un equipo de profesionales comprometidos, en un ambiente que fomenta el respeto, la diversidad y el alto rendimiento.",
+        ben_card3_pill1: "Trabajo en Equipo",
+        ben_card3_pill2: "Gran Ambiente",
+        form_cv_title: "ENVÍANOS TU C.V.",
+        form_cv_subtitle: "Déjanos tus datos y te contactaremos cuando se abra una oportunidad acorde a tu perfil.",
+        ph_name: "Nombre completo",
+        ph_email: "Correo electrónico",
+        ph_phone: "Teléfono",
+        drop_text: "Arrastra y suelta tu C.V. aquí o<br>Selecciona Archivo (PDF, Word)",
+        btn_submit_cv: "Enviar Postulación"
     },
     en: {
         nav_home: "Home",
@@ -223,7 +241,29 @@ const translations = {
         newsletter_title: "Subscribe to our newsletter",
         newsletter_desc: "Get updates on corporate and international law.",
         newsletter_btn: "Subscribe",
-        footer_rights: "All rights reserved."
+        footer_rights: "All rights reserved.",
+        nav_back_home: "Back to Home",
+        careers_title: "Develop your career with us",
+        careers_subtitle: "Join an international law firm with a cross-border presence and expand your professional potential.",
+        ben_card1_title: "International Projection",
+        ben_card1_desc: "Participate in complex cross-border operations and transactions between Mexico and the US, collaborating with global clients and expanding your vision.",
+        ben_card1_pill1: "Binational Focus",
+        ben_card1_pill2: "Global Clients",
+        ben_card2_title: "Continuous Growth",
+        ben_card2_desc: "Develop your skills with personalized career plans, active mentoring, and a constant learning environment.",
+        ben_card2_pill1: "Career Plan",
+        ben_card2_pill2: "Training",
+        ben_card3_title: "Collaborative Culture",
+        ben_card3_desc: "Work with a team of committed professionals in an environment that fosters respect, diversity, and high performance.",
+        ben_card3_pill1: "Teamwork",
+        ben_card3_pill2: "Great Atmosphere",
+        form_cv_title: "SEND US YOUR RESUME",
+        form_cv_subtitle: "Leave us your details and we will contact you when an opportunity matching your profile opens up.",
+        ph_name: "Full Name",
+        ph_email: "Email Address",
+        ph_phone: "Phone Number",
+        drop_text: "Drag and drop your Resume here or<br>Select File (PDF, Word)",
+        btn_submit_cv: "Submit Application"
     }
 };
 
@@ -261,8 +301,11 @@ function typeWriter() {
 }
 
 function changeLanguage(lang) {
-    document.getElementById('btn-es').classList.toggle('active', lang === 'es');
-    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    const btnEs = document.getElementById('btn-es');
+    const btnEn = document.getElementById('btn-en');
+    
+    if (btnEs) btnEs.classList.toggle('active', lang === 'es');
+    if (btnEn) btnEn.classList.toggle('active', lang === 'en');
 
     const elements = document.querySelectorAll('[data-i18n]');
     elements.forEach(element => {
@@ -272,7 +315,9 @@ function changeLanguage(lang) {
                 isDeleting = false;
                 typeTxt = '';
                 clearTimeout(typeWriterTimeout);
-                typeWriter();
+                if (typeof typeWriter === "function") typeWriter();
+            } else if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = translations[lang][key];
             } else if (translations[lang][key].includes('<br>')) {
                 element.innerHTML = translations[lang][key];
             } else {
@@ -284,23 +329,18 @@ function changeLanguage(lang) {
     localStorage.setItem('selectedLang', lang);
 }
 
-// ==========================================
-// ANIMACIONES AL HACER SCROLL & CONTADORES
-// ==========================================
+// ANIMACIONES Y CONTADORES
 const observerOptions = {
     root: null,
     rootMargin: '0px',
     threshold: 0.15 
 };
 
-// Función matemática para animar los números progresivamente
 function animateCounter(obj, start, end, duration, prefix, suffix) {
     let startTimestamp = null;
     const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        
-        // Curva de aceleración (easeOutExpo)
         const easeOut = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
         let current = Math.floor(easeOut * (end - start) + start);
         
@@ -309,7 +349,7 @@ function animateCounter(obj, start, end, duration, prefix, suffix) {
         if (progress < 1) {
             window.requestAnimationFrame(step);
         } else {
-            obj.innerHTML = prefix + end + suffix; // Asegurar que termine exacto
+            obj.innerHTML = prefix + end + suffix; 
         }
     };
     window.requestAnimationFrame(step);
@@ -319,8 +359,6 @@ const scrollObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            
-            // Si el elemento visible tiene contadores dentro, disparar la animación
             const counters = entry.target.querySelectorAll('.counter');
             counters.forEach(counter => {
                 const target = parseInt(counter.getAttribute('data-target'));
@@ -328,7 +366,6 @@ const scrollObserver = new IntersectionObserver((entries, observer) => {
                 const suffix = counter.getAttribute('data-suffix') || '';
                 animateCounter(counter, 0, target, 2000, prefix, suffix);
             });
-            
             observer.unobserve(entry.target);
         }
     });
@@ -339,9 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedLang = localStorage.getItem('selectedLang') || 'es';
     changeLanguage(savedLang);
 
-    // Asignar observador a las secciones que se van a animar
     const elementsToAnimate = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .office-card');
-    
     elementsToAnimate.forEach((el, index) => {
         if(el.classList.contains('office-card')) {
             el.style.transitionDelay = `${index * 0.1}s`;
@@ -353,7 +388,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function toggleContactForm() {
     const formWrapper = document.getElementById('contactFormWrapper');
     const iconBox = document.querySelector('.toggle-icon-box');
-    
-    formWrapper.classList.toggle('open');
-    iconBox.classList.toggle('rotate');
+    if(formWrapper && iconBox) {
+        formWrapper.classList.toggle('open');
+        iconBox.classList.toggle('rotate');
+    }
 }
