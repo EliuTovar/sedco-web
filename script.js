@@ -393,3 +393,58 @@ function toggleContactForm() {
         iconBox.classList.toggle('rotate');
     }
 }
+
+// === Lógica de Envío del Formulario de Contacto ===
+document.addEventListener("DOMContentLoaded", () => {
+    const contactForm = document.getElementById("contactForm");
+    
+    if (contactForm) {
+        contactForm.addEventListener("submit", async (e) => {
+            e.preventDefault(); // Evita que la página se recargue
+
+            // REEMPLAZA ESTO CON LA URL DE TU NUEVO SCRIPT DE GOOGLE
+            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwXM35-qHAL3O95MHj0K7PWymDkc0E3hZlAAM9Ak7LB7ojkxODVtAtjZOmSuJ31ZojkZw/exec";
+
+            const submitBtn = contactForm.querySelector(".btn-submit");
+            const originalBtnText = submitBtn.innerHTML;
+            
+            // Cambiar estado del botón
+            submitBtn.innerHTML = "Enviando...";
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = "0.7";
+
+            // Construir los datos a enviar
+            const payload = {
+                Nombre: contactForm.Nombre.value,
+                Correo: contactForm.Correo.value,
+                Mensaje: contactForm.Mensaje.value
+            };
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify(payload) // Convierte los datos a texto JSON para enviarlos
+                });
+
+                const result = await response.json(); 
+
+                if (result.status === "success") {
+                    const currentLang = localStorage.getItem('selectedLang') || 'es';
+                    alert(currentLang === 'en' ? "Your message has been sent successfully!" : "¡Tu mensaje ha sido enviado con éxito!");
+                    contactForm.reset(); // Limpia el formulario
+                } else {
+                    alert("Error del servidor: " + result.message);
+                }
+
+            } catch (error) {
+                console.error("Error al enviar el contacto:", error);
+                alert("Hubo un problema al enviar tu mensaje. Intenta de nuevo más tarde.");
+            } finally {
+                // Restaurar el botón
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = "1";
+            }
+        });
+    }
+});
