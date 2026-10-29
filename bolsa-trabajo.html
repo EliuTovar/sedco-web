@@ -21,20 +21,9 @@
             --text-muted: #64748b;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Open Sans', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
+        body { background-color: var(--bg-page); color: var(--text-dark); min-height: 100vh; }
 
-        body {
-            background-color: var(--bg-page);
-            color: var(--text-dark);
-            min-height: 100vh;
-        }
-
-        /* --- BARRA SUPERIOR DE NAVEGACIÓN --- */
         .navbar-bolsa {
             background-color: var(--sedco-navy);
             padding: 0.9rem 3rem;
@@ -48,30 +37,21 @@
             display: flex;
             align-items: center;
             text-decoration: none;
-            gap: 12px;
-        }
-
-        .brand-logo-img {
-            height: 38px;
-            object-fit: contain;
+            gap: 10px;
         }
 
         .brand-logo-text {
             color: #ffffff;
             font-family: 'Montserrat', sans-serif;
             font-weight: 800;
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             letter-spacing: -0.5px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .nav-right-actions {
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-        }
+        .nav-right-actions { display: flex; align-items: center; gap: 1.25rem; }
 
         .link-volver {
             color: #ffffff;
@@ -83,9 +63,7 @@
             gap: 8px;
             transition: opacity 0.2s;
         }
-        .link-volver:hover {
-            opacity: 0.85;
-        }
+        .link-volver:hover { opacity: 0.85; }
 
         .btn-lang {
             background: rgba(255, 255, 255, 0.15);
@@ -98,12 +76,8 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .btn-lang:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: #ffffff;
-        }
+        .btn-lang:hover { background: rgba(255, 255, 255, 0.25); border-color: #ffffff; }
 
-        /* --- CONTENEDOR PRINCIPAL DOS COLUMNAS --- */
         .main-wrapper {
             max-width: 1350px;
             margin: 2.5rem auto;
@@ -114,7 +88,6 @@
             align-items: start;
         }
 
-        /* --- COLUMNA IZQUIERDA --- */
         .title-section h1 {
             font-family: 'Montserrat', sans-serif;
             font-size: 2.3rem;
@@ -172,11 +145,7 @@
             margin-bottom: 1.25rem;
         }
 
-        .badge-list {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
+        .badge-list { display: flex; flex-direction: column; gap: 6px; }
 
         .badge-pill {
             background-color: var(--sedco-light-blue);
@@ -189,7 +158,6 @@
             width: fit-content;
         }
 
-        /* --- COLUMNA DERECHA: FORMULARIO --- */
         .form-card {
             background: #ffffff;
             border: 1px solid var(--card-border);
@@ -214,9 +182,7 @@
             line-height: 1.4;
         }
 
-        .form-group {
-            margin-bottom: 1rem;
-        }
+        .form-group { margin-bottom: 1rem; }
 
         .form-group input {
             width: 100%;
@@ -235,7 +201,6 @@
             box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
         }
 
-        /* --- ZONA DE ARRASTRE DE C.V. --- */
         .dropzone-box {
             border: 2px dashed #93c5fd;
             border-radius: 8px;
@@ -277,7 +242,6 @@
             color: #15803d;
         }
 
-        /* --- BOTÓN DE ENVÍO --- */
         .btn-enviar {
             width: 100%;
             background-color: var(--sedco-navy);
@@ -295,14 +259,8 @@
             gap: 10px;
         }
 
-        .btn-enviar:hover {
-            background-color: #092c52;
-        }
-
-        .btn-enviar:disabled {
-            background-color: #94a3b8;
-            cursor: not-allowed;
-        }
+        .btn-enviar:hover { background-color: #092c52; }
+        .btn-enviar:disabled { background-color: #94a3b8; cursor: not-allowed; }
 
         .alert-box {
             display: none;
@@ -314,14 +272,9 @@
         .alert-box.success { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
         .alert-box.error { background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
-        /* --- ADAPTACIÓN RESPONSIVA --- */
         @media (max-width: 1024px) {
-            .main-wrapper {
-                grid-template-columns: 1fr;
-            }
-            .cards-row {
-                margin-bottom: 2rem;
-            }
+            .main-wrapper { grid-template-columns: 1fr; }
+            .cards-row { margin-bottom: 2rem; }
         }
 
         @media (max-width: 680px) {
@@ -332,16 +285,10 @@
 </head>
 <body>
 
-    <!-- NAVBAR CORPORATIVA -->
     <header class="navbar-bolsa">
         <a href="index.html" class="brand-container">
-            <img src="img/2025_Sedco_Asesores_Logo_Blanco_Horizontal.png" 
-                 alt="Sedco Asesores" 
-                 class="brand-logo-img" 
-                 onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';">
-            
-            <div id="logoFallback" class="brand-logo-text" style="display: none;">
-                <i class="fa-solid fa-scale-balanced"></i> Sedco Asesores
+            <div class="brand-logo-text">
+                <i class="fa-solid fa-scale-balanced" style="font-size: 1.5rem;"></i> Sedco Asesores
             </div>
         </a>
 
@@ -353,10 +300,8 @@
         </div>
     </header>
 
-    <!-- CUERPO PRINCIPAL -->
     <main class="main-wrapper">
         
-        <!-- SECCIÓN INFORMATIVA (IZQUIERDA) -->
         <section class="title-section">
             <h1 id="txtTituloPrincipal">Desarrolla tu carrera con nosotros</h1>
             <p class="subtitle" id="txtSubtituloPrincipal">
@@ -364,7 +309,6 @@
             </p>
 
             <div class="cards-row">
-                <!-- Tarjeta 1 -->
                 <div class="pilar-card">
                     <div>
                         <div class="icon-box"><i class="fa-solid fa-earth-americas"></i></div>
@@ -377,7 +321,6 @@
                     </div>
                 </div>
 
-                <!-- Tarjeta 2 -->
                 <div class="pilar-card">
                     <div>
                         <div class="icon-box"><i class="fa-solid fa-chart-line"></i></div>
@@ -390,7 +333,6 @@
                     </div>
                 </div>
 
-                <!-- Tarjeta 3 -->
                 <div class="pilar-card">
                     <div>
                         <div class="icon-box"><i class="fa-solid fa-handshake-angle"></i></div>
@@ -405,7 +347,6 @@
             </div>
         </section>
 
-        <!-- SECCIÓN FORMULARIO (DERECHA) -->
         <section>
             <div class="form-card">
                 <h2 id="txtFormTit">ENVÍANOS TU C.V.</h2>
@@ -428,7 +369,6 @@
                         <input type="tel" id="postTelefono" placeholder="Teléfono" required>
                     </div>
 
-                    <!-- DROPZONE PARA ADJUNTAR CURRÍCULUM -->
                     <div class="dropzone-box" id="dropArea">
                         <input type="file" id="cvFileInput" accept=".pdf,.doc,.docx" style="display: none;" required>
                         <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
@@ -451,12 +391,8 @@
     </main>
 
     <script>
-        // --- 1. CONEXIÓN API (RENDER EN PRODUCCIÓN / LOCALHOST EN DESARROLLO) ---
-        const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-            ? 'http://localhost:3000/api'
-            : 'https://sedco-backend.onrender.com/api';
+        const API_URL = 'https://sedco-backend.onrender.com/api';
 
-        // --- 2. SISTEMA DE TRADUCCIÓN COMPLETO ---
         const traducciones = {
             es: {
                 volver: '<i class="fa-solid fa-arrow-left"></i> Volver al Inicio',
@@ -514,43 +450,59 @@
 
         let idioma = localStorage.getItem('sedco_lang') || 'es';
 
+        // Funciones auxiliares seguras para evitar errores de null
+        function setTxt(id, val) {
+            const el = document.getElementById(id);
+            if (el) el.innerText = val;
+        }
+
+        function setHtml(id, val) {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = val;
+        }
+
+        function setPh(id, val) {
+            const el = document.getElementById(id);
+            if (el) el.placeholder = val;
+        }
+
         function aplicarIdioma(lang) {
             idioma = lang;
             localStorage.setItem('sedco_lang', lang);
             const t = traducciones[lang];
 
-            document.getElementById('txtVolver').innerHTML = t.volver;
-            document.getElementById('txtTituloPrincipal').innerText = t.titulo;
-            document.getElementById('txtSubtituloPrincipal').innerText = t.subtitulo;
+            setHtml('txtVolver', t.volver);
+            setTxt('txtTituloPrincipal', t.titulo);
+            setTxt('txtSubtituloPrincipal', t.subtitulo);
 
-            document.getElementById('txtC1Tit').innerText = t.c1Tit;
-            document.getElementById('txtC1Desc').innerText = t.c1Desc;
-            document.getElementById('b1_1').innerText = t.b1_1;
-            document.getElementById('b1_2').innerText = t.b1_2;
+            setTxt('txtC1Tit', t.c1Tit);
+            setTxt('txtC1Desc', t.c1Desc);
+            setTxt('b1_1', t.b1_1);
+            setTxt('b1_2', t.b1_2);
 
-            document.getElementById('txtC2Tit').innerText = t.c2Tit;
-            document.getElementById('txtC2Desc').innerText = t.c2Desc;
-            document.getElementById('b2_1').innerText = t.b2_1;
-            document.getElementById('b2_2').innerText = t.b2_2;
+            setTxt('txtC2Tit', t.c2Tit);
+            setTxt('txtC2Desc', t.c2Desc);
+            setTxt('b2_1', t.b2_1);
+            setTxt('b2_2', t.b2_2);
 
-            document.getElementById('txtC3Tit').innerText = t.c3Tit;
-            document.getElementById('txtC3Desc').innerText = t.c3Desc;
-            document.getElementById('b3_1').innerText = t.b3_1;
-            document.getElementById('b3_2').innerText = t.b3_2;
+            setTxt('txtC3Tit', t.c3Tit);
+            setTxt('txtC3Desc', t.c3Desc);
+            setTxt('b3_1', t.b3_1);
+            setTxt('b3_2', t.b3_2);
 
-            document.getElementById('txtFormTit').innerText = t.formTit;
-            document.getElementById('txtFormDesc').innerText = t.formDesc;
+            setTxt('txtFormTit', t.formTit);
+            setTxt('txtFormDesc', t.formDesc);
 
-            document.getElementById('postNombre').placeholder = t.phNombre;
-            document.getElementById('postCorreo').placeholder = t.phCorreo;
-            document.getElementById('postTelefono').placeholder = t.phTelefono;
+            setPh('postNombre', t.phNombre);
+            setPh('postCorreo', t.phCorreo);
+            setPh('postTelefono', t.phTelefono);
 
             const fileInput = document.getElementById('cvFileInput');
-            if (!fileInput.files || fileInput.files.length === 0) {
-                document.getElementById('txtDropText').innerHTML = t.dropText;
+            if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+                setHtml('txtDropText', t.dropText);
             }
 
-            document.getElementById('txtBtnEnviar').innerText = t.btnEnviar;
+            setTxt('txtBtnEnviar', t.btnEnviar);
         }
 
         document.getElementById('btnToggleIdioma').addEventListener('click', () => {
@@ -559,7 +511,7 @@
 
         aplicarIdioma(idioma);
 
-        // --- 3. FUNCIONALIDAD DROPZONE (CLICK Y ARRASTRE) ---
+        // Control de Dropzone
         const dropArea = document.getElementById('dropArea');
         const cvFileInput = document.getElementById('cvFileInput');
         const fileStatus = document.getElementById('fileStatus');
@@ -604,7 +556,7 @@
             dropArea.style.backgroundColor = '#f0fdf4';
         }
 
-        // --- 4. ENVÍO DEL FORMULARIO CON MULTIPART AL BACKEND ---
+        // Envío del Formulario
         const form = document.getElementById('formBolsa');
         const btnEnviar = document.getElementById('btnEnviar');
         const alerta = document.getElementById('alertaPostulacion');
@@ -627,13 +579,19 @@
             formData.append('cvFile', cvFileInput.files[0]);
 
             btnEnviar.disabled = true;
-            btnEnviar.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${traducciones[idioma].enviando}`;
+            btnEnviar.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>${traducciones[idioma].enviando}</span>`;
+
+            // Límite de espera de 40 segundos para no bloquear la pantalla indefinidamente
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 40000);
 
             try {
                 const res = await fetch(`${API_URL}/bolsa-trabajo`, {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    signal: controller.signal
                 });
+                clearTimeout(timeoutId);
 
                 const data = await res.json();
 
@@ -652,10 +610,17 @@
                     alerta.style.display = 'block';
                 }
             } catch (err) {
+                clearTimeout(timeoutId);
                 alerta.className = 'alert-box error';
-                alerta.innerText = idioma === 'es' 
-                    ? 'No fue posible conectar con el servidor. Inténtalo más tarde.' 
-                    : 'Could not reach server. Please try again later.';
+                if (err.name === 'AbortError') {
+                    alerta.innerText = idioma === 'es' 
+                        ? 'El servidor tardó en responder. Render se está reactivando, por favor intenta presionar enviar nuevamente.' 
+                        : 'Server took too long to respond. The cloud instance was waking up, please try clicking submit once more.';
+                } else {
+                    alerta.innerText = idioma === 'es' 
+                        ? 'No fue posible conectar con el servidor. Inténtalo más tarde.' 
+                        : 'Could not reach server. Please try again later.';
+                }
                 alerta.style.display = 'block';
             } finally {
                 btnEnviar.disabled = false;
