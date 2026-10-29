@@ -74,7 +74,9 @@
             background-color: #ef4444; color: #ffffff; border: none; padding: 6px 14px;
             border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.85rem;
             display: inline-flex; align-items: center; gap: 6px;
+            transition: background-color 0.2s;
         }
+        .btn-logout:hover { background-color: #dc2626; }
 
         .main-container { max-width: 1400px; margin: 2rem auto; padding: 0 1.5rem; }
         .view-section { display: none; }
@@ -467,17 +469,41 @@
     </div>
 
     <script>
+        // --- 1. CONTROL ESTRICTO DE SESIÓN Y PROTECCIÓN CONTRA RETORNO (BFCACHE) ---
+        function validarAutenticacion() {
+            const tokenGuardado = localStorage.getItem('sedco_token');
+            const usuarioGuardado = localStorage.getItem('sedco_user');
+
+            if (!tokenGuardado || !usuarioGuardado) {
+                // Ocultar la interfaz para evitar parpadeos de datos en caché
+                document.body.style.display = 'none';
+                window.location.replace('login.html');
+                return null;
+            }
+
+            try {
+                return JSON.parse(usuarioGuardado);
+            } catch (e) {
+                document.body.style.display = 'none';
+                window.location.replace('login.html');
+                return null;
+            }
+        }
+
+        // Se dispara al cargar y al presionar las flechas de atrás/adelante en el navegador
+        window.addEventListener('pageshow', (event) => {
+            validarAutenticacion();
+        });
+
+        const user = validarAutenticacion();
+        const token = localStorage.getItem('sedco_token');
+
         // Detección automática: Local vs Producción
         const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
             ? 'http://localhost:3000/api'
             : 'https://sedco-backend.onrender.com/api';
 
-        const token = localStorage.getItem('sedco_token');
-        const user = JSON.parse(localStorage.getItem('sedco_user') || 'null');
-
-        if (!token || !user) {
-            window.location.href = 'login.html';
-        } else {
+        if (user) {
             document.getElementById('userTag').innerText = `${user.nombre} (${user.rol})`;
             if (user.rol === 'ADMIN') document.getElementById('tabUsuarios').style.display = 'inline-flex';
         }
@@ -996,7 +1022,16 @@
             const form = document.querySelector(`#${id} form`);
             if (form) form.reset();
         }
-        function logout() { localStorage.clear(); window.location.href = 'login.html'; }
+
+        // --- CERRAR SESIÓN CON LIMPIEZA TOTAL Y REEMPLAZO DE HISTORIAL ---
+        function logout() {
+            localStorage.removeItem('sedco_token');
+            localStorage.removeItem('sedco_user');
+            localStorage.clear();
+            sessionStorage.clear();
+            // Reemplaza la entrada actual del historial para que no se pueda regresar con la flecha atrás
+            window.location.replace('login.html');
+        }
 
         cargarExpedientes();
     </script>
