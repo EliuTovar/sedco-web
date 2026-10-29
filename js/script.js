@@ -8,7 +8,7 @@ function scrollToSection(id) {
     if (section) {
         section.scrollIntoView({ behavior: 'smooth' });
         const navLinks = document.getElementById('navLinks');
-        if(navLinks) navLinks.classList.remove('active');
+        if (navLinks) navLinks.classList.remove('active');
     }
 }
 
@@ -42,7 +42,7 @@ function updateServiceCarousel() {
 
 function moveServiceSlide(direction) {
     const totalSlides = document.querySelectorAll('.carousel-slide-card').length;
-    if(totalSlides === 0) return;
+    if (totalSlides === 0) return;
     currentServiceSlide = (currentServiceSlide + direction + totalSlides) % totalSlides;
     updateServiceCarousel();
 }
@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const elementsToAnimate = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .office-card');
     elementsToAnimate.forEach((el, index) => {
-        if(el.classList.contains('office-card')) {
+        if (el.classList.contains('office-card')) {
             el.style.transitionDelay = `${index * 0.1}s`;
         }
         scrollObserver.observe(el);
@@ -388,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function toggleContactForm() {
     const formWrapper = document.getElementById('contactFormWrapper');
     const iconBox = document.querySelector('.toggle-icon-box');
-    if(formWrapper && iconBox) {
+    if (formWrapper && iconBox) {
         formWrapper.classList.toggle('open');
         iconBox.classList.toggle('rotate');
     }
@@ -400,50 +400,51 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if (contactForm) {
         contactForm.addEventListener("submit", async (e) => {
-            e.preventDefault(); // Evita que la página se recargue
+            e.preventDefault();
 
-            // URL del back end
-            const SCRIPT_URL = "http://localhost:3000/api/contacto";
+            // URL adaptativa: localhost en local o Render en produccion[cite: 1, 18]
+            const SCRIPT_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+                ? 'http://localhost:3000/api/contacto'
+                : 'https://sedco-backend.onrender.com/api/contacto';
 
             const submitBtn = contactForm.querySelector(".btn-submit");
             const originalBtnText = submitBtn.innerHTML;
             
-            // Cambiar estado del botón
+            // Cambiar estado del boton
             submitBtn.innerHTML = "Enviando...";
             submitBtn.disabled = true;
             submitBtn.style.opacity = "0.7";
 
             // Construir los datos a enviar
             const payload = {
-                Nombre: contactForm.Nombre.value,
-                Correo: contactForm.Correo.value,
-                Mensaje: contactForm.Mensaje.value
+                Nombre: contactForm.Nombre.value.trim(),
+                Correo: contactForm.Correo.value.trim(),
+                Mensaje: contactForm.Mensaje.value.trim()
             };
 
             try {
-                    const response = await fetch(SCRIPT_URL, {
+                const response = await fetch(SCRIPT_URL, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(payload) // Convierte los datos a texto JSON para enviarlos
+                    body: JSON.stringify(payload)
                 });
 
                 const result = await response.json(); 
 
-                if (result.status === "success") {
+                if (response.ok && result.status === "success") {
                     const currentLang = localStorage.getItem('selectedLang') || 'es';
                     alert(currentLang === 'en' ? "Your message has been sent successfully!" : "¡Tu mensaje ha sido enviado con éxito!");
-                    contactForm.reset(); // Limpia el formulario
+                    contactForm.reset();
                 } else {
-                    alert("Error del servidor: " + result.message);
+                    alert("Error del servidor: " + (result.message || 'No se pudo procesar el mensaje.'));
                 }
 
             } catch (error) {
                 console.error("Error al enviar el contacto:", error);
-                alert("Hubo un problema al enviar tu mensaje. Intenta de nuevo más tarde.");
+                alert("Hubo un problema al conectar con el servidor. Intenta de nuevo más tarde.");
             } finally {
-                // Restaurar el botón
                 submitBtn.innerHTML = originalBtnText;
                 submitBtn.disabled = false;
                 submitBtn.style.opacity = "1";
