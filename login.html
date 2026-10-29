@@ -7,61 +7,96 @@
     
     <link rel="icon" type="image/png" href="img/2025_Sedco_Asesores_Isotipo_Azul_Cuadrado.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --primary-dark: #0f172a;
-            --primary-blue: #1e3a8a;
-            --accent-blue: #2563eb;
-            --bg-light: #f8fafc;
-            --border-color: #e2e8f0;
-            --text-dark: #1e293b;
+            --sedco-navy: #0e3d6f;
+            --sedco-blue: #0056b3;
+            --sedco-blue-hover: #004494;
+            --bg-gradient: linear-gradient(135deg, #0a2540 0%, #0e3d6f 50%, #174b80 100%);
+            --card-border: #e2e8f0;
+            --text-dark: #0f172a;
             --text-muted: #64748b;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
 
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            background: var(--bg-gradient);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 1.5rem;
+            position: relative;
         }
 
+        /* Botón superior para volver */
+        .top-nav-back {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+        }
+
+        .btn-volver-top {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 6px;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+        }
+
+        .btn-volver-top:hover {
+            background: rgba(255, 255, 255, 0.22);
+            color: #ffffff;
+            transform: translateX(-2px);
+        }
+
+        /* Tarjeta de Login */
         .login-card {
             background: #ffffff;
             width: 100%;
-            max-width: 420px;
+            max-width: 440px;
             border-radius: 12px;
-            padding: 2.5rem 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 2.5rem 2.2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            text-align: center;
         }
 
         .brand-header {
-            text-align: center;
             margin-bottom: 2rem;
         }
 
-        .brand-header i {
-            font-size: 2.5rem;
-            color: var(--accent-blue);
-            margin-bottom: 0.5rem;
-        }
-
-        .brand-header h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
-            color: var(--primary-dark);
-            font-weight: 700;
+        .login-logo {
+            max-width: 220px;
+            height: auto;
+            margin-bottom: 0.8rem;
+            display: inline-block;
         }
 
         .brand-header p {
-            color: var(--text-muted);
             font-size: 0.85rem;
-            margin-top: 0.25rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Formulario */
+        .login-form {
+            text-align: left;
         }
 
         .form-group {
@@ -70,156 +105,200 @@
 
         .form-group label {
             display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 0.82rem;
+            font-weight: 700;
             color: #334155;
             margin-bottom: 0.4rem;
         }
 
-        .input-wrapper {
+        .input-icon-wrapper {
             position: relative;
             display: flex;
             align-items: center;
         }
 
-        .input-wrapper i {
+        .input-icon-wrapper i {
             position: absolute;
-            left: 1rem;
-            color: var(--text-muted);
+            left: 14px;
+            color: #94a3b8;
             font-size: 0.9rem;
         }
 
-        .input-wrapper input {
+        .input-icon-wrapper input {
             width: 100%;
-            padding: 0.75rem 1rem 0.75rem 2.5rem;
-            border: 1px solid var(--border-color);
+            padding: 0.8rem 1rem 0.8rem 2.4rem;
+            border: 1px solid var(--card-border);
+            background-color: #f8fafc;
             border-radius: 6px;
-            outline: none;
             font-size: 0.9rem;
-            transition: border-color 0.2s;
+            outline: none;
+            transition: all 0.2s;
         }
 
-        .input-wrapper input:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        .input-icon-wrapper input:focus {
+            background-color: #ffffff;
+            border-color: var(--sedco-blue);
+            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.12);
         }
 
-        .btn-submit {
+        /* Botón Submit */
+        .btn-ingresar {
             width: 100%;
-            background-color: var(--accent-blue);
+            background-color: #2563eb;
             color: #ffffff;
             border: none;
-            padding: 0.8rem;
+            padding: 0.85rem;
             border-radius: 6px;
             font-size: 0.95rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
             transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             margin-top: 1.5rem;
         }
 
-        .btn-submit:hover {
+        .btn-ingresar:hover {
             background-color: #1d4ed8;
         }
 
-        .btn-submit:disabled {
+        .btn-ingresar:disabled {
             background-color: #94a3b8;
             cursor: not-allowed;
         }
 
-        .error-alert {
-            display: none;
-            background-color: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #b91c1c;
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            margin-bottom: 1.25rem;
+        /* Enlace secundario para regresar al sitio */
+        .link-volver-card {
+            display: inline-flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 1.1rem;
+            color: var(--sedco-blue);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: color 0.2s;
         }
 
-        .footer-note {
-            text-align: center;
-            margin-top: 2rem;
-            font-size: 0.75rem;
-            color: var(--text-muted);
+        .link-volver-card:hover {
+            color: var(--sedco-navy);
+            text-decoration: underline;
+        }
+
+        /* Alertas */
+        .alert-error {
+            display: none;
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            padding: 0.7rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.83rem;
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        /* Nota al pie */
+        .login-footer-text {
+            margin-top: 1.8rem;
+            font-size: 0.72rem;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 540px) {
+            .top-nav-back {
+                position: static;
+                margin-bottom: 1rem;
+                width: 100%;
+                max-width: 440px;
+            }
+            body {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="login-card">
+    <!-- Botón Volver (Esquina superior) -->
+    <div class="top-nav-back">
+        <a href="index.html" class="btn-volver-top">
+            <i class="fa-solid fa-arrow-left"></i> Volver al Inicio
+        </a>
+    </div>
+
+    <!-- Contenedor / Tarjeta de Autenticación -->
+    <main class="login-card">
+        
         <div class="brand-header">
-            <i class="fa-solid fa-scale-balanced"></i>
-            <h1>Sedco Asesores</h1>
+            <a href="index.html">
+                <img src="img/2025_Sedco_Asesores_Logo2.png" alt="Sedco Asesores" class="login-logo">
+            </a>
             <p>Plataforma Interna de Gestión de Expedientes</p>
         </div>
 
-        <div class="error-alert" id="errorAlert">
-            <i class="fa-solid fa-circle-exclamation"></i>
-            <span id="errorTexto">Credenciales inválidas</span>
-        </div>
+        <div id="loginAlert" class="alert-error"></div>
 
-        <form id="formLogin">
+        <form class="login-form" id="loginForm">
             <div class="form-group">
-                <label>Usuario o Correo Corporativo</label>
-                <div class="input-wrapper">
+                <label for="inputUsuario">Usuario o Correo Corporativo</label>
+                <div class="input-icon-wrapper">
                     <i class="fa-solid fa-user"></i>
                     <input type="text" id="inputUsuario" placeholder="usuario o usuario@sedcoasesores.com" required autocomplete="username">
                 </div>
             </div>
 
             <div class="form-group">
-                <label>Contraseña</label>
-                <div class="input-wrapper">
+                <label for="inputPassword">Contraseña</label>
+                <div class="input-icon-wrapper">
                     <i class="fa-solid fa-lock"></i>
                     <input type="password" id="inputPassword" placeholder="••••••••" required autocomplete="current-password">
                 </div>
             </div>
 
-            <button type="submit" class="btn-submit" id="btnSubmit">
+            <button type="submit" class="btn-ingresar" id="btnIngresar">
                 <span>Ingresar al Sistema</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
         </form>
 
-        <div class="footer-note">
+        <!-- Enlace directo para regresar dentro de la misma tarjeta -->
+        <div>
+            <a href="index.html" class="link-volver-card">
+                <i class="fa-solid fa-house"></i> Ir a la página principal
+            </a>
+        </div>
+
+        <div class="login-footer-text">
             Acceso restringido exclusivamente a personal autorizado.<br>
             Sedco Asesores Jurídicos y Fiscales.
         </div>
-    </div>
+
+    </main>
 
     <script>
-        // Detección automática: Local vs Producción
+        // Conexión dinámica a Render en producción o localhost en local
         const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
             ? 'http://localhost:3000/api'
-            : 'https://sedco-backend.onrender.com/api'; // Reemplaza con tu URL asignada en Render
+            : 'https://sedco-backend.onrender.com/api';
 
-        // Redirigir si ya tiene sesión activa
-        if (localStorage.getItem('sedco_token')) {
-            window.location.href = 'dashboard.html';
-        }
+        const loginForm = document.getElementById('loginForm');
+        const loginAlert = document.getElementById('loginAlert');
+        const btnIngresar = document.getElementById('btnIngresar');
 
-        const form = document.getElementById('formLogin');
-        const btnSubmit = document.getElementById('btnSubmit');
-        const errorAlert = document.getElementById('errorAlert');
-        const errorTexto = document.getElementById('errorTexto');
-
-        form.addEventListener('submit', async (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            errorAlert.style.display = 'none';
+            loginAlert.style.display = 'none';
 
             const usuario = document.getElementById('inputUsuario').value.trim();
-            const password = document.getElementById('inputPassword').value;
+            const password = document.getElementById('inputPassword').value.trim();
 
-            btnSubmit.disabled = true;
-            btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Validando credenciales...';
+            btnIngresar.disabled = true;
+            btnIngresar.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Verificando...</span>';
 
             try {
                 const res = await fetch(`${API_URL}/auth/login`, {
@@ -231,19 +310,23 @@
                 const data = await res.json();
 
                 if (res.ok && data.status === 'success') {
+                    // Guardar credenciales de sesión
                     localStorage.setItem('sedco_token', data.token);
                     localStorage.setItem('sedco_user', JSON.stringify(data.usuario));
+
+                    // Redireccionar al panel de expedientes
                     window.location.href = 'dashboard.html';
                 } else {
-                    errorTexto.innerText = data.message || 'Credenciales incorrectas.';
-                    errorAlert.style.display = 'flex';
+                    loginAlert.innerText = data.message || 'Usuario o contraseña incorrectos.';
+                    loginAlert.style.display = 'block';
                 }
             } catch (err) {
-                errorTexto.innerText = 'No se pudo conectar con el servidor. Verifica tu conexión.';
-                errorAlert.style.display = 'flex';
+                console.error('Error al conectar con el servidor:', err);
+                loginAlert.innerText = 'No fue posible conectar con el servidor. Inténtalo más tarde.';
+                loginAlert.style.display = 'block';
             } finally {
-                btnSubmit.disabled = false;
-                btnSubmit.innerHTML = '<span>Ingresar al Sistema</span> <i class="fa-solid fa-arrow-right"></i>';
+                btnIngresar.disabled = false;
+                btnIngresar.innerHTML = '<span>Ingresar al Sistema</span> <i class="fa-solid fa-arrow-right"></i>';
             }
         });
     </script>
