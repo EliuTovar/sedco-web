@@ -59,6 +59,8 @@ const translations = {
         nav_services: "Servicios",
         nav_offices: "Oficinas",
         nav_contact: "Contáctanos",
+        nav_join: "Únete al Equipo",
+        nav_portal: "Portal Abogados",
         hero_title: "Tu aliado de confianza que construye historias de éxito.",
         hero_subtitle: "Despacho internacional de abogados especializado en operaciones transfronterizas.",
         about_tag: "EXPERIENCIA INTERNACIONAL",
@@ -165,6 +167,8 @@ const translations = {
         nav_services: "Services",
         nav_offices: "Offices",
         nav_contact: "Contact Us",
+        nav_join: "Join the Team",
+        nav_portal: "Lawyer Portal",
         hero_title: "Your trusted ally building success stories.",
         hero_subtitle: "International law firm specializing in cross-border operations.",
         about_tag: "INTERNATIONAL EXPERIENCE",
@@ -402,7 +406,7 @@ document.addEventListener("DOMContentLoaded", () => {
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            // URL adaptativa: localhost en local o Render en produccion[cite: 1, 18]
+            // URL adaptativa: local o servidor de Render en producción
             const SCRIPT_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
                 ? 'http://localhost:3000/api/contacto'
                 : 'https://sedco-backend.onrender.com/api/contacto';
@@ -410,7 +414,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const submitBtn = contactForm.querySelector(".btn-submit");
             const originalBtnText = submitBtn.innerHTML;
             
-            // Cambiar estado del boton
+            // Cambiar estado del botón
             submitBtn.innerHTML = "Enviando...";
             submitBtn.disabled = true;
             submitBtn.style.opacity = "0.7";
