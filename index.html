@@ -11,7 +11,7 @@
     <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
@@ -31,13 +31,22 @@
                 <li><a href="javascript:void(0)" onclick="scrollToSection('oficinas')" data-i18n="nav_offices">Oficinas</a></li>
                 <li><a href="javascript:void(0)" onclick="scrollToSection('contacto')" data-i18n="nav_contact">Contáctanos</a></li>
                 
-                <!-- NUEVO BOTÓN SIN target="_blank" -->
+                <!-- BOTÓN BOLSA DE TRABAJO -->
                 <li>
-                    <a href="bolsa-trabajo.html" style="background: var(--primary-blue); color: white; padding: 6px 12px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.3s;" onmouseover="this.style.background='#0056B3'" onmouseout="this.style.background='var(--primary-blue)'">
+                    <a href="bolsa-trabajo.html" style="background: var(--primary-blue); color: white; padding: 6px 12px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.3s; display: inline-block;" onmouseover="this.style.background='#0056B3'" onmouseout="this.style.background='var(--primary-blue)'">
                         Únete al Equipo
                     </a>
                 </li>
 
+                <!-- BOTÓN ACCESO PRIVADO (PORTAL ABOGADOS) -->
+                <li>
+                    <a href="login.html" style="border: 1px solid var(--primary-blue); color: var(--primary-blue); padding: 5px 12px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; transition: all 0.3s;" onmouseover="this.style.background='var(--primary-blue)'; this.style.color='#ffffff';" onmouseout="this.style.background='transparent'; this.style.color='var(--primary-blue)';">
+                        <i class="fa-solid fa-lock" style="font-size: 0.75rem;"></i>
+                        <span>Portal Abogados</span>
+                    </a>
+                </li>
+
+                <!-- SELECTOR DE IDIOMA -->
                 <li>
                     <div class="lang-switch">
                         <button type="button" id="btn-es" class="lang-btn active" onclick="changeLanguage('es')">ES</button>
@@ -440,6 +449,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

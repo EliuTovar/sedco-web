@@ -402,8 +402,8 @@ document.addEventListener("DOMContentLoaded", () => {
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault(); // Evita que la página se recargue
 
-            // REEMPLAZA ESTO CON LA URL DE TU NUEVO SCRIPT DE GOOGLE
-            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwXM35-qHAL3O95MHj0K7PWymDkc0E3hZlAAM9Ak7LB7ojkxODVtAtjZOmSuJ31ZojkZw/exec";
+            // URL del back end
+            const SCRIPT_URL = "http://localhost:3000/api/contacto";
 
             const submitBtn = contactForm.querySelector(".btn-submit");
             const originalBtnText = submitBtn.innerHTML;
@@ -421,8 +421,11 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
             try {
-                const response = await fetch(SCRIPT_URL, {
+                    const response = await fetch(SCRIPT_URL, {
                     method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
                     body: JSON.stringify(payload) // Convierte los datos a texto JSON para enviarlos
                 });
 

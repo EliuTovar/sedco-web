@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Sedco | Gestión Interna</title>
+    
+    <link rel="icon" type="image/png" href="img/2025_Sedco_Asesores_Isotipo_Azul_Cuadrado.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-dark: #0f172a;
+            --primary-blue: #1e3a8a;
+            --accent-blue: #2563eb;
+            --google-green: #0f9d58;
+            --bg-light: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); }
+
+        .admin-nav {
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            padding: 0.85rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-nav .brand {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .admin-nav .nav-tabs {
+            display: flex;
+            gap: 0.75rem;
+            margin-left: 2rem;
+            flex-grow: 1;
+        }
+        .nav-tab-btn {
+            background: transparent;
+            color: #94a3b8;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .nav-tab-btn:hover { color: #ffffff; background: rgba(255, 255, 255, 0.08); }
+        .nav-tab-btn.active { color: #ffffff; background: var(--primary-blue); }
+
+        .user-info { display: flex; align-items: center; gap: 1.5rem; font-size: 0.9rem; }
+        .btn-logout {
+            background-color: #ef4444; color: #ffffff; border: none; padding: 6px 14px;
+            border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.85rem;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+
+        .main-container { max-width: 1400px; margin: 2rem auto; padding: 0 1.5rem; }
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        .metrics-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem; margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: #ffffff; padding: 1.25rem; border-radius: 8px;
+            border: 1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .metric-card p { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .metric-card h3 { font-size: 1.8rem; font-weight: 700; color: var(--primary-dark); margin-top: 0.25rem; }
+
+        .toolbar {
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;
+        }
+        .search-box {
+            display: flex; align-items: center; background: #ffffff; border: 1px solid var(--border-color);
+            border-radius: 6px; padding: 0.5rem 1rem; width: 340px;
+        }
+        .search-box input { border: none; outline: none; width: 100%; margin-left: 0.5rem; font-size: 0.9rem; }
+        .filter-select {
+            padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border-color);
+            outline: none; background: #ffffff; font-size: 0.9rem;
+        }
+        .btn-add {
+            background-color: var(--accent-blue); color: #ffffff; border: none; padding: 0.6rem 1.2rem;
+            border-radius: 6px; font-weight: 600; cursor: pointer; display: inline-flex;
+            align-items: center; gap: 8px;
+        }
+
+        .table-wrapper {
+            background: #ffffff; border-radius: 8px; border: 1px solid var(--border-color);
+            overflow-x: auto; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
+        }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: #f1f5f9; padding: 1rem; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+        td { padding: 1rem; border-top: 1px solid var(--border-color); font-size: 0.9rem; vertical-align: middle; }
+
+        .badge {
+            display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem;
+            font-weight: 700; text-transform: uppercase; user-select: none;
+        }
+        .badge-abierto { background-color: #dcfce7; color: #15803d; cursor: pointer; }
+        .badge-cerrado { background-color: #f1f5f9; color: #475569; cursor: pointer; }
+        .badge-admin { background-color: #dbeafe; color: #1e40af; }
+        .badge-abogado { background-color: #f3e8ff; color: #6b21a8; }
+
+        .btn-files {
+            background-color: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;
+            padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+            font-weight: 600; display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+        }
+        .btn-files:hover { background-color: #dbeafe; }
+
+        .btn-live-doc {
+            background-color: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;
+            padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px; text-decoration: none; cursor: pointer;
+        }
+        .btn-live-doc:hover { background-color: #d1fae5; }
+
+        .btn-delete {
+            background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5;
+            padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem;
+            font-weight: 600; display: inline-flex; align-items: center; gap: 5px;
+            transition: all 0.2s ease;
+        }
+        .btn-delete:hover:not(:disabled) { background: #fecaca; }
+
+        /* Modales */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none;
+            justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal {
+            background: #ffffff; width: 100%; max-width: 500px; border-radius: 10px;
+            padding: 2rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+        .modal-large { max-width: 850px; }
+        .modal h2 { font-size: 1.25rem; margin-bottom: 0.35rem; color: var(--primary-dark); font-family: 'Montserrat', sans-serif; }
+        .modal .form-group { margin-bottom: 1rem; }
+        .modal label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem; color: #334155; }
+        .modal input, .modal select, .modal textarea {
+            width: 100%; padding: 0.65rem; border: 1px solid var(--border-color);
+            border-radius: 6px; outline: none; font-size: 0.9rem; box-sizing: border-box;
+        }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; }
+        .btn-cancel {
+            background: #e2e8f0; border: none; padding: 0.6rem 1.2rem;
+            border-radius: 6px; cursor: pointer; font-weight: 600; color: #475569;
+        }
+
+        .workspace-card {
+            background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;
+            padding: 1.25rem; margin-bottom: 1.5rem;
+        }
+        .workspace-card h4 {
+            color: #166534; font-size: 0.95rem; margin-bottom: 0.3rem;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .workspace-card p { font-size: 0.8rem; color: #374151; margin-bottom: 0.75rem; }
+
+        .upload-dropzone {
+            border: 2px dashed #cbd5e1; border-radius: 8px; padding: 1.25rem;
+            text-align: center; background: #f8fafc; margin-bottom: 1.25rem;
+        }
+        .doc-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.75rem 1rem; background: #f8fafc; border: 1px solid var(--border-color);
+            border-radius: 6px; margin-bottom: 0.5rem;
+        }
+        .doc-item-left { display: flex; align-items: center; gap: 10px; overflow: hidden; }
+        .doc-item-title { font-weight: 600; font-size: 0.9rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; max-width: 420px; }
+        .doc-item-meta { font-size: 0.75rem; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <nav class="admin-nav">
+        <div class="brand">
+            <i class="fa-solid fa-scale-balanced"></i> Sedco Asesores
+        </div>
+        <div class="nav-tabs">
+            <button class="nav-tab-btn active" id="tabExpedientes" onclick="cambiarVista('expedientes')">
+                <i class="fa-solid fa-folder-open"></i> Expedientes
+            </button>
+            <button class="nav-tab-btn" id="tabUsuarios" style="display: none;" onclick="cambiarVista('usuarios')">
+                <i class="fa-solid fa-users-gear"></i> Gestión de Usuarios
+            </button>
+        </div>
+        <div class="user-info">
+            <span id="userTag"><i class="fa-solid fa-user-circle"></i> Cargando...</span>
+            <button class="btn-logout" onclick="logout()">
+                <i class="fa-solid fa-power-off"></i> Salir
+            </button>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        
+        <!-- VISTA EXPEDIENTES -->
+        <div id="vista-expedientes" class="view-section active">
+            <div class="metrics-grid">
+                <div class="metric-card"><p>Total Asuntos</p><h3 id="statTotal">0</h3></div>
+                <div class="metric-card"><p>Expedientes Abiertos</p><h3 id="statAbiertos" style="color: #16a34a;">0</h3></div>
+                <div class="metric-card"><p>Expedientes Cerrados</p><h3 id="statCerrados" style="color: #64748b;">0</h3></div>
+            </div>
+
+            <div class="toolbar">
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
+                        <input type="text" id="buscarExp" placeholder="Buscar expediente..." oninput="filtrarExpedientes()">
+                    </div>
+                    <select class="filter-select" id="filtroEstado" onchange="filtrarExpedientes()">
+                        <option value="TODOS">Todos los Estados</option>
+                        <option value="Abierto">Abiertos</option>
+                        <option value="Cerrado">Cerrados</option>
+                    </select>
+                </div>
+                <button class="btn-add" onclick="abrirModal('modalExpediente')">
+                    <i class="fa-solid fa-plus"></i> Nuevo Expediente
+                </button>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Cliente</th>
+                            <th>Asunto</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Docs en Vivo (Google)</th>
+                            <th>Archivos Firmados</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaExpedientes">
+                        <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VISTA USUARIOS -->
+        <div id="vista-usuarios" class="view-section">
+            <div class="toolbar">
+                <div>
+                    <h2>Directorio de Usuarios</h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Cuentas autorizadas para operar la plataforma</p>
+                </div>
+                <button class="btn-add" onclick="abrirModal('modalUsuario')">
+                    <i class="fa-solid fa-user-plus"></i> Registrar Usuario
+                </button>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Correo Corporativo</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaUsuarios"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL DOBLE VERIFICACIÓN PARA ELIMINAR EXPEDIENTE -->
+    <div class="modal-overlay" id="modalEliminarExpediente">
+        <div class="modal" style="border-top: 5px solid #dc2626;">
+            <h2 style="color: #dc2626; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-triangle-exclamation"></i> Eliminar Expediente Definitivamente
+            </h2>
+            <p style="color: #475569; font-size: 0.9rem; margin: 0.75rem 0;">
+                Estás a punto de borrar permanentemente el caso <strong id="delExpCodigoTexto"></strong> del cliente <strong id="delExpClienteTexto"></strong>.
+            </p>
+            
+            <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 0.85rem; margin-bottom: 1.25rem; font-size: 0.85rem; color: #991b1b; line-height: 1.4;">
+                <strong>Consecuencias de esta acción:</strong>
+                <ul style="margin: 0.4rem 0 0 1.2rem;">
+                    <li>Se borrará el caso y su historial del portal.</li>
+                    <li>Se destruirán los archivos locales físicos del servidor.</li>
+                    <li><strong>Se eliminará la carpeta en la unidad compartida Clientes Sedco de Google Drive.</strong></li>
+                </ul>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label style="display: flex; align-items: flex-start; gap: 8px; font-weight: normal; cursor: pointer; font-size: 0.85rem; color: #1e293b;">
+                    <input type="checkbox" id="checkConfirmarBorrado" onchange="validarDobleConfirmacion()" style="width: auto; margin-top: 3px; cursor: pointer;">
+                    <span><strong>Verificación 1:</strong> Entiendo que los archivos se borrarán de Google Drive y del servidor de manera irreversible.</span>
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label style="font-size: 0.85rem;">
+                    <strong>Verificación 2:</strong> Escribe el código exacto del caso (<span id="delExpCodigoEsperado" style="color: #dc2626; font-family: monospace; font-size: 0.95rem;"></span>):
+                </label>
+                <input type="text" id="inputCodigoConfirmacion" placeholder="Escribe el código aquí..." oninput="validarDobleConfirmacion()" autocomplete="off">
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="cerrarModal('modalEliminarExpediente')">Cancelar</button>
+                <button type="button" id="btnConfirmarEliminar" class="btn-delete" style="padding: 0.6rem 1.2rem; opacity: 0.4; cursor: not-allowed;" disabled onclick="ejecutarEliminacionFinal()">
+                    <i class="fa-solid fa-trash-can"></i> Confirmar Eliminación
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ARCHIVOS DEL EXPEDIENTE (ENLACES DRIVE + ADJUNTOS) -->
+    <div class="modal-overlay" id="modalArchivos">
+        <div class="modal modal-large">
+            <h2 id="modalArchivosTitulo">Expediente</h2>
+            <p id="modalArchivosSubtitulo" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;"></p>
+
+            <div class="workspace-card">
+                <h4><i class="fa-brands fa-google-drive"></i> Documentos Colaborativos en Vivo (Google Docs / Sheets / Drive)</h4>
+                <p>Vincula contratos en borrador, hojas de liquidación o carpetas compartidas con edición simultánea.</p>
+
+                <form id="formNuevoEnlace" style="display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap;">
+                    <input type="text" id="inputEnlaceTitulo" placeholder="Título (ej: Borrador Contrato, Hoja Financiera)" required style="flex: 1; min-width: 220px; background: white;">
+                    <input type="url" id="inputEnlaceUrl" placeholder="https://docs.google.com/..." required style="flex: 2; min-width: 260px; background: white;">
+                    <button type="submit" class="btn-add" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                        <i class="fa-solid fa-plus"></i> Vincular
+                    </button>
+                </form>
+
+                <div id="listaEnlacesContenedor" style="max-height: 150px; overflow-y: auto;">
+                    <p style="color: var(--text-muted); font-size: 0.8rem;">Cargando documentos en vivo...</p>
+                </div>
+            </div>
+
+            <form id="formSubirArchivos">
+                <div class="upload-dropzone">
+                    <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8rem; color: var(--accent-blue); margin-bottom: 0.25rem;"></i>
+                    <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.2rem;">Archivar documentos finales (PDFs, poderes, actas firmadas)</p>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">Almacenamiento seguro interno del despacho</p>
+                    <input type="file" id="archivosInput" multiple style="display: block; margin: 0 auto; max-width: 320px; font-size: 0.85rem;">
+                    <button type="submit" class="btn-add" id="btnSubirDocs" style="margin-top: 0.75rem; font-size: 0.85rem; padding: 0.4rem 1rem;">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i> Subir Archivos
+                    </button>
+                </div>
+            </form>
+
+            <h3 style="font-size: 0.95rem; margin-bottom: 0.75rem;">Documentos Adjuntos Guardados</h3>
+            <div id="listaDocumentosContenedor" style="max-height: 180px; overflow-y: auto;">
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Cargando archivos...</p>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="cerrarModal('modalArchivos')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL VISOR -->
+    <div class="modal-overlay" id="modalVisor" style="z-index: 1200;">
+        <div class="modal" style="max-width: 90vw; width: 950px; height: 85vh; display: flex; flex-direction: column; padding: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2 id="visorTitulo" style="margin: 0; font-size: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 75%;">Visualizador</h2>
+                <div style="display: flex; gap: 10px;">
+                    <a id="btnAbrirPestana" href="#" target="_blank" class="btn-files" style="padding: 4px 10px; font-size: 0.8rem;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir en pestaña
+                    </a>
+                    <button type="button" class="btn-cancel" style="padding: 4px 10px; font-size: 0.8rem;" onclick="cerrarVisor()">
+                        <i class="fa-solid fa-xmark"></i> Cerrar
+                    </button>
+                </div>
+            </div>
+            <iframe id="visorIframe" style="width: 100%; height: 100%; border: 1px solid var(--border-color); border-radius: 6px; background: #525659;" src=""></iframe>
+        </div>
+    </div>
+
+    <!-- MODAL NUEVO EXPEDIENTE -->
+    <div class="modal-overlay" id="modalExpediente">
+        <div class="modal">
+            <h2>Registrar Asunto</h2>
+            <form id="formExpediente">
+                <div class="form-group"><label>Código *</label><input type="text" id="expCodigo" required placeholder="108-01"></div>
+                <div class="form-group"><label>Cliente *</label><input type="text" id="expCliente" required placeholder="SEDCO SERVICES Inc."></div>
+                <div class="form-group"><label>Asunto *</label><input type="text" id="expAsunto" required placeholder="Corporativo, Fiscal..."></div>
+                <div class="form-group"><label>Descripción *</label><textarea id="expDescripcion" rows="3" required placeholder="Detalle..."></textarea></div>
+                <div class="form-group">
+                    <label>Estado Inicial</label>
+                    <select id="expEstado">
+                        <option value="Abierto">Abierto</option>
+                        <option value="Cerrado">Cerrado</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="cerrarModal('modalExpediente')">Cancelar</button>
+                    <button type="submit" class="btn-add">Guardar Expediente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL NUEVO USUARIO -->
+    <div class="modal-overlay" id="modalUsuario">
+        <div class="modal">
+            <h2>Crear Cuenta de Abogado</h2>
+            <form id="formUsuario">
+                <div class="form-group"><label>Nombre Completo *</label><input type="text" id="usrNombre" required placeholder="Ej. Juan Pérez"></div>
+                <div class="form-group">
+                    <label>Usuario (sin @) *</label>
+                    <div style="display:flex; align-items:center; border: 1px solid var(--border-color); border-radius: 6px; overflow:hidden;">
+                        <input type="text" id="usrPrefijo" required placeholder="juan" style="border:none; border-radius:0;">
+                        <span style="padding:0.65rem; background:#f1f5f9; color:var(--text-muted); font-size:0.85rem;">@sedcoasesores.com</span>
+                    </div>
+                </div>
+                <div class="form-group"><label>Contraseña *</label><input type="text" id="usrPass" required placeholder="Sedco2026."></div>
+                <div class="form-group">
+                    <label>Rol</label>
+                    <select id="usrRol">
+                        <option value="ABOGADO">Abogado</option>
+                        <option value="ADMIN">Administrador</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="cerrarModal('modalUsuario')">Cancelar</button>
+                    <button type="submit" class="btn-add">Crear Usuario</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Detección automática: Local vs Producción
+        const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+            ? 'http://localhost:3000/api'
+            : 'https://sedco-backend.onrender.com/api'; // Reemplaza con tu URL asignada en Render
+
+        const token = localStorage.getItem('sedco_token');
+        const user = JSON.parse(localStorage.getItem('sedco_user') || 'null');
+
+        if (!token || !user) {
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('userTag').innerText = `${user.nombre} (${user.rol})`;
+            if (user.rol === 'ADMIN') document.getElementById('tabUsuarios').style.display = 'inline-flex';
+        }
+
+        function cambiarVista(vista) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(`vista-${vista}`).classList.add('active');
+            
+            if (vista === 'expedientes') {
+                document.getElementById('tabExpedientes').classList.add('active');
+                cargarExpedientes();
+            } else if (vista === 'usuarios') {
+                document.getElementById('tabUsuarios').classList.add('active');
+                cargarUsuarios();
+            }
+        }
+
+        let listaExpedientes = [];
+        let expedienteSeleccionado = null;
+        let expedienteAEliminar = null;
+
+        async function cargarExpedientes() {
+            const tbody = document.getElementById('tablaExpedientes');
+            try {
+                const res = await fetch(`${API_URL}/expedientes`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+
+                if (res.ok && data.status === 'success') {
+                    listaExpedientes = data.data;
+                    actualizarMetricas();
+                    filtrarExpedientes();
+                } else {
+                    if (res.status === 401 || res.status === 403) {
+                        alert('Tu sesión ha expirado.');
+                        logout();
+                        return;
+                    }
+                    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #dc2626; padding: 2rem;">Error: ${data.message || 'No se pudieron obtener los expedientes.'}</td></tr>`;
+                }
+            } catch (err) {
+                console.error(err);
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #dc2626; padding: 2rem;">No se pudo conectar con el servidor backend.</td></tr>`;
+            }
+        }
+
+        function actualizarMetricas() {
+            document.getElementById('statTotal').innerText = listaExpedientes.length;
+            document.getElementById('statAbiertos').innerText = listaExpedientes.filter(e => e.estado === 'Abierto').length;
+            document.getElementById('statCerrados').innerText = listaExpedientes.filter(e => e.estado === 'Cerrado').length;
+        }
+
+        function filtrarExpedientes() {
+            const q = document.getElementById('buscarExp').value.toLowerCase();
+            const est = document.getElementById('filtroEstado').value;
+            const tbody = document.getElementById('tablaExpedientes');
+
+            const filtrados = listaExpedientes.filter(item => {
+                const coincideTexto = 
+                    item.codigo.toLowerCase().includes(q) ||
+                    (item.cliente && item.cliente.nombre.toLowerCase().includes(q)) ||
+                    item.asunto.toLowerCase().includes(q) ||
+                    item.descripcion.toLowerCase().includes(q);
+                const coincideEstado = (est === 'TODOS') || (item.estado === est);
+                return coincideTexto && coincideEstado;
+            });
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 2rem;">No se encontraron registros.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtrados.map(item => {
+                const totalDocs = item._count ? item._count.documentos : 0;
+                const totalEnlaces = item._count ? item._count.enlaces : 0;
+                const nombreCliente = item.cliente ? item.cliente.nombre : '-';
+
+                return `
+                <tr>
+                    <td><strong>${item.codigo}</strong></td>
+                    <td>${nombreCliente}</td>
+                    <td>${item.asunto}</td>
+                    <td>${item.descripcion}</td>
+                    <td>
+                        <span class="badge ${item.estado === 'Abierto' ? 'badge-abierto' : 'badge-cerrado'}" 
+                              onclick="toggleEstado(${item.id}, '${item.estado}')">
+                            ${item.estado}
+                        </span>
+                    </td>
+                    <td>
+                        ${totalEnlaces > 0 
+                            ? `<button class="btn-live-doc" onclick="abrirGestorArchivos(${item.id})">
+                                   <i class="fa-brands fa-google-drive"></i> ${totalEnlaces} en vivo
+                               </button>`
+                            : `<button class="btn-files" style="padding: 3px 8px; font-size: 0.75rem; color: var(--text-muted); border-style: dashed;" onclick="abrirGestorArchivos(${item.id})">
+                                   <i class="fa-solid fa-plus"></i> Vincular
+                               </button>`
+                        }
+                    </td>
+                    <td>
+                        <button class="btn-files" onclick="abrirGestorArchivos(${item.id})">
+                            <i class="fa-solid fa-folder-closed"></i> ${totalDocs} ${totalDocs === 1 ? 'archivo' : 'archivos'}
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn-delete" title="Eliminar expediente" onclick="abrirDobleVerificacion(${item.id}, '${item.codigo}', '${nombreCliente.replace(/'/g, "\\'")}')">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                </tr>
+            `}).join('');
+        }
+
+        async function toggleEstado(id, estadoActual) {
+            const nuevoEstado = estadoActual === 'Abierto' ? 'Cerrado' : 'Abierto';
+            await fetch(`${API_URL}/expedientes/${id}/estado`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ estado: nuevoEstado })
+            });
+            const item = listaExpedientes.find(e => e.id === id);
+            if (item) item.estado = nuevoEstado;
+            actualizarMetricas();
+            filtrarExpedientes();
+        }
+
+        // --- SISTEMA DE DOBLE VERIFICACIÓN ---
+        function abrirDobleVerificacion(id, codigo, cliente) {
+            expedienteAEliminar = { id, codigo, cliente };
+
+            document.getElementById('delExpCodigoTexto').innerText = `"${codigo}"`;
+            document.getElementById('delExpClienteTexto').innerText = `"${cliente}"`;
+            document.getElementById('delExpCodigoEsperado').innerText = codigo;
+
+            document.getElementById('checkConfirmarBorrado').checked = false;
+            document.getElementById('inputCodigoConfirmacion').value = '';
+
+            const btn = document.getElementById('btnConfirmarEliminar');
+            btn.disabled = true;
+            btn.style.opacity = '0.4';
+            btn.style.cursor = 'not-allowed';
+            btn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Confirmar Eliminación';
+
+            abrirModal('modalEliminarExpediente');
+        }
+
+        function validarDobleConfirmacion() {
+            if (!expedienteAEliminar) return;
+
+            const check = document.getElementById('checkConfirmarBorrado').checked;
+            const inputVal = document.getElementById('inputCodigoConfirmacion').value.trim();
+            const btn = document.getElementById('btnConfirmarEliminar');
+
+            const esValido = check && (inputVal.toUpperCase() === expedienteAEliminar.codigo.trim().toUpperCase());
+
+            if (esValido) {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+            } else {
+                btn.disabled = true;
+                btn.style.opacity = '0.4';
+                btn.style.cursor = 'not-allowed';
+            }
+        }
+
+        async function ejecutarEliminacionFinal() {
+            if (!expedienteAEliminar) return;
+
+            const btn = document.getElementById('btnConfirmarEliminar');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Eliminando en Drive y Servidor...';
+
+            try {
+                const res = await fetch(`${API_URL}/expedientes/${expedienteAEliminar.id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        codigoConfirmacion: document.getElementById('inputCodigoConfirmacion').value.trim()
+                    })
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.status === 'success') {
+                    cerrarModal('modalEliminarExpediente');
+                    expedienteAEliminar = null;
+                    await cargarExpedientes();
+                } else {
+                    alert(data.message || 'No fue posible eliminar el expediente.');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Confirmar Eliminación';
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Error de conexión con el backend.');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Confirmar Eliminación';
+            }
+        }
+
+        // --- GESTIÓN DE ARCHIVOS Y ENLACES ---
+        function abrirGestorArchivos(id) {
+            expedienteSeleccionado = listaExpedientes.find(e => e.id === id);
+            if (!expedienteSeleccionado) return;
+
+            document.getElementById('modalArchivosTitulo').innerText = `Expediente: ${expedienteSeleccionado.codigo}`;
+            document.getElementById('modalArchivosSubtitulo').innerText = `Cliente: ${expedienteSeleccionado.cliente ? expedienteSeleccionado.cliente.nombre : '-'}`;
+            
+            abrirModal('modalArchivos');
+            cargarEnlacesExpediente();
+            cargarDocumentosExpediente();
+        }
+
+        async function cargarEnlacesExpediente() {
+            const contenedor = document.getElementById('listaEnlacesContenedor');
+            contenedor.innerHTML = `<p style="color: var(--text-muted); font-size: 0.8rem;">Consultando documentos en vivo...</p>`;
+
+            try {
+                const res = await fetch(`${API_URL}/expedientes/${expedienteSeleccionado.id}/enlaces`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+
+                if (res.ok && data.status === 'success') {
+                    if (data.data.length === 0) {
+                        contenedor.innerHTML = `<p style="color: #64748b; font-size: 0.8rem; font-style: italic;">No hay documentos colaborativos vinculados a este asunto.</p>`;
+                        return;
+                    }
+
+                    contenedor.innerHTML = data.data.map(enlace => {
+                        let icono = 'fa-brands fa-google-drive';
+                        let color = '#0f9d58';
+
+                        if (enlace.url.includes('/document/')) {
+                            icono = 'fa-solid fa-file-word';
+                            color = '#2563eb';
+                        } else if (enlace.url.includes('/spreadsheets/')) {
+                            icono = 'fa-solid fa-file-excel';
+                            color = '#16a34a';
+                        } else if (enlace.url.includes('/presentation/')) {
+                            icono = 'fa-solid fa-file-powerpoint';
+                            color = '#ea580c';
+                        }
+
+                        return `
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: white; border: 1px solid #bbf7d0; padding: 6px 10px; border-radius: 6px; margin-bottom: 0.4rem;">
+                            <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
+                                <i class="${icono}" style="color: ${color}; font-size: 1rem;"></i>
+                                <span style="font-size: 0.85rem; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; max-width: 380px;">${enlace.titulo}</span>
+                            </div>
+                            <div style="display: flex; gap: 6px;">
+                                <a href="${enlace.url}" target="_blank" class="btn-live-doc" style="padding: 2px 8px; font-size: 0.75rem;">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir
+                                </a>
+                                <button class="btn-delete" style="padding: 2px 6px; font-size: 0.75rem;" onclick="eliminarEnlace(${enlace.id})">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `}).join('');
+                }
+            } catch (err) {
+                contenedor.innerHTML = `<p style="color: #dc2626; font-size: 0.8rem;">Error al cargar enlaces.</p>`;
+            }
+        }
+
+        document.getElementById('formNuevoEnlace').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const titulo = document.getElementById('inputEnlaceTitulo').value.trim();
+            const url = document.getElementById('inputEnlaceUrl').value.trim();
+
+            try {
+                const res = await fetch(`${API_URL}/expedientes/${expedienteSeleccionado.id}/enlaces`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ titulo, url })
+                });
+
+                if (res.ok) {
+                    document.getElementById('inputEnlaceTitulo').value = '';
+                    document.getElementById('inputEnlaceUrl').value = '';
+                    await cargarEnlacesExpediente();
+                    cargarExpedientes();
+                } else {
+                    alert('Error al vincular el documento.');
+                }
+            } catch (err) {
+                alert('Error de conexión.');
+            }
+        });
+
+        async function eliminarEnlace(idEnlace) {
+            if (!confirm('¿Deseas desvincular este documento colaborativo?')) return;
+            try {
+                const res = await fetch(`${API_URL}/enlaces/${idEnlace}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    await cargarEnlacesExpediente();
+                    cargarExpedientes();
+                }
+            } catch (err) {
+                alert('Error de conexión.');
+            }
+        }
+
+        async function cargarDocumentosExpediente() {
+            const contenedor = document.getElementById('listaDocumentosContenedor');
+            contenedor.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem;">Consultando archivos...</p>`;
+
+            try {
+                const res = await fetch(`${API_URL}/expedientes/${expedienteSeleccionado.id}/documentos`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+
+                if (res.ok && data.status === 'success') {
+                    if (data.data.length === 0) {
+                        contenedor.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem; padding: 1rem 0;">No hay documentos cerrados archivados aún.</p>`;
+                        return;
+                    }
+
+                    contenedor.innerHTML = data.data.map(doc => {
+                        const tamanoKB = doc.tamano ? (doc.tamano / 1024).toFixed(1) + ' KB' : '';
+                        const fecha = new Date(doc.createdAt).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
+                        return `
+                        <div class="doc-item">
+                            <div class="doc-item-left">
+                                <i class="fa-solid fa-file-lines" style="font-size: 1.3rem; color: var(--accent-blue);"></i>
+                                <div>
+                                    <div class="doc-item-title" title="${doc.nombreOriginal}">${doc.nombreOriginal}</div>
+                                    <div class="doc-item-meta">${tamanoKB} • ${fecha}</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <button class="btn-files" 
+                                        style="background: #e0f2fe; color: #0369a1; border-color: #bae6fd; padding: 4px 10px; font-size: 0.8rem;"
+                                        onclick="previsualizarDocumento(${doc.id}, '${encodeURIComponent(doc.nombreOriginal)}')">
+                                    <i class="fa-solid fa-eye"></i> Ver
+                                </button>
+                                <a href="${API_URL}/documentos/${doc.id}/descargar?token=${token}" 
+                                   class="btn-files" 
+                                   style="padding: 4px 10px; font-size: 0.8rem;" 
+                                   download>
+                                    <i class="fa-solid fa-download"></i> Descargar
+                                </a>
+                                <button class="btn-delete" onclick="eliminarDocumento(${doc.id})">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `}).join('');
+                }
+            } catch (err) {
+                contenedor.innerHTML = `<p style="color: #dc2626; font-size: 0.85rem;">Error al cargar archivos.</p>`;
+            }
+        }
+
+        document.getElementById('formSubirArchivos').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById('archivosInput');
+            if (fileInput.files.length === 0) {
+                alert('Por favor selecciona al menos un archivo.');
+                return;
+            }
+
+            const formData = new FormData();
+            for (let i = 0; i < fileInput.files.length; i++) {
+                formData.append('archivos', fileInput.files[i]);
+            }
+
+            const btnSubir = document.getElementById('btnSubirDocs');
+            btnSubir.disabled = true;
+            btnSubir.innerText = 'Subiendo...';
+
+            try {
+                const res = await fetch(`${API_URL}/expedientes/${expedienteSeleccionado.id}/documentos`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    body: formData
+                });
+
+                const data = await res.json();
+                if (res.ok && data.status === 'success') {
+                    fileInput.value = '';
+                    await cargarDocumentosExpediente();
+                    cargarExpedientes();
+                } else {
+                    alert(data.message || 'Error al subir los archivos.');
+                }
+            } catch (err) {
+                alert('Error de conexión con el backend.');
+            } finally {
+                btnSubir.disabled = false;
+                btnSubir.innerHTML = '<i class="fa-solid fa-arrow-up-from-bracket"></i> Subir Archivos';
+            }
+        });
+
+        // --- VISOR ---
+        function previsualizarDocumento(idDoc, nombreCodificado) {
+            const nombre = decodeURIComponent(nombreCodificado);
+            const urlVisor = `${API_URL}/documentos/${idDoc}/ver?token=${token}`;
+
+            document.getElementById('visorTitulo').innerText = nombre;
+            document.getElementById('visorIframe').src = urlVisor;
+            document.getElementById('btnAbrirPestana').href = urlVisor;
+
+            document.getElementById('modalVisor').style.display = 'flex';
+        }
+
+        function cerrarVisor() {
+            document.getElementById('modalVisor').style.display = 'none';
+            document.getElementById('visorIframe').src = '';
+        }
+
+        async function eliminarDocumento(idDoc) {
+            if (!confirm('¿Deseas eliminar este documento permanentemente?')) return;
+            try {
+                const res = await fetch(`${API_URL}/documentos/${idDoc}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    await cargarDocumentosExpediente();
+                    cargarExpedientes();
+                } else {
+                    alert('No se pudo eliminar el archivo.');
+                }
+            } catch (err) {
+                alert('Error de conexión.');
+            }
+        }
+
+        // --- FORMULARIO EXPEDIENTE ---
+        document.getElementById('formExpediente').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                codigo: document.getElementById('expCodigo').value,
+                nombreCliente: document.getElementById('expCliente').value,
+                asunto: document.getElementById('expAsunto').value,
+                descripcion: document.getElementById('expDescripcion').value,
+                estado: document.getElementById('expEstado').value
+            };
+            const res = await fetch(`${API_URL}/expedientes`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (res.ok && data.status === 'success') {
+                cerrarModal('modalExpediente');
+                cargarExpedientes();
+            } else {
+                alert(data.message || 'Error al guardar.');
+            }
+        });
+
+        // --- FORMULARIO USUARIOS ---
+        async function cargarUsuarios() {
+            try {
+                const res = await fetch(`${API_URL}/usuarios`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                if (res.ok && data.status === 'success') {
+                    document.getElementById('tablaUsuarios').innerHTML = data.data.map(usr => `
+                        <tr>
+                            <td><strong>${usr.nombre}</strong></td>
+                            <td>${usr.correo}</td>
+                            <td><span class="badge ${usr.rol === 'ADMIN' ? 'badge-admin' : 'badge-abogado'}">${usr.rol}</span></td>
+                            <td><span style="color: ${usr.activo ? '#15803d' : '#ef4444'}; font-weight: 600;"><i class="fa-solid fa-circle" style="font-size: 0.65rem;"></i> ${usr.activo ? 'Activo' : 'Inactivo'}</span></td>
+                            <td>
+                                ${usr.id === user.id ? '<span style="color: var(--text-muted); font-size: 0.85rem;">(Tú)</span>' : 
+                                `<button class="btn-delete" onclick="eliminarUsuario(${usr.id}, '${usr.nombre}')"><i class="fa-solid fa-trash-can"></i> Eliminar</button>`}
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        async function eliminarUsuario(id, nombre) {
+            if (!confirm(`¿Eliminar permanentemente a "${nombre}"?`)) return;
+            const res = await fetch(`${API_URL}/usuarios/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+            if (res.ok) cargarUsuarios();
+        }
+
+        document.getElementById('formUsuario').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                nombre: document.getElementById('usrNombre').value,
+                usuarioPrefix: document.getElementById('usrPrefijo').value,
+                password: document.getElementById('usrPass').value,
+                rol: document.getElementById('usrRol').value
+            };
+            const res = await fetch(`${API_URL}/usuarios`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) {
+                alert('Usuario creado.');
+                cerrarModal('modalUsuario');
+                cargarUsuarios();
+            }
+        });
+
+        function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function cerrarModal(id) { 
+            document.getElementById(id).style.display = 'none'; 
+            const form = document.querySelector(`#${id} form`);
+            if (form) form.reset();
+        }
+        function logout() { localStorage.clear(); window.location.href = 'login.html'; }
+
+        cargarExpedientes();
+    </script>
+</body>
+</html>
