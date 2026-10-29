@@ -8,121 +8,394 @@
     <link rel="icon" type="image/png" href="img/2025_Sedco_Asesores_Isotipo_Azul_Cuadrado.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="./css/styles.css"> 
-    <link rel="stylesheet" href="./css/bolsa-trabajo.css"> 
-</head>
-<body style="background-color: var(--light-bg);"> 
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/bolsa-trabajo.css">
 
-    <!-- Header / Navegación: Versión Oscura -->
-    <header class="header-oscuro">
-        <nav class="navbar">
-            <a href="index.html" class="logo-link">
-                <img src="img/2025_Sedco_Asesores_Logo_Blanco.png" alt="Sedco Asesores" class="nav-logo">
+    <style>
+        /* Estilos complementarios para funcionalidad de dropzone y alertas */
+        .drop-zone {
+            border: 2px dashed #93c5fd;
+            border-radius: 8px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            background-color: #f8fafc;
+            transition: all 0.2s ease-in-out;
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+        .drop-zone:hover, .drop-zone.drag-active {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+        }
+        .drop-zone-text {
+            color: #475569;
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+        .file-loaded-info {
+            display: none;
+            color: #166534;
+            font-weight: 600;
+            font-size: 0.85rem;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 0.5rem;
+        }
+        .status-msg {
+            display: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .status-msg.success { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .status-msg.error { background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+        
+        .btn-lang {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-lang:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar-bolsa">
+        <a href="index.html" class="logo-link">
+            <img src="img/2025_Sedco_Asesores_Logo_Azul_Horizontal.png" alt="Sedco Asesores" class="logo-img" style="height: 38px;">
+        </a>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <a href="index.html" class="link-volver" id="txtVolver">
+                <i class="fa-solid fa-arrow-left"></i> Volver al Inicio
             </a>
-            <ul class="nav-links" style="display:flex; align-items: center; gap: 2rem;">
-                <li><a href="index.html" class="btn-volver">
-                    <i class="fa-solid fa-arrow-left"></i> <span data-i18n="nav_back_home">Volver al Inicio</span>
-                </a></li>
-                <!-- Selector de Idioma -->
-                <li>
-                    <div class="lang-switch" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);">
-                        <button type="button" id="btn-es" class="lang-btn active" style="color: white;" onclick="changeLanguage('es')">ES</button>
-                        <span class="divider" style="color: rgba(255,255,255,0.4);">|</span>
-                        <button type="button" id="btn-en" class="lang-btn" style="color: white;" onclick="changeLanguage('en')">EN</button>
-                    </div>
-                </li>
-            </ul>
-        </nav>
+            <button class="btn-lang" id="btnToggleIdioma">ES | EN</button>
+        </div>
     </header>
 
-    <!-- Sección Única: Cultura y Formulario -->
-    <section class="about" id="postulacion" style="padding: 4rem 0 5rem 0;">
-        <div class="careers-layout">
-            
-            <!-- Columna Izquierda: Beneficios -->
-            <div class="benefits-col">
-                <h2 class="benefits-title" data-i18n="careers_title">Desarrolla tu carrera con nosotros</h2>
-                <div class="title-accent"></div>
-                <p class="benefits-subtitle" data-i18n="careers_subtitle">Únete a una firma legal internacional con presencia transfronteriza y expande tu potencial profesional.</p>
-                
-                <div class="benefits-container">
-                    <!-- Tarjeta 1 -->
-                    <div class="benefit-card">
-                        <i class="fa-solid fa-globe benefit-icon"></i>
-                        <h3 data-i18n="ben_card1_title">Proyección Internacional</h3>
-                        <p data-i18n="ben_card1_desc">Participa en operaciones y transacciones transfronterizas complejas entre México y EE.UU., colaborando con clientes globales y expandiendo tu visión.</p>
-                        <div class="benefit-pills">
-                            <span data-i18n="ben_card1_pill1">Enfoque Binacional</span>
-                            <span data-i18n="ben_card1_pill2">Clientes Globales</span>
-                        </div>
+    <main class="bolsa-container">
+        <!-- SECCIÓN IZQUIERDA: INFORMACIÓN Y PILARES -->
+        <section class="info-section">
+            <h1 id="txtTituloPrincipal">Desarrolla tu carrera con nosotros</h1>
+            <p class="subtitulo" id="txtSubtituloPrincipal">
+                Únete a una firma legal internacional con presencia transfronteriza y expande tu potencial profesional.
+            </p>
+
+            <div class="cards-grid">
+                <!-- Tarjeta 1 -->
+                <div class="card-pilar">
+                    <div class="icon-wrap"><i class="fa-solid fa-earth-americas"></i></div>
+                    <h3 id="txtCard1Titulo">Proyección Internacional</h3>
+                    <p id="txtCard1Desc">
+                        Participa en operaciones y transacciones transfronterizas complejas entre México y EE.UU., colaborando con clientes globales y expandiendo tu visión.
+                    </p>
+                    <div class="badges">
+                        <span id="badge1_1">Enfoque Binacional</span>
+                        <span id="badge1_2">Clientes Globales</span>
                     </div>
-                    
-                    <!-- Tarjeta 2 -->
-                    <div class="benefit-card">
-                        <i class="fa-solid fa-arrow-trend-up benefit-icon"></i>
-                        <h3 data-i18n="ben_card2_title">Crecimiento Continuo</h3>
-                        <p data-i18n="ben_card2_desc">Desarrolla tus habilidades con planes de carrera personalizados, mentoría activa y un entorno de aprendizaje constante.</p>
-                        <div class="benefit-pills">
-                            <span data-i18n="ben_card2_pill1">Plan de Carrera</span>
-                            <span data-i18n="ben_card2_pill2">Capacitación</span>
-                        </div>
+                </div>
+
+                <!-- Tarjeta 2 -->
+                <div class="card-pilar">
+                    <div class="icon-wrap"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3 id="txtCard2Titulo">Crecimiento Continuo</h3>
+                    <p id="txtCard2Desc">
+                        Desarrolla tus habilidades con planes de carrera personalizados, mentoría activa y un entorno de aprendizaje constante.
+                    </p>
+                    <div class="badges">
+                        <span id="badge2_1">Plan de Carrera</span>
+                        <span id="badge2_2">Capacitación</span>
                     </div>
-                    
-                    <!-- Tarjeta 3 -->
-                    <div class="benefit-card">
-                        <i class="fa-solid fa-handshake-angle benefit-icon"></i>
-                        <h3 data-i18n="ben_card3_title">Cultura Colaborativa</h3>
-                        <p data-i18n="ben_card3_desc">Trabaja con un equipo de profesionales comprometidos, en un ambiente que fomenta el respeto, la diversidad y el alto rendimiento.</p>
-                        <div class="benefit-pills">
-                            <span data-i18n="ben_card3_pill1">Trabajo en Equipo</span>
-                            <span data-i18n="ben_card3_pill2">Gran Ambiente</span>
-                        </div>
+                </div>
+
+                <!-- Tarjeta 3 -->
+                <div class="card-pilar">
+                    <div class="icon-wrap"><i class="fa-solid fa-handshake"></i></div>
+                    <h3 id="txtCard3Titulo">Cultura Colaborativa</h3>
+                    <p id="txtCard3Desc">
+                        Trabaja con un equipo de profesionales comprometidos, en un ambiente que fomenta el respeto, la diversidad y el alto rendimiento.
+                    </p>
+                    <div class="badges">
+                        <span id="badge3_1">Trabajo en Equipo</span>
+                        <span id="badge3_2">Gran Ambiente</span>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Columna Derecha: Formulario de C.V. -->
-            <div class="form-col">
-                <div class="form-cv-card">
-                    <h2 class="form-title" data-i18n="form_cv_title">ENVÍANOS TU C.V.</h2>
-                    <p class="form-subtitle" data-i18n="form_cv_subtitle">Déjanos tus datos y te contactaremos cuando se abra una oportunidad acorde a tu perfil.</p>
-                    
-                    <form class="cv-form" id="cvForm" action="#" method="POST" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <input type="text" name="Nombre" data-i18n="ph_name" placeholder="Nombre completo" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" name="Correo" data-i18n="ph_email" placeholder="Correo electrónico" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="tel" name="Telefono" data-i18n="ph_phone" placeholder="Teléfono" required>
-                        </div>
-                        
-                        <!-- Zona Drag and Drop -->
-                        <div class="form-group">
-                            <div class="drag-drop-zone" id="drop-zone">
-                                <span class="drop-text" id="drop-text" data-i18n="drop_text">Arrastra y suelta tu C.V. aquí o<br>Selecciona Archivo (PDF, Word)</span>
-                                <input type="file" id="cvFile" name="cvFile" accept=".pdf,.doc,.docx" required hidden>
-                            </div>
-                        </div>
+        <!-- SECCIÓN DERECHA: FORMULARIO -->
+        <section class="form-section">
+            <div class="form-card">
+                <h2 id="txtFormTitulo">ENVÍANOS TU C.V.</h2>
+                <p class="form-desc" id="txtFormDesc">
+                    Déjanos tus datos y te contactaremos cuando se abra una oportunidad acorde a tu perfil.
+                </p>
 
-                        <button type="submit" class="btn-submit" style="margin-top: 1rem;" data-i18n="btn_submit_cv">Enviar Postulación</button>
-                    </form>
-                </div>
+                <div id="alertaForm" class="status-msg"></div>
+
+                <form id="formPostulacion">
+                    <div class="form-group">
+                        <input type="text" id="inputNombre" placeholder="Nombre completo" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="email" id="inputCorreo" placeholder="Correo electrónico" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="tel" id="inputTelefono" placeholder="Teléfono" required>
+                    </div>
+
+                    <!-- DROPZONE PARA C.V. -->
+                    <div class="drop-zone" id="dropZoneCandidato">
+                        <input type="file" id="cvFileInput" name="cvFile" accept=".pdf,.doc,.docx" style="display: none;" required>
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8rem; color: #2563eb; margin-bottom: 0.5rem;"></i>
+                        <p class="drop-zone-text" id="txtDropZone">
+                            Arrastra y suelta tu C.V. aquí o <strong style="color: #2563eb;">Selecciona Archivo</strong> (PDF, Word)
+                        </p>
+                        <div class="file-loaded-info" id="fileLoadedInfo">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span id="nombreArchivoCargado"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="btnEnviarPostulacion">
+                        <span id="txtBtnEnviar">Enviar Postulación</span>
+                    </button>
+                </form>
             </div>
+        </section>
+    </main>
 
-        </div>
-    </section>
+    <script>
+        // --- 1. CONFIGURACIÓN DEL BACKEND ---
+        const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+            ? 'http://localhost:3000/api'
+            : 'https://sedco-backend.onrender.com/api';
 
-    <footer class="footer-section" style="padding-top: 2rem;">
-        <div class="footer-bottom" style="border-top: none;">
-            <img src="img/2025_Sedco_Asesores_Logo_Blanco.png" alt="Sedco Asesores" class="footer-logo">
-            <p>&copy; 2026 Sedco Asesores - <span data-i18n="footer_rights">Todos los derechos reservados.</span></p>
-        </div>
-    </footer>
+        // --- 2. SISTEMA DE TRADUCCIÓN BILINGÜE ---
+        const traducciones = {
+            es: {
+                volver: '<i class="fa-solid fa-arrow-left"></i> Volver al Inicio',
+                titulo: 'Desarrolla tu carrera con nosotros',
+                subtitulo: 'Únete a una firma legal internacional con presencia transfronteriza y expande tu potencial profesional.',
+                c1Tit: 'Proyección Internacional',
+                c1Desc: 'Participa en operaciones y transacciones transfronterizas complejas entre México y EE.UU., colaborando con clientes globales y expandiendo tu visión.',
+                b1_1: 'Enfoque Binacional',
+                b1_2: 'Clientes Globales',
+                c2Tit: 'Crecimiento Continuo',
+                c2Desc: 'Desarrolla tus habilidades con planes de carrera personalizados, mentoría activa y un entorno de aprendizaje constante.',
+                b2_1: 'Plan de Carrera',
+                b2_2: 'Capacitación',
+                c3Tit: 'Cultura Colaborativa',
+                c3Desc: 'Trabaja con un equipo de profesionales comprometidos, en un ambiente que fomenta el respeto, la diversidad y el alto rendimiento.',
+                b3_1: 'Trabajo en Equipo',
+                b3_2: 'Gran Ambiente',
+                formTit: 'ENVÍANOS TU C.V.',
+                formDesc: 'Déjanos tus datos y te contactaremos cuando se abra una oportunidad acorde a tu perfil.',
+                phNombre: 'Nombre completo',
+                phCorreo: 'Correo electrónico',
+                phTel: 'Teléfono',
+                dropTxt: 'Arrastra y suelta tu C.V. aquí o <strong style="color: #2563eb;">Selecciona Archivo</strong> (PDF, Word)',
+                btnEnviar: 'Enviar Postulación',
+                enviando: 'Enviando postulación...'
+            },
+            en: {
+                volver: '<i class="fa-solid fa-arrow-left"></i> Back to Home',
+                titulo: 'Build your career with us',
+                subtitulo: 'Join an international law firm with cross-border presence and expand your professional potential.',
+                c1Tit: 'International Reach',
+                c1Desc: 'Participate in complex cross-border transactions between Mexico and the U.S., collaborating with global clients.',
+                b1_1: 'Binational Focus',
+                b1_2: 'Global Clients',
+                c2Tit: 'Continuous Growth',
+                c2Desc: 'Develop your skills with personalized career paths, active mentorship, and a continuous learning environment.',
+                b2_1: 'Career Path',
+                b2_2: 'Training',
+                c3Tit: 'Collaborative Culture',
+                c3Desc: 'Work with a dedicated team in an environment fostering mutual respect, diversity, and high performance.',
+                b3_1: 'Teamwork',
+                b3_2: 'Great Culture',
+                formTit: 'SEND US YOUR RESUME',
+                formDesc: 'Leave us your information and we will contact you when an opportunity matches your profile.',
+                phNombre: 'Full Name',
+                phCorreo: 'Email Address',
+                phTel: 'Phone Number',
+                dropTxt: 'Drag and drop your CV here or <strong style="color: #2563eb;">Browse File</strong> (PDF, Word)',
+                btnEnviar: 'Submit Application',
+                enviando: 'Submitting application...'
+            }
+        };
 
-    <script src="script.js"></script> 
-    <script src="drag-drop.js"></script> 
+        let idiomaActual = localStorage.getItem('sedco_lang') || 'es';
+
+        function aplicarIdioma(lang) {
+            idiomaActual = lang;
+            localStorage.setItem('sedco_lang', lang);
+            const t = traducciones[lang];
+
+            document.getElementById('txtVolver').innerHTML = t.volver;
+            document.getElementById('txtTituloPrincipal').innerText = t.titulo;
+            document.getElementById('txtSubtituloPrincipal').innerText = t.subtitulo;
+
+            document.getElementById('txtCard1Titulo').innerText = t.c1Tit;
+            document.getElementById('txtCard1Desc').innerText = t.c1Desc;
+            document.getElementById('badge1_1').innerText = t.b1_1;
+            document.getElementById('badge1_2').innerText = t.b1_2;
+
+            document.getElementById('txtCard2Titulo').innerText = t.c2Tit;
+            document.getElementById('txtCard2Desc').innerText = t.c2Desc;
+            document.getElementById('badge2_1').innerText = t.b2_1;
+            document.getElementById('badge2_2').innerText = t.b2_2;
+
+            document.getElementById('txtCard3Titulo').innerText = t.c3Tit;
+            document.getElementById('txtCard3Desc').innerText = t.c3Desc;
+            document.getElementById('badge3_1').innerText = t.b3_1;
+            document.getElementById('badge3_2').innerText = t.b3_2;
+
+            document.getElementById('txtFormTitulo').innerText = t.formTit;
+            document.getElementById('txtFormDesc').innerText = t.formDesc;
+
+            document.getElementById('inputNombre').placeholder = t.phNombre;
+            document.getElementById('inputCorreo').placeholder = t.phCorreo;
+            document.getElementById('inputTelefono').placeholder = t.phTel;
+
+            const fileInput = document.getElementById('cvFileInput');
+            if (!fileInput.files || fileInput.files.length === 0) {
+                document.getElementById('txtDropZone').innerHTML = t.dropTxt;
+            }
+            document.getElementById('txtBtnEnviar').innerText = t.btnEnviar;
+        }
+
+        document.getElementById('btnToggleIdioma').addEventListener('click', () => {
+            aplicarIdioma(idiomaActual === 'es' ? 'en' : 'es');
+        });
+
+        // Aplicar idioma guardado al cargar
+        aplicarIdioma(idiomaActual);
+
+        // --- 3. FUNCIONALIDAD DEL DROPZONE Y CARGA DE ARCHIVOS ---
+        const dropZone = document.getElementById('dropZoneCandidato');
+        const fileInput = document.getElementById('cvFileInput');
+        const fileLoadedInfo = document.getElementById('fileLoadedInfo');
+        const nombreArchivoCargado = document.getElementById('nombreArchivoCargado');
+
+        // Clic en la caja abre el selector nativo
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        // Eventos de arrastre
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.add('drag-active');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.remove('drag-active');
+            }, false);
+        });
+
+        // Al soltar el archivo
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                mostrarArchivoSeleccionado(files[0].name);
+            }
+        });
+
+        // Al seleccionar mediante la ventana emergente
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                mostrarArchivoSeleccionado(fileInput.files[0].name);
+            }
+        });
+
+        function mostrarArchivoSeleccionado(nombre) {
+            nombreArchivoCargado.innerText = nombre;
+            fileLoadedInfo.style.display = 'flex';
+            dropZone.style.borderColor = '#16a34a';
+            dropZone.style.backgroundColor = '#f0fdf4';
+        }
+
+        // --- 4. ENVÍO DEL FORMULARIO HACIA EL BACKEND ---
+        const form = document.getElementById('formPostulacion');
+        const btnEnviar = document.getElementById('btnEnviarPostulacion');
+        const alertaForm = document.getElementById('alertaForm');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            alertaForm.style.display = 'none';
+
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alertaForm.className = 'status-msg error';
+                alertaForm.innerText = idiomaActual === 'es' ? 'Por favor adjunta tu currículum.' : 'Please attach your resume.';
+                alertaForm.style.display = 'block';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('Nombre', document.getElementById('inputNombre').value.trim());
+            formData.append('Correo', document.getElementById('inputCorreo').value.trim());
+            formData.append('Telefono', document.getElementById('inputTelefono').value.trim());
+            formData.append('cvFile', fileInput.files[0]);
+
+            btnEnviar.disabled = true;
+            btnEnviar.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${traducciones[idiomaActual].enviando}`;
+
+            try {
+                const res = await fetch(`${API_URL}/bolsa-trabajo`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.status === 'success') {
+                    alertaForm.className = 'status-msg success';
+                    alertaForm.innerText = idiomaActual === 'es' 
+                        ? '¡Tu postulación ha sido enviada con éxito! Nos pondremos en contacto.' 
+                        : 'Your application was submitted successfully! We will be in touch.';
+                    alertaForm.style.display = 'block';
+                    form.reset();
+                    fileLoadedInfo.style.display = 'none';
+                    dropZone.style.borderColor = '#93c5fd';
+                    dropZone.style.backgroundColor = '#f8fafc';
+                } else {
+                    alertaForm.className = 'status-msg error';
+                    alertaForm.innerText = data.message || (idiomaActual === 'es' ? 'Error al enviar la postulación.' : 'Error submitting application.');
+                    alertaForm.style.display = 'block';
+                }
+            } catch (err) {
+                alertaForm.className = 'status-msg error';
+                alertaForm.innerText = idiomaActual === 'es' 
+                    ? 'No fue posible conectar con el servidor. Inténtalo más tarde.' 
+                    : 'Could not connect to the server. Please try again later.';
+                alertaForm.style.display = 'block';
+            } finally {
+                btnEnviar.disabled = false;
+                btnEnviar.innerHTML = `<span id="txtBtnEnviar">${traducciones[idiomaActual].btnEnviar}</span>`;
+            }
+        });
+    </script>
 </body>
 </html>
