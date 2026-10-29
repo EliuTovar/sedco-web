@@ -37,18 +37,17 @@
             display: flex;
             align-items: center;
             text-decoration: none;
-            gap: 10px;
         }
 
-        .brand-logo-text {
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
-            font-size: 1.35rem;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .nav-logo-bolsa {
+            height: 42px;
+            width: auto;
+            display: block;
+            transition: opacity 0.2s;
+        }
+
+        .nav-logo-bolsa:hover {
+            opacity: 0.9;
         }
 
         .nav-right-actions { display: flex; align-items: center; gap: 1.25rem; }
@@ -280,6 +279,7 @@
         @media (max-width: 680px) {
             .navbar-bolsa { padding: 1rem; }
             .cards-row { grid-template-columns: 1fr; }
+            .nav-logo-bolsa { height: 34px; }
         }
     </style>
 </head>
@@ -287,9 +287,10 @@
 
     <header class="navbar-bolsa">
         <a href="index.html" class="brand-container">
-            <div class="brand-logo-text">
-                <i class="fa-solid fa-scale-balanced" style="font-size: 1.5rem;"></i> Sedco Asesores
-            </div>
+            <img src="img/2025_Sedco_Asesores_Logo_Blanco.png" 
+                 alt="Sedco Asesores" 
+                 class="nav-logo-bolsa"
+                 onerror="this.src='img/2025_Sedco_Asesores_Logo2.png'">
         </a>
 
         <div class="nav-right-actions">
@@ -391,7 +392,9 @@
     </main>
 
     <script>
-        const API_URL = 'https://sedco-backend.onrender.com/api';
+        const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+            ? 'http://localhost:3000/api'
+            : 'https://sedco-backend.onrender.com/api';
 
         const traducciones = {
             es: {
@@ -450,7 +453,6 @@
 
         let idioma = localStorage.getItem('sedco_lang') || 'es';
 
-        // Funciones auxiliares seguras para evitar errores de null
         function setTxt(id, val) {
             const el = document.getElementById(id);
             if (el) el.innerText = val;
@@ -581,7 +583,6 @@
             btnEnviar.disabled = true;
             btnEnviar.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>${traducciones[idioma].enviando}</span>`;
 
-            // Límite de espera de 40 segundos para no bloquear la pantalla indefinidamente
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 40000);
 
@@ -615,7 +616,7 @@
                 if (err.name === 'AbortError') {
                     alerta.innerText = idioma === 'es' 
                         ? 'El servidor tardó en responder. Render se está reactivando, por favor intenta presionar enviar nuevamente.' 
-                        : 'Server took too long to respond. The cloud instance was waking up, please try clicking submit once more.';
+                        : 'Server took too long to respond. Please try submitting again.';
                 } else {
                     alerta.innerText = idioma === 'es' 
                         ? 'No fue posible conectar con el servidor. Inténtalo más tarde.' 
