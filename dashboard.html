@@ -139,7 +139,7 @@
             border-radius: 6px; cursor: pointer; font-weight: 600; color: #475569;
         }
 
-        /* Estilos del Explorador de Enlaces y Carpetas */
+        /* Estilos del Explorador Jerárquico */
         .breadcrumbs-bar {
             display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
             background: #f8fafc; border: 1px solid var(--border-color);
@@ -281,7 +281,7 @@
 
     </div>
 
-    <!-- MODAL EXPLORADOR JERÁRQUICO DE CARPETAS Y ENLACES (CERO DISCO LOCAL) -->
+    <!-- MODAL EXPLORADOR JERÁRQUICO DE CARPETAS Y ENLACES -->
     <div class="modal-overlay" id="modalExplorador">
         <div class="modal modal-large">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
@@ -290,7 +290,7 @@
             </div>
             <p id="expModalSubtitulo" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;"></p>
 
-            <!-- Barra de Navegación por Migas de Pan (Breadcrumbs) -->
+            <!-- Migas de Pan (Breadcrumbs) -->
             <div class="breadcrumbs-bar" id="breadcrumbsContenedor"></div>
 
             <!-- Botones de Acción Rápida -->
@@ -306,16 +306,19 @@
             <!-- Formulario dinámico para añadir Carpeta o Enlace -->
             <div id="formContenedorElemento" style="display: none; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem;">
                 <h4 id="formElementoTitulo" style="font-size: 0.9rem; margin-bottom: 0.5rem; color: #1e293b;"></h4>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <input type="text" id="inputElementoTitulo" placeholder="Nombre de la carpeta..." style="flex: 1; min-width: 200px; background: white;">
-                    <input type="url" id="inputElementoUrl" placeholder="https://drive.google.com/... o https://docs.google.com/..." style="flex: 2; min-width: 250px; background: white;">
-                    <button type="button" class="btn-add" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;" onclick="guardarElemento()">
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                    <input type="text" id="inputElementoTitulo" placeholder="Nombre de la carpeta..." style="flex: 1; min-width: 220px; background: white;">
+                    <input type="url" id="inputElementoUrl" placeholder="https://docs.google.com/..." style="flex: 2; min-width: 260px; background: white;">
+                    <button type="button" id="btnGuardarItem" class="btn-add" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;" onclick="guardarElemento()">
                         Guardar
                     </button>
                     <button type="button" class="btn-cancel" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="cancelarFormularioCrear()">
                         Cancelar
                     </button>
                 </div>
+                <p id="formElementoAyuda" style="margin: 6px 0 0 0; font-size: 0.78rem; color: #0284c7; display: none;">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Esta carpeta se creará automáticamente en Google Drive dentro de esta ruta.
+                </p>
             </div>
 
             <!-- Contenedor de Elementos -->
@@ -515,7 +518,7 @@
         let expedienteSeleccionado = null;
         let expedienteAEliminar = null;
 
-        // Variables del Explorador de Enlaces Jerárquico
+        // Variables del Explorador Jerárquico
         let rutaActual = '/'; 
         let tipoCreando = null; 
 
@@ -621,7 +624,7 @@
             document.getElementById('expModalTitulo').innerText = `Expediente: ${expedienteSeleccionado.codigo}`;
             document.getElementById('expModalSubtitulo').innerText = `Cliente: ${expedienteSeleccionado.cliente ? expedienteSeleccionado.cliente.nombre : '-'}`;
             
-            rutaActual = '/'; // Reinicia a la raíz del expediente
+            rutaActual = '/';
             cancelarFormularioCrear();
             renderizarBreadcrumbs();
             cargarContenidoCarpeta();
@@ -676,7 +679,7 @@
                         let htmlVacio = '';
                         if (rutaActual !== '/') {
                             htmlVacio += `
-                                <div class="explorer-item" style="background: #f8fafc;" onclick="subirNivel()">
+                                <div class="explorer-item" style="background: #f8fafc; cursor: pointer;" onclick="subirNivel()">
                                     <div class="explorer-item-left">
                                         <i class="fa-solid fa-arrow-turn-up" style="color: var(--text-muted);"></i>
                                         <span class="explorer-item-title" style="color: var(--text-muted); font-style: italic;">.. (Subir un nivel)</span>
@@ -691,7 +694,6 @@
 
                     let html = '';
 
-                    // Opción para subir de nivel si no estamos en la raíz
                     if (rutaActual !== '/') {
                         html += `
                             <div class="explorer-item" style="background: #f8fafc; cursor: pointer;" onclick="subirNivel()">
@@ -706,7 +708,6 @@
                     html += elementos.map(item => {
                         const esCarpeta = item.tipo === 'CARPETA';
 
-                        // Reconocimiento visual de íconos según la URL
                         let icono = 'fa-solid fa-link';
                         let color = 'var(--accent-blue)';
 
@@ -786,20 +787,22 @@
             const titulo = document.getElementById('formElementoTitulo');
             const inputNom = document.getElementById('inputElementoTitulo');
             const inputUrl = document.getElementById('inputElementoUrl');
+            const ayuda = document.getElementById('formElementoAyuda');
 
             inputNom.value = '';
             inputUrl.value = '';
 
             if (tipo === 'CARPETA') {
-                titulo.innerHTML = '<i class="fa-solid fa-folder-plus" style="color:#d97706;"></i> Crear Nueva Carpeta en la ruta actual';
-                inputNom.placeholder = 'Nombre de la carpeta (Ej: 06 Contratos, Poderes...)';
-                inputUrl.placeholder = 'URL opcional de Google Drive (o dejar vacío)';
-                inputUrl.required = false;
+                titulo.innerHTML = '<i class="fa-solid fa-folder-plus" style="color:#d97706;"></i> Crear Nueva Carpeta';
+                inputNom.placeholder = 'Nombre de la carpeta (Ej: 1.0, 06 Contratos...)';
+                inputUrl.style.display = 'none';
+                ayuda.style.display = 'block';
             } else {
-                titulo.innerHTML = '<i class="fa-solid fa-link" style="color:var(--accent-blue);"></i> Vincular Archivo o Documento en vivo';
-                inputNom.placeholder = 'Título del archivo (Ej: Contrato de Arrendamiento Firmado)';
-                inputUrl.placeholder = 'https://drive.google.com/... o https://docs.google.com/...';
-                inputUrl.required = true;
+                titulo.innerHTML = '<i class="fa-solid fa-link" style="color:var(--accent-blue);"></i> Vincular Documento (Link)';
+                inputNom.placeholder = 'Título del archivo (Ej: Contrato de Arrendamiento)';
+                inputUrl.placeholder = 'https://docs.google.com/... o https://drive.google.com/...';
+                inputUrl.style.display = 'block';
+                ayuda.style.display = 'none';
             }
 
             cont.style.display = 'block';
@@ -814,19 +817,25 @@
         async function guardarElemento() {
             const inputNom = document.getElementById('inputElementoTitulo');
             const inputUrl = document.getElementById('inputElementoUrl');
+            const btnGuardar = document.getElementById('btnGuardarItem');
 
             const titulo = inputNom.value.trim();
             const url = inputUrl.value.trim();
 
             if (!titulo) {
-                alert('El título o nombre es obligatorio.');
+                alert('El nombre o título es obligatorio.');
                 return;
             }
 
             if (tipoCreando === 'ENLACE' && !url) {
-                alert('Debes ingresar la URL del enlace a vincular.');
+                alert('Debes ingresar la URL del documento.');
                 return;
             }
+
+            btnGuardar.disabled = true;
+            btnGuardar.innerHTML = tipoCreando === 'CARPETA' 
+                ? '<i class="fa-solid fa-spinner fa-spin"></i> Creando en Drive...' 
+                : '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
 
             try {
                 const res = await fetch(`${API_URL}/expedientes/${expedienteSeleccionado.id}/enlaces`, {
@@ -843,13 +852,16 @@
                 if (res.ok) {
                     cancelarFormularioCrear();
                     await cargarContenidoCarpeta();
-                    cargarExpedientes(); // Actualiza el contador de elementos en la tabla principal
+                    cargarExpedientes();
                 } else {
                     const data = await res.json();
-                    alert(data.message || 'Error al guardar.');
+                    alert(data.message || 'Error al procesar la solicitud.');
                 }
             } catch (err) {
-                alert('Error de conexión.');
+                alert('Error de conexión con el backend.');
+            } finally {
+                btnGuardar.disabled = false;
+                btnGuardar.innerHTML = 'Guardar';
             }
         }
 
