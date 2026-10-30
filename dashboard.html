@@ -32,39 +32,13 @@
             justify-content: space-between;
             align-items: center;
         }
-        .admin-nav .brand {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-        .nav-logo-dash {
-            height: 38px;
-            width: auto;
-            display: block;
-            transition: opacity 0.2s;
-        }
-        .nav-logo-dash:hover {
-            opacity: 0.9;
-        }
-        .admin-nav .nav-tabs {
-            display: flex;
-            gap: 0.75rem;
-            margin-left: 2rem;
-            flex-grow: 1;
-        }
+        .admin-nav .brand { display: flex; align-items: center; text-decoration: none; }
+        .nav-logo-dash { height: 38px; width: auto; display: block; }
+        .admin-nav .nav-tabs { display: flex; gap: 0.75rem; margin-left: 2rem; flex-grow: 1; }
         .nav-tab-btn {
-            background: transparent;
-            color: #94a3b8;
-            border: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
+            background: transparent; color: #94a3b8; border: none; font-size: 0.9rem;
+            font-weight: 600; cursor: pointer; padding: 0.5rem 1rem; border-radius: 6px;
+            display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;
         }
         .nav-tab-btn:hover { color: #ffffff; background: rgba(255, 255, 255, 0.08); }
         .nav-tab-btn.active { color: #ffffff; background: var(--primary-blue); }
@@ -74,9 +48,7 @@
             background-color: #ef4444; color: #ffffff; border: none; padding: 6px 14px;
             border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.85rem;
             display: inline-flex; align-items: center; gap: 6px;
-            transition: background-color 0.2s;
         }
-        .btn-logout:hover { background-color: #dc2626; }
 
         .main-container { max-width: 1400px; margin: 2rem auto; padding: 0 1.5rem; }
         .view-section { display: none; }
@@ -131,23 +103,16 @@
 
         .btn-files {
             background-color: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;
-            padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
-            font-weight: 600; display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+            padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+            font-weight: 600; display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+            transition: all 0.2s;
         }
         .btn-files:hover { background-color: #dbeafe; }
-
-        .btn-live-doc {
-            background-color: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;
-            padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;
-            display: inline-flex; align-items: center; gap: 6px; text-decoration: none; cursor: pointer;
-        }
-        .btn-live-doc:hover { background-color: #d1fae5; }
 
         .btn-delete {
             background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5;
             padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem;
             font-weight: 600; display: inline-flex; align-items: center; gap: 5px;
-            transition: all 0.2s ease;
         }
         .btn-delete:hover:not(:disabled) { background: #fecaca; }
 
@@ -174,28 +139,29 @@
             border-radius: 6px; cursor: pointer; font-weight: 600; color: #475569;
         }
 
-        .workspace-card {
-            background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;
-            padding: 1.25rem; margin-bottom: 1.5rem;
+        /* Estilos del Explorador de Enlaces y Carpetas */
+        .breadcrumbs-bar {
+            display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+            background: #f8fafc; border: 1px solid var(--border-color);
+            border-radius: 6px; padding: 8px 12px; margin-bottom: 1.25rem; font-size: 0.85rem;
         }
-        .workspace-card h4 {
-            color: #166534; font-size: 0.95rem; margin-bottom: 0.3rem;
-            display: flex; align-items: center; gap: 8px;
+        .breadcrumb-item {
+            color: var(--accent-blue); cursor: pointer; text-decoration: none; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 4px;
         }
-        .workspace-card p { font-size: 0.8rem; color: #374151; margin-bottom: 0.75rem; }
+        .breadcrumb-item:hover { text-decoration: underline; }
+        .breadcrumb-separator { color: var(--text-muted); }
+        .breadcrumb-active { color: var(--text-dark); font-weight: 700; }
 
-        .upload-dropzone {
-            border: 2px dashed #cbd5e1; border-radius: 8px; padding: 1.25rem;
-            text-align: center; background: #f8fafc; margin-bottom: 1.25rem;
-        }
-        .doc-item {
+        .explorer-item {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0.75rem 1rem; background: #f8fafc; border: 1px solid var(--border-color);
-            border-radius: 6px; margin-bottom: 0.5rem;
+            background: #ffffff; border: 1px solid var(--border-color);
+            border-radius: 6px; padding: 10px 14px; margin-bottom: 0.5rem;
+            transition: all 0.2s;
         }
-        .doc-item-left { display: flex; align-items: center; gap: 10px; overflow: hidden; }
-        .doc-item-title { font-weight: 600; font-size: 0.9rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; max-width: 420px; }
-        .doc-item-meta { font-size: 0.75rem; color: var(--text-muted); }
+        .explorer-item:hover { border-color: #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+        .explorer-item-left { display: flex; align-items: center; gap: 12px; cursor: pointer; flex-grow: 1; overflow: hidden; }
+        .explorer-item-title { font-size: 0.9rem; font-weight: 600; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         @media (max-width: 768px) {
             .admin-nav { flex-direction: column; gap: 1rem; align-items: flex-start; }
@@ -208,7 +174,6 @@
 <body>
 
     <nav class="admin-nav">
-        <!-- LOGOTIPO OFICIAL BLANCO -->
         <a href="dashboard.html" class="brand">
             <img src="img/2025_Sedco_Asesores_Logo_Blanco.png" 
                  alt="Sedco Asesores" 
@@ -256,7 +221,6 @@
                 </div>
                 
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <!-- BOTÓN AUTOMATIZACIÓN DOF -->
                     <button class="btn-files" id="btnAutomatizarDOF" style="background-color: #fef08a; color: #854d0e; border: 1px solid #fde047; cursor: pointer;" onclick="abrirModalDOF()">
                         <i class="fa-solid fa-wand-magic-sparkles"></i> Obtener Índice DOF
                     </button>
@@ -276,13 +240,12 @@
                             <th>Asunto</th>
                             <th>Descripción</th>
                             <th>Estado</th>
-                            <th>Docs en Vivo (Google)</th>
-                            <th>Archivos Firmados</th>
+                            <th>Expediente Digital</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="tablaExpedientes">
-                        <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">Cargando...</td></tr>
+                        <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Cargando...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -318,7 +281,55 @@
 
     </div>
 
-    <!-- MODAL CONFIRMACIÓN Y DISTRIBUCIÓN DEL ÍNDICE DOF -->
+    <!-- MODAL EXPLORADOR JERÁRQUICO DE CARPETAS Y ENLACES (CERO DISCO LOCAL) -->
+    <div class="modal-overlay" id="modalExplorador">
+        <div class="modal modal-large">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <h2 id="expModalTitulo" style="margin: 0;">Expediente</h2>
+                <button type="button" onclick="cerrarModal('modalExplorador')" style="background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer;">&times;</button>
+            </div>
+            <p id="expModalSubtitulo" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;"></p>
+
+            <!-- Barra de Navegación por Migas de Pan (Breadcrumbs) -->
+            <div class="breadcrumbs-bar" id="breadcrumbsContenedor"></div>
+
+            <!-- Botones de Acción Rápida -->
+            <div style="display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap;">
+                <button type="button" class="btn-files" onclick="mostrarFormularioCrear('CARPETA')">
+                    <i class="fa-solid fa-folder-plus" style="color: #d97706;"></i> + Nueva Carpeta
+                </button>
+                <button type="button" class="btn-files" onclick="mostrarFormularioCrear('ENLACE')">
+                    <i class="fa-solid fa-link" style="color: var(--accent-blue);"></i> + Vincular Documento (Link)
+                </button>
+            </div>
+
+            <!-- Formulario dinámico para añadir Carpeta o Enlace -->
+            <div id="formContenedorElemento" style="display: none; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem;">
+                <h4 id="formElementoTitulo" style="font-size: 0.9rem; margin-bottom: 0.5rem; color: #1e293b;"></h4>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <input type="text" id="inputElementoTitulo" placeholder="Nombre de la carpeta..." style="flex: 1; min-width: 200px; background: white;">
+                    <input type="url" id="inputElementoUrl" placeholder="https://drive.google.com/... o https://docs.google.com/..." style="flex: 2; min-width: 250px; background: white;">
+                    <button type="button" class="btn-add" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;" onclick="guardarElemento()">
+                        Guardar
+                    </button>
+                    <button type="button" class="btn-cancel" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="cancelarFormularioCrear()">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenedor de Elementos -->
+            <div id="listaElementosContenedor" style="max-height: 380px; overflow-y: auto; padding-right: 4px;">
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Cargando contenido...</p>
+            </div>
+
+            <div class="modal-actions" style="margin-top: 1.5rem;">
+                <button type="button" class="btn-cancel" onclick="cerrarModal('modalExplorador')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DOF -->
     <div class="modal-overlay" id="modalDOF">
         <div class="modal" style="max-width: 580px; border-top: 5px solid #0e3d6f;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
@@ -335,13 +346,13 @@
             <div style="background: #f8fafc; border-left: 4px solid #0e3d6f; border-radius: 4px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; font-size: 0.85rem; color: #334155; line-height: 1.45;">
                 <p style="margin: 0;"><strong>Remitente Oficial:</strong> Lic. Elisa Armendáriz (<code>earmendariz@sedcoasesores.com</code>)</p>
                 <p style="margin: 4px 0 0 0; font-size: 0.8rem; color: #64748b;">
-                    <i class="fa-solid fa-scissors" style="color: #d97706;"></i> Recorte dinámico activado: El documento se cortará con exactitud en la página que contiene la leyenda de responsabilidad del emisor.
+                    <i class="fa-solid fa-scissors" style="color: #d97706;"></i> Recorte dinámico activado con firma institucional al pie del correo.
                 </p>
             </div>
 
             <div class="form-group" style="margin-bottom: 0.75rem;">
                 <label style="font-size: 0.85rem; font-weight: 600; color: #1e293b; margin-bottom: 0.4rem;">
-                    Destinatarios predeterminados (puedes agregar, editar o remover correos):
+                    Destinatarios predeterminados:
                 </label>
                 <textarea id="dofDestinatarios" rows="7" style="font-family: monospace; font-size: 0.82rem; line-height: 1.45; resize: vertical;"></textarea>
                 <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 3px;">Separados por coma o salto de línea.</span>
@@ -369,18 +380,17 @@
             </p>
             
             <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 0.85rem; margin-bottom: 1.25rem; font-size: 0.85rem; color: #991b1b; line-height: 1.4;">
-                <strong>Consecuencias de esta acción:</strong>
+                <strong>Consecuencias:</strong>
                 <ul style="margin: 0.4rem 0 0 1.2rem;">
-                    <li>Se borrará el caso y su historial del portal.</li>
-                    <li>Se destruirán los archivos locales físicos del servidor.</li>
-                    <li><strong>Se eliminará la carpeta en la unidad compartida Clientes Sedco de Google Drive.</strong></li>
+                    <li>Se borrará el caso y su árbol de enlaces del portal.</li>
+                    <li>Se eliminará la carpeta correspondiente en Google Drive si fue creada.</li>
                 </ul>
             </div>
 
             <div class="form-group" style="margin-bottom: 1rem;">
                 <label style="display: flex; align-items: flex-start; gap: 8px; font-weight: normal; cursor: pointer; font-size: 0.85rem; color: #1e293b;">
                     <input type="checkbox" id="checkConfirmarBorrado" onchange="validarDobleConfirmacion()" style="width: auto; margin-top: 3px; cursor: pointer;">
-                    <span><strong>Verificación 1:</strong> Entiendo que los archivos se borrarán de Google Drive y del servidor de manera irreversible.</span>
+                    <span><strong>Verificación 1:</strong> Entiendo que los vínculos y la carpeta asociada se borrarán de manera irreversible.</span>
                 </label>
             </div>
 
@@ -397,70 +407,6 @@
                     <i class="fa-solid fa-trash-can"></i> Confirmar Eliminación
                 </button>
             </div>
-        </div>
-    </div>
-
-    <!-- MODAL ARCHIVOS DEL EXPEDIENTE (ENLACES DRIVE + ADJUNTOS) -->
-    <div class="modal-overlay" id="modalArchivos">
-        <div class="modal modal-large">
-            <h2 id="modalArchivosTitulo">Expediente</h2>
-            <p id="modalArchivosSubtitulo" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;"></p>
-
-            <div class="workspace-card">
-                <h4><i class="fa-brands fa-google-drive"></i> Documentos Colaborativos en Vivo (Google Docs / Sheets / Drive)</h4>
-                <p>Vincula contratos en borrador, hojas de liquidación o carpetas compartidas con edición simultánea.</p>
-
-                <form id="formNuevoEnlace" style="display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap;">
-                    <input type="text" id="inputEnlaceTitulo" placeholder="Título (ej: Borrador Contrato, Hoja Financiera)" required style="flex: 1; min-width: 220px; background: white;">
-                    <input type="url" id="inputEnlaceUrl" placeholder="https://docs.google.com/..." required style="flex: 2; min-width: 260px; background: white;">
-                    <button type="submit" class="btn-add" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
-                        <i class="fa-solid fa-plus"></i> Vincular
-                    </button>
-                </form>
-
-                <div id="listaEnlacesContenedor" style="max-height: 150px; overflow-y: auto;">
-                    <p style="color: var(--text-muted); font-size: 0.8rem;">Cargando documentos en vivo...</p>
-                </div>
-            </div>
-
-            <form id="formSubirArchivos">
-                <div class="upload-dropzone">
-                    <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8rem; color: var(--accent-blue); margin-bottom: 0.25rem;"></i>
-                    <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.2rem;">Archivar documentos finales (PDFs, poderes, actas firmadas)</p>
-                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">Almacenamiento seguro interno del despacho</p>
-                    <input type="file" id="archivosInput" multiple style="display: block; margin: 0 auto; max-width: 320px; font-size: 0.85rem;">
-                    <button type="submit" class="btn-add" id="btnSubirDocs" style="margin-top: 0.75rem; font-size: 0.85rem; padding: 0.4rem 1rem;">
-                        <i class="fa-solid fa-arrow-up-from-bracket"></i> Subir Archivos
-                    </button>
-                </div>
-            </form>
-
-            <h3 style="font-size: 0.95rem; margin-bottom: 0.75rem;">Documentos Adjuntos Guardados</h3>
-            <div id="listaDocumentosContenedor" style="max-height: 180px; overflow-y: auto;">
-                <p style="color: var(--text-muted); font-size: 0.85rem;">Cargando archivos...</p>
-            </div>
-
-            <div class="modal-actions">
-                <button type="button" class="btn-cancel" onclick="cerrarModal('modalArchivos')">Cerrar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL VISOR -->
-    <div class="modal-overlay" id="modalVisor" style="z-index: 1200;">
-        <div class="modal" style="max-width: 90vw; width: 950px; height: 85vh; display: flex; flex-direction: column; padding: 1.25rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                <h2 id="visorTitulo" style="margin: 0; font-size: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 75%;">Visualizador</h2>
-                <div style="display: flex; gap: 10px;">
-                    <a id="btnAbrirPestana" href="#" target="_blank" class="btn-files" style="padding: 4px 10px; font-size: 0.8rem;">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir en pestaña
-                    </a>
-                    <button type="button" class="btn-cancel" style="padding: 4px 10px; font-size: 0.8rem;" onclick="cerrarVisor()">
-                        <i class="fa-solid fa-xmark"></i> Cerrar
-                    </button>
-                </div>
-            </div>
-            <iframe id="visorIframe" style="width: 100%; height: 100%; border: 1px solid var(--border-color); border-radius: 6px; background: #525659;" src=""></iframe>
         </div>
     </div>
 
@@ -518,7 +464,6 @@
     </div>
 
     <script>
-        // --- 1. CONTROL ESTRICTO DE SESIÓN Y PROTECCIÓN CONTRA RETORNO (BFCACHE) ---
         function validarAutenticacion() {
             const tokenGuardado = localStorage.getItem('sedco_token');
             const usuarioGuardado = localStorage.getItem('sedco_user');
@@ -538,14 +483,11 @@
             }
         }
 
-        window.addEventListener('pageshow', (event) => {
-            validarAutenticacion();
-        });
+        window.addEventListener('pageshow', (event) => { validarAutenticacion(); });
 
         const user = validarAutenticacion();
         const token = localStorage.getItem('sedco_token');
 
-        // Detección automática: Local vs Producción
         const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
             ? 'http://localhost:3000/api'
             : 'https://sedco-backend.onrender.com/api';
@@ -573,6 +515,10 @@
         let expedienteSeleccionado = null;
         let expedienteAEliminar = null;
 
+        // Variables del Explorador de Enlaces Jerárquico
+        let rutaActual = '/'; 
+        let tipoCreando = null; 
+
         async function cargarExpedientes() {
             const tbody = document.getElementById('tablaExpedientes');
             try {
@@ -591,11 +537,10 @@
                         logout();
                         return;
                     }
-                    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #dc2626; padding: 2rem;">Error: ${data.message || 'No se pudieron obtener los expedientes.'}</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #dc2626; padding: 2rem;">Error: ${data.message || 'No se pudieron obtener los expedientes.'}</td></tr>`;
                 }
             } catch (err) {
-                console.error(err);
-                tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #dc2626; padding: 2rem;">No se pudo conectar con el servidor backend.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #dc2626; padding: 2rem;">No se pudo conectar con el servidor backend.</td></tr>`;
             }
         }
 
@@ -621,13 +566,12 @@
             });
 
             if (filtrados.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 2rem;">No se encontraron registros.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">No se encontraron registros.</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = filtrados.map(item => {
-                const totalDocs = item._count ? item._count.documentos : 0;
-                const totalEnlaces = item._count ? item._count.enlaces : 0;
+                const totalElementos = item._count ? item._count.enlaces : 0;
                 const nombreCliente = item.cliente ? item.cliente.nombre : '-';
 
                 return `
@@ -643,18 +587,8 @@
                         </span>
                     </td>
                     <td>
-                        ${totalEnlaces > 0 
-                            ? `<button class="btn-live-doc" onclick="abrirGestorArchivos(${item.id})">
-                                   <i class="fa-brands fa-google-drive"></i> ${totalEnlaces} en vivo
-                               </button>`
-                            : `<button class="btn-files" style="padding: 3px 8px; font-size: 0.75rem; color: var(--text-muted); border-style: dashed;" onclick="abrirGestorArchivos(${item.id})">
-                                   <i class="fa-solid fa-plus"></i> Vincular
-                               </button>`
-                        }
-                    </td>
-                    <td>
-                        <button class="btn-files" onclick="abrirGestorArchivos(${item.id})">
-                            <i class="fa-solid fa-folder-closed"></i> ${totalDocs} ${totalDocs === 1 ? 'archivo' : 'archivos'}
+                        <button class="btn-files" onclick="abrirExplorador(${item.id})">
+                            <i class="fa-solid fa-folder-tree"></i> Explorar (${totalElementos})
                         </button>
                     </td>
                     <td>
@@ -677,6 +611,269 @@
             if (item) item.estado = nuevoEstado;
             actualizarMetricas();
             filtrarExpedientes();
+        }
+
+        // --- EXPLORADOR JERÁRQUICO DE CARPETAS Y ENLACES ---
+        function abrirExplorador(id) {
+            expedienteSeleccionado = listaExpedientes.find(e => e.id === id);
+            if (!expedienteSeleccionado) return;
+
+            document.getElementById('expModalTitulo').innerText = `Expediente: ${expedienteSeleccionado.codigo}`;
+            document.getElementById('expModalSubtitulo').innerText = `Cliente: ${expedienteSeleccionado.cliente ? expedienteSeleccionado.cliente.nombre : '-'}`;
+            
+            rutaActual = '/'; // Reinicia a la raíz del expediente
+            cancelarFormularioCrear();
+            renderizarBreadcrumbs();
+            cargarContenidoCarpeta();
+
+            abrirModal('modalExplorador');
+        }
+
+        function renderizarBreadcrumbs() {
+            const contenedor = document.getElementById('breadcrumbsContenedor');
+            const segmentos = rutaActual.split('/').filter(Boolean);
+
+            let html = `<span class="breadcrumb-item" onclick="navegarRuta('/')"><i class="fa-solid fa-house"></i> Raíz</span>`;
+
+            let rutaAcumulada = '';
+            segmentos.forEach((seg, idx) => {
+                rutaAcumulada += '/' + seg;
+                const esUltimo = idx === segmentos.length - 1;
+
+                html += ` <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.7rem;"></i></span> `;
+                if (esUltimo) {
+                    html += `<span class="breadcrumb-active">${seg}</span>`;
+                } else {
+                    const clickRuta = rutaAcumulada;
+                    html += `<span class="breadcrumb-item" onclick="navegarRuta('${clickRuta}')">${seg}</span>`;
+                }
+            });
+
+            contenedor.innerHTML = html;
+        }
+
+        function navegarRuta(nuevaRuta) {
+            rutaActual = nuevaRuta;
+            cancelarFormularioCrear();
+            renderizarBreadcrumbs();
+            cargarContenidoCarpeta();
+        }
+
+        async function cargarContenidoCarpeta() {
+            const contenedor = document.getElementById('listaElementosContenedor');
+            contenedor.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem; padding: 1rem 0;">Consultando elementos...</p>`;
+
+            try {
+                const res = await fetch(`${API_URL}/expedientes/${expedienteSeleccionado.id}/enlaces?carpeta=${encodeURIComponent(rutaActual)}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+
+                if (res.ok && data.status === 'success') {
+                    const elementos = data.data;
+
+                    if (elementos.length === 0) {
+                        let htmlVacio = '';
+                        if (rutaActual !== '/') {
+                            htmlVacio += `
+                                <div class="explorer-item" style="background: #f8fafc;" onclick="subirNivel()">
+                                    <div class="explorer-item-left">
+                                        <i class="fa-solid fa-arrow-turn-up" style="color: var(--text-muted);"></i>
+                                        <span class="explorer-item-title" style="color: var(--text-muted); font-style: italic;">.. (Subir un nivel)</span>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                        htmlVacio += `<p style="color: #64748b; font-size: 0.85rem; font-style: italic; padding: 1rem 0; text-align: center;">Esta carpeta está vacía. Puedes crear una subcarpeta o vincular un documento con los botones de arriba.</p>`;
+                        contenedor.innerHTML = htmlVacio;
+                        return;
+                    }
+
+                    let html = '';
+
+                    // Opción para subir de nivel si no estamos en la raíz
+                    if (rutaActual !== '/') {
+                        html += `
+                            <div class="explorer-item" style="background: #f8fafc; cursor: pointer;" onclick="subirNivel()">
+                                <div class="explorer-item-left">
+                                    <i class="fa-solid fa-arrow-turn-up" style="color: var(--text-muted);"></i>
+                                    <span class="explorer-item-title" style="color: var(--text-muted); font-style: italic;">.. (Subir un nivel)</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    html += elementos.map(item => {
+                        const esCarpeta = item.tipo === 'CARPETA';
+
+                        // Reconocimiento visual de íconos según la URL
+                        let icono = 'fa-solid fa-link';
+                        let color = 'var(--accent-blue)';
+
+                        if (esCarpeta) {
+                            icono = 'fa-solid fa-folder';
+                            color = '#d97706';
+                        } else if (item.url.includes('/document/')) {
+                            icono = 'fa-solid fa-file-word';
+                            color = '#2563eb';
+                        } else if (item.url.includes('/spreadsheets/')) {
+                            icono = 'fa-solid fa-file-excel';
+                            color = '#16a34a';
+                        } else if (item.url.includes('/presentation/')) {
+                            icono = 'fa-solid fa-file-powerpoint';
+                            color = '#ea580c';
+                        } else if (item.url.includes('/drive/folders/')) {
+                            icono = 'fa-brands fa-google-drive';
+                            color = '#0f9d58';
+                        } else if (item.url.toLowerCase().endsWith('.pdf') || item.url.includes('pdf')) {
+                            icono = 'fa-solid fa-file-pdf';
+                            color = '#dc2626';
+                        }
+
+                        const accionClick = esCarpeta 
+                            ? `entrarCarpeta('${item.titulo.replace(/'/g, "\\'")}')`
+                            : `window.open('${item.url}', '_blank')`;
+
+                        return `
+                            <div class="explorer-item">
+                                <div class="explorer-item-left" onclick="${accionClick}">
+                                    <i class="${icono}" style="color: ${color}; font-size: 1.2rem;"></i>
+                                    <span class="explorer-item-title" title="${item.titulo}">${item.titulo}</span>
+                                </div>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    ${!esCarpeta ? `
+                                        <a href="${item.url}" target="_blank" class="btn-files" style="padding: 4px 10px; font-size: 0.8rem;">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir
+                                        </a>
+                                    ` : (item.url ? `
+                                        <a href="${item.url}" target="_blank" class="btn-files" style="padding: 4px 8px; font-size: 0.75rem;" title="Abrir carpeta en Google Drive">
+                                            <i class="fa-brands fa-google-drive"></i> Drive
+                                        </a>
+                                    ` : '')}
+                                    <button class="btn-delete" title="Eliminar" onclick="eliminarElemento(${item.id}, '${item.titulo.replace(/'/g, "\\'")}', '${item.tipo}')">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    contenedor.innerHTML = html;
+                }
+            } catch (err) {
+                contenedor.innerHTML = `<p style="color: #dc2626; font-size: 0.85rem;">Error al cargar elementos de la carpeta.</p>`;
+            }
+        }
+
+        function entrarCarpeta(nombreCarpeta) {
+            rutaActual = rutaActual === '/' ? `/${nombreCarpeta}` : `${rutaActual}/${nombreCarpeta}`;
+            renderizarBreadcrumbs();
+            cargarContenidoCarpeta();
+        }
+
+        function subirNivel() {
+            if (rutaActual === '/') return;
+            const partes = rutaActual.split('/').filter(Boolean);
+            partes.pop();
+            rutaActual = partes.length === 0 ? '/' : '/' + partes.join('/');
+            renderizarBreadcrumbs();
+            cargarContenidoCarpeta();
+        }
+
+        function mostrarFormularioCrear(tipo) {
+            tipoCreando = tipo;
+            const cont = document.getElementById('formContenedorElemento');
+            const titulo = document.getElementById('formElementoTitulo');
+            const inputNom = document.getElementById('inputElementoTitulo');
+            const inputUrl = document.getElementById('inputElementoUrl');
+
+            inputNom.value = '';
+            inputUrl.value = '';
+
+            if (tipo === 'CARPETA') {
+                titulo.innerHTML = '<i class="fa-solid fa-folder-plus" style="color:#d97706;"></i> Crear Nueva Carpeta en la ruta actual';
+                inputNom.placeholder = 'Nombre de la carpeta (Ej: 06 Contratos, Poderes...)';
+                inputUrl.placeholder = 'URL opcional de Google Drive (o dejar vacío)';
+                inputUrl.required = false;
+            } else {
+                titulo.innerHTML = '<i class="fa-solid fa-link" style="color:var(--accent-blue);"></i> Vincular Archivo o Documento en vivo';
+                inputNom.placeholder = 'Título del archivo (Ej: Contrato de Arrendamiento Firmado)';
+                inputUrl.placeholder = 'https://drive.google.com/... o https://docs.google.com/...';
+                inputUrl.required = true;
+            }
+
+            cont.style.display = 'block';
+            inputNom.focus();
+        }
+
+        function cancelarFormularioCrear() {
+            tipoCreando = null;
+            document.getElementById('formContenedorElemento').style.display = 'none';
+        }
+
+        async function guardarElemento() {
+            const inputNom = document.getElementById('inputElementoTitulo');
+            const inputUrl = document.getElementById('inputElementoUrl');
+
+            const titulo = inputNom.value.trim();
+            const url = inputUrl.value.trim();
+
+            if (!titulo) {
+                alert('El título o nombre es obligatorio.');
+                return;
+            }
+
+            if (tipoCreando === 'ENLACE' && !url) {
+                alert('Debes ingresar la URL del enlace a vincular.');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/expedientes/${expedienteSeleccionado.id}/enlaces`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({
+                        titulo,
+                        url,
+                        tipo: tipoCreando,
+                        carpeta: rutaActual
+                    })
+                });
+
+                if (res.ok) {
+                    cancelarFormularioCrear();
+                    await cargarContenidoCarpeta();
+                    cargarExpedientes(); // Actualiza el contador de elementos en la tabla principal
+                } else {
+                    const data = await res.json();
+                    alert(data.message || 'Error al guardar.');
+                }
+            } catch (err) {
+                alert('Error de conexión.');
+            }
+        }
+
+        async function eliminarElemento(id, titulo, tipo) {
+            const advertencia = tipo === 'CARPETA' 
+                ? `¿Deseas eliminar la carpeta "${titulo}" y todo su contenido?`
+                : `¿Deseas desvincular el documento "${titulo}"?`;
+
+            if (!confirm(advertencia)) return;
+
+            try {
+                const res = await fetch(`${API_URL}/enlaces/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    await cargarContenidoCarpeta();
+                    cargarExpedientes();
+                } else {
+                    alert('No fue posible eliminar el elemento.');
+                }
+            } catch (err) {
+                alert('Error de conexión.');
+            }
         }
 
         // --- SISTEMA DE DOBLE VERIFICACIÓN ---
@@ -724,7 +921,7 @@
 
             const btn = document.getElementById('btnConfirmarEliminar');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Eliminando en Drive y Servidor...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Eliminando...';
 
             try {
                 const res = await fetch(`${API_URL}/expedientes/${expedienteAEliminar.id}`, {
@@ -750,244 +947,9 @@
                     btn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Confirmar Eliminación';
                 }
             } catch (error) {
-                console.error(error);
                 alert('Error de conexión con el backend.');
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Confirmar Eliminación';
-            }
-        }
-
-        // --- GESTIÓN DE ARCHIVOS Y ENLACES ---
-        function abrirGestorArchivos(id) {
-            expedienteSeleccionado = listaExpedientes.find(e => e.id === id);
-            if (!expedienteSeleccionado) return;
-
-            document.getElementById('modalArchivosTitulo').innerText = `Expediente: ${expedienteSeleccionado.codigo}`;
-            document.getElementById('modalArchivosSubtitulo').innerText = `Cliente: ${expedienteSeleccionado.cliente ? expedienteSeleccionado.cliente.nombre : '-'}`;
-            
-            abrirModal('modalArchivos');
-            cargarEnlacesExpediente();
-            cargarDocumentosExpediente();
-        }
-
-        async function cargarEnlacesExpediente() {
-            const contenedor = document.getElementById('listaEnlacesContenedor');
-            contenedor.innerHTML = `<p style="color: var(--text-muted); font-size: 0.8rem;">Consultando documentos en vivo...</p>`;
-
-            try {
-                const res = await fetch(`${API_URL}/expedientes/${expedienteSeleccionado.id}/enlaces`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const data = await res.json();
-
-                if (res.ok && data.status === 'success') {
-                    if (data.data.length === 0) {
-                        contenedor.innerHTML = `<p style="color: #64748b; font-size: 0.8rem; font-style: italic;">No hay documentos colaborativos vinculados a este asunto.</p>`;
-                        return;
-                    }
-
-                    contenedor.innerHTML = data.data.map(enlace => {
-                        let icono = 'fa-brands fa-google-drive';
-                        let color = '#0f9d58';
-
-                        if (enlace.url.includes('/document/')) {
-                            icono = 'fa-solid fa-file-word';
-                            color = '#2563eb';
-                        } else if (enlace.url.includes('/spreadsheets/')) {
-                            icono = 'fa-solid fa-file-excel';
-                            color = '#16a34a';
-                        } else if (enlace.url.includes('/presentation/')) {
-                            icono = 'fa-solid fa-file-powerpoint';
-                            color = '#ea580c';
-                        }
-
-                        return `
-                        <div style="display: flex; justify-content: space-between; align-items: center; background: white; border: 1px solid #bbf7d0; padding: 6px 10px; border-radius: 6px; margin-bottom: 0.4rem;">
-                            <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
-                                <i class="${icono}" style="color: ${color}; font-size: 1rem;"></i>
-                                <span style="font-size: 0.85rem; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; max-width: 380px;">${enlace.titulo}</span>
-                            </div>
-                            <div style="display: flex; gap: 6px;">
-                                <a href="${enlace.url}" target="_blank" class="btn-live-doc" style="padding: 2px 8px; font-size: 0.75rem;">
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir
-                                </a>
-                                <button class="btn-delete" style="padding: 2px 6px; font-size: 0.75rem;" onclick="eliminarEnlace(${enlace.id})">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `}).join('');
-                }
-            } catch (err) {
-                contenedor.innerHTML = `<p style="color: #dc2626; font-size: 0.8rem;">Error al cargar enlaces.</p>`;
-            }
-        }
-
-        document.getElementById('formNuevoEnlace').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const titulo = document.getElementById('inputEnlaceTitulo').value.trim();
-            const url = document.getElementById('inputEnlaceUrl').value.trim();
-
-            try {
-                const res = await fetch(`${API_URL}/expedientes/${expedienteSeleccionado.id}/enlaces`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                    body: JSON.stringify({ titulo, url })
-                });
-
-                if (res.ok) {
-                    document.getElementById('inputEnlaceTitulo').value = '';
-                    document.getElementById('inputEnlaceUrl').value = '';
-                    await cargarEnlacesExpediente();
-                    cargarExpedientes();
-                } else {
-                    alert('Error al vincular el documento.');
-                }
-            } catch (err) {
-                alert('Error de conexión.');
-            }
-        });
-
-        async function eliminarEnlace(idEnlace) {
-            if (!confirm('¿Deseas desvincular este documento colaborativo?')) return;
-            try {
-                const res = await fetch(`${API_URL}/enlaces/${idEnlace}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                if (res.ok) {
-                    await cargarEnlacesExpediente();
-                    cargarExpedientes();
-                }
-            } catch (err) {
-                alert('Error de conexión.');
-            }
-        }
-
-        async function cargarDocumentosExpediente() {
-            const contenedor = document.getElementById('listaDocumentosContenedor');
-            contenedor.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem;">Consultando archivos...</p>`;
-
-            try {
-                const res = await fetch(`${API_URL}/expedientes/${expedienteSeleccionado.id}/documentos`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const data = await res.json();
-
-                if (res.ok && data.status === 'success') {
-                    if (data.data.length === 0) {
-                        contenedor.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem; padding: 1rem 0;">No hay documentos cerrados archivados aún.</p>`;
-                        return;
-                    }
-
-                    contenedor.innerHTML = data.data.map(doc => {
-                        const tamanoKB = doc.tamano ? (doc.tamano / 1024).toFixed(1) + ' KB' : '';
-                        const fecha = new Date(doc.createdAt).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
-                        return `
-                        <div class="doc-item">
-                            <div class="doc-item-left">
-                                <i class="fa-solid fa-file-lines" style="font-size: 1.3rem; color: var(--accent-blue);"></i>
-                                <div>
-                                    <div class="doc-item-title" title="${doc.nombreOriginal}">${doc.nombreOriginal}</div>
-                                    <div class="doc-item-meta">${tamanoKB} • ${fecha}</div>
-                                </div>
-                            </div>
-                            <div style="display: flex; gap: 8px; align-items: center;">
-                                <button class="btn-files" 
-                                        style="background: #e0f2fe; color: #0369a1; border-color: #bae6fd; padding: 4px 10px; font-size: 0.8rem;"
-                                        onclick="previsualizarDocumento(${doc.id}, '${encodeURIComponent(doc.nombreOriginal)}')">
-                                    <i class="fa-solid fa-eye"></i> Ver
-                                </button>
-                                <a href="${API_URL}/documentos/${doc.id}/descargar?token=${token}" 
-                                   class="btn-files" 
-                                   style="padding: 4px 10px; font-size: 0.8rem;" 
-                                   download>
-                                    <i class="fa-solid fa-download"></i> Descargar
-                                </a>
-                                <button class="btn-delete" onclick="eliminarDocumento(${doc.id})">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `}).join('');
-                }
-            } catch (err) {
-                contenedor.innerHTML = `<p style="color: #dc2626; font-size: 0.85rem;">Error al cargar archivos.</p>`;
-            }
-        }
-
-        document.getElementById('formSubirArchivos').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const fileInput = document.getElementById('archivosInput');
-            if (fileInput.files.length === 0) {
-                alert('Por favor selecciona al menos un archivo.');
-                return;
-            }
-
-            const formData = new FormData();
-            for (let i = 0; i < fileInput.files.length; i++) {
-                formData.append('archivos', fileInput.files[i]);
-            }
-
-            const btnSubir = document.getElementById('btnSubirDocs');
-            btnSubir.disabled = true;
-            btnSubir.innerText = 'Subiendo...';
-
-            try {
-                const res = await fetch(`${API_URL}/expedientes/${expedienteSeleccionado.id}/documentos`, {
-                    method: 'POST',
-                    headers: { 'Authorization': `Bearer ${token}` },
-                    body: formData
-                });
-
-                const data = await res.json();
-                if (res.ok && data.status === 'success') {
-                    fileInput.value = '';
-                    await cargarDocumentosExpediente();
-                    cargarExpedientes();
-                } else {
-                    alert(data.message || 'Error al subir los archivos.');
-                }
-            } catch (err) {
-                alert('Error de conexión con el backend.');
-            } finally {
-                btnSubir.disabled = false;
-                btnSubir.innerHTML = '<i class="fa-solid fa-arrow-up-from-bracket"></i> Subir Archivos';
-            }
-        });
-
-        // --- VISOR ---
-        function previsualizarDocumento(idDoc, nombreCodificado) {
-            const nombre = decodeURIComponent(nombreCodificado);
-            const urlVisor = `${API_URL}/documentos/${idDoc}/ver?token=${token}`;
-
-            document.getElementById('visorTitulo').innerText = nombre;
-            document.getElementById('visorIframe').src = urlVisor;
-            document.getElementById('btnAbrirPestana').href = urlVisor;
-
-            document.getElementById('modalVisor').style.display = 'flex';
-        }
-
-        function cerrarVisor() {
-            document.getElementById('modalVisor').style.display = 'none';
-            document.getElementById('visorIframe').src = '';
-        }
-
-        async function eliminarDocumento(idDoc) {
-            if (!confirm('¿Deseas eliminar este documento permanentemente?')) return;
-            try {
-                const res = await fetch(`${API_URL}/documentos/${idDoc}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                if (res.ok) {
-                    await cargarDocumentosExpediente();
-                    cargarExpedientes();
-                } else {
-                    alert('No se pudo eliminar el archivo.');
-                }
-            } catch (err) {
-                alert('Error de conexión.');
             }
         }
 
@@ -1079,7 +1041,6 @@
             const textarea = document.getElementById('dofDestinatarios');
             const statusBox = document.getElementById('dofStatusBox');
             
-            // Cargar los 8 correos separados por salto de línea
             textarea.value = CORREOS_PREDETERMINADOS_DOF.join(',\n');
             statusBox.style.display = 'none';
             statusBox.innerHTML = '';
@@ -1101,7 +1062,6 @@
 
             const destinatarios = textoCorreos.split(/[\n,]+/).map(c => c.trim()).filter(Boolean);
 
-            // Bloquear interfaz mientras se procesa
             btnEnviar.disabled = true;
             btnCancelar.disabled = true;
             btnEnviar.style.opacity = '0.6';
@@ -1150,11 +1110,10 @@
                     btnEnviar.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Confirmar y Enviar';
                 }
             } catch (err) {
-                console.error(err);
                 statusBox.style.background = '#fee2e2';
                 statusBox.style.border = '1px solid #fecaca';
                 statusBox.style.color = '#991b1b';
-                statusBox.innerHTML = '<strong><i class="fa-solid fa-triangle-exclamation"></i> Error de conexión:</strong> No se pudo contactar con el backend en Render. Intenta de nuevo.';
+                statusBox.innerHTML = '<strong><i class="fa-solid fa-triangle-exclamation"></i> Error de conexión:</strong> No se pudo contactar con el backend en Render.';
                 btnEnviar.disabled = false;
                 btnCancelar.disabled = false;
                 btnEnviar.style.opacity = '1';
