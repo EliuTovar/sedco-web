@@ -257,7 +257,7 @@
                 
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                     <!-- BOTÓN AUTOMATIZACIÓN DOF -->
-                    <button class="btn-files" id="btnAutomatizarDOF" style="background-color: #fef08a; color: #854d0e; border: 1px solid #fde047;" onclick="ejecutarAutomatizacionDOF()">
+                    <button class="btn-files" id="btnAutomatizarDOF" style="background-color: #fef08a; color: #854d0e; border: 1px solid #fde047; cursor: pointer;" onclick="abrirModalDOF()">
                         <i class="fa-solid fa-wand-magic-sparkles"></i> Obtener Índice DOF
                     </button>
 
@@ -316,6 +316,46 @@
             </div>
         </div>
 
+    </div>
+
+    <!-- MODAL CONFIRMACIÓN Y DISTRIBUCIÓN DEL ÍNDICE DOF -->
+    <div class="modal-overlay" id="modalDOF">
+        <div class="modal" style="max-width: 580px; border-top: 5px solid #0e3d6f;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <h2 style="margin: 0; color: #0e3d6f; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-scale-balanced" style="color: #d97706;"></i> Distribución del Índice DOF
+                </h2>
+                <button type="button" onclick="cerrarModal('modalDOF')" style="background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; line-height: 1;">&times;</button>
+            </div>
+            
+            <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 1rem;">
+                Confirma la lista de licenciados que recibirán el extracto del Diario Oficial de hoy.
+            </p>
+
+            <div style="background: #f8fafc; border-left: 4px solid #0e3d6f; border-radius: 4px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; font-size: 0.85rem; color: #334155; line-height: 1.45;">
+                <p style="margin: 0;"><strong>Remitente Oficial:</strong> Lic. Elisa Armendáriz (<code>earmendariz@sedcoasesores.com</code>)</p>
+                <p style="margin: 4px 0 0 0; font-size: 0.8rem; color: #64748b;">
+                    <i class="fa-solid fa-scissors" style="color: #d97706;"></i> Recorte dinámico activado: El documento se cortará con exactitud en la página que contiene la leyenda de responsabilidad del emisor.
+                </p>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0.75rem;">
+                <label style="font-size: 0.85rem; font-weight: 600; color: #1e293b; margin-bottom: 0.4rem;">
+                    Destinatarios predeterminados (puedes agregar, editar o remover correos):
+                </label>
+                <textarea id="dofDestinatarios" rows="7" style="font-family: monospace; font-size: 0.82rem; line-height: 1.45; resize: vertical;"></textarea>
+                <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 3px;">Separados por coma o salto de línea.</span>
+            </div>
+
+            <div id="dofStatusBox" style="display: none; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.85rem; margin-bottom: 1rem; line-height: 1.4;"></div>
+
+            <div class="modal-actions" style="margin-top: 1rem;">
+                <button type="button" class="btn-cancel" id="btnCancelarDOF" onclick="cerrarModal('modalDOF')">Cancelar</button>
+                <button type="button" id="btnConfirmarDOF" class="btn-add" style="background-color: #d97706;" onclick="ejecutarEnvioDOF()">
+                    <i class="fa-solid fa-paper-plane"></i> Confirmar y Enviar
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- MODAL DOBLE VERIFICACIÓN PARA ELIMINAR EXPEDIENTE -->
@@ -1023,18 +1063,55 @@
             }
         });
 
-        // --- AUTOMATIZACIÓN DEL DIARIO OFICIAL ---
-        async function ejecutarAutomatizacionDOF() {
-            // Se asume el correo de la abogada o uno genérico si no pone nada
-            const defaultEmail = user ? user.correo : "info@sedcoasesores.com";
-            const correosDestino = prompt("Ingresa los correos de los licenciados que deben recibir el índice del DOF (separados por coma):", defaultEmail);
-            
-            if (!correosDestino) return; // Si cancela
+        // --- AUTOMATIZACIÓN DEL DIARIO OFICIAL CON MODAL INTERACTIVO ---
+        const CORREOS_PREDETERMINADOS_DOF = [
+            'mcg@sedcoasesores.com',
+            'mvillanueva@sedcoasesores.com',
+            'amaldonado@sedcoasesores.com',
+            'acorte.qp@gmail.com',
+            'lic.monicafierro@gmail.com',
+            'mtorres@sedcoasesores.com',
+            'ovilla@sedcoasesores.com',
+            'ctabuenca@cg-abogados.com'
+        ];
 
-            const btn = document.getElementById('btnAutomatizarDOF');
-            const textoOriginal = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando DOF...';
+        function abrirModalDOF() {
+            const textarea = document.getElementById('dofDestinatarios');
+            const statusBox = document.getElementById('dofStatusBox');
+            
+            // Cargar los 8 correos separados por salto de línea
+            textarea.value = CORREOS_PREDETERMINADOS_DOF.join(',\n');
+            statusBox.style.display = 'none';
+            statusBox.innerHTML = '';
+
+            abrirModal('modalDOF');
+        }
+
+        async function ejecutarEnvioDOF() {
+            const textarea = document.getElementById('dofDestinatarios');
+            const btnEnviar = document.getElementById('btnConfirmarDOF');
+            const btnCancelar = document.getElementById('btnCancelarDOF');
+            const statusBox = document.getElementById('dofStatusBox');
+
+            const textoCorreos = textarea.value.trim();
+            if (!textoCorreos) {
+                alert('Debes ingresar al menos un correo electrónico de destino.');
+                return;
+            }
+
+            const destinatarios = textoCorreos.split(/[\n,]+/).map(c => c.trim()).filter(Boolean);
+
+            // Bloquear interfaz mientras se procesa
+            btnEnviar.disabled = true;
+            btnCancelar.disabled = true;
+            btnEnviar.style.opacity = '0.6';
+            btnEnviar.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando y Enviando...';
+
+            statusBox.style.display = 'block';
+            statusBox.style.background = '#e0f2fe';
+            statusBox.style.border = '1px solid #bae6fd';
+            statusBox.style.color = '#0369a1';
+            statusBox.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Descargando edición matutina del DOF, detectando páginas de índice y distribuyendo correos...';
 
             try {
                 const res = await fetch(`${API_URL}/dof/automatizar`, {
@@ -1043,21 +1120,45 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}` 
                     },
-                    body: JSON.stringify({ enviarA: correosDestino.split(',').map(c => c.trim()) })
+                    body: JSON.stringify({ enviarA: destinatarios })
                 });
 
                 const data = await res.json();
-                
+
                 if (res.ok && data.status === 'success') {
-                    alert(data.message);
+                    statusBox.style.background = '#dcfce7';
+                    statusBox.style.border = '1px solid #bbf7d0';
+                    statusBox.style.color = '#15803d';
+                    statusBox.innerHTML = `<strong><i class="fa-solid fa-check-circle"></i> ¡Éxito!</strong><br>${data.message}`;
+
+                    setTimeout(() => {
+                        cerrarModal('modalDOF');
+                        btnEnviar.disabled = false;
+                        btnCancelar.disabled = false;
+                        btnEnviar.style.opacity = '1';
+                        btnEnviar.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Confirmar y Enviar';
+                        statusBox.style.display = 'none';
+                    }, 3500);
                 } else {
-                    alert('Aviso: ' + (data.message || 'No se pudo completar el proceso en este momento.'));
+                    statusBox.style.background = '#fee2e2';
+                    statusBox.style.border = '1px solid #fecaca';
+                    statusBox.style.color = '#991b1b';
+                    statusBox.innerHTML = `<strong><i class="fa-solid fa-triangle-exclamation"></i> Error:</strong> ${data.message || 'No fue posible completar la descarga.'}`;
+                    btnEnviar.disabled = false;
+                    btnCancelar.disabled = false;
+                    btnEnviar.style.opacity = '1';
+                    btnEnviar.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Confirmar y Enviar';
                 }
             } catch (err) {
-                alert('Hubo un problema de conexión con el servidor. Intenta de nuevo en unos segundos.');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = textoOriginal;
+                console.error(err);
+                statusBox.style.background = '#fee2e2';
+                statusBox.style.border = '1px solid #fecaca';
+                statusBox.style.color = '#991b1b';
+                statusBox.innerHTML = '<strong><i class="fa-solid fa-triangle-exclamation"></i> Error de conexión:</strong> No se pudo contactar con el backend en Render. Intenta de nuevo.';
+                btnEnviar.disabled = false;
+                btnCancelar.disabled = false;
+                btnEnviar.style.opacity = '1';
+                btnEnviar.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Confirmar y Enviar';
             }
         }
 

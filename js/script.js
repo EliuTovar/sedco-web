@@ -414,12 +414,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const submitBtn = contactForm.querySelector(".btn-submit");
             const originalBtnText = submitBtn.innerHTML;
             
-            // Cambiar estado del botón
             submitBtn.innerHTML = "Enviando...";
             submitBtn.disabled = true;
             submitBtn.style.opacity = "0.7";
 
-            // Construir los datos a enviar
             const payload = {
                 Nombre: contactForm.Nombre.value.trim(),
                 Correo: contactForm.Correo.value.trim(),
