@@ -31,14 +31,14 @@
                 <li><a href="javascript:void(0)" onclick="scrollToSection('oficinas')" data-i18n="nav_offices">Oficinas</a></li>
                 <li><a href="javascript:void(0)" onclick="scrollToSection('contacto')" data-i18n="nav_contact">Contáctanos</a></li>
                 
-                <!-- BOTÓN BOLSA DE TRABAJO (CON TRADUCCIÓN) -->
+                <!-- BOTÓN BOLSA DE TRABAJO -->
                 <li>
                     <a href="bolsa-trabajo.html" data-i18n="nav_join" style="background: var(--primary-blue); color: white; padding: 6px 12px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.3s; display: inline-block;" onmouseover="this.style.background='#0056B3'" onmouseout="this.style.background='var(--primary-blue)'">
                         Únete al Equipo
                     </a>
                 </li>
 
-                <!-- BOTÓN ACCESO PRIVADO (CON TRADUCCIÓN) -->
+                <!-- BOTÓN ACCESO PRIVADO -->
                 <li>
                     <a href="login.html" style="border: 1px solid var(--primary-blue); color: var(--primary-blue); padding: 5px 12px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; transition: all 0.3s;" onmouseover="this.style.background='var(--primary-blue)'; this.style.color='#ffffff';" onmouseout="this.style.background='transparent'; this.style.color='var(--primary-blue)';">
                         <i class="fa-solid fa-lock" style="font-size: 0.75rem;"></i>
@@ -414,9 +414,11 @@
             <div class="footer-col newsletter-col">
                 <h4 data-i18n="newsletter_title">Suscríbete a nuestro newsletter</h4>
                 <p data-i18n="newsletter_desc">Recibe actualizaciones sobre derecho corporativo e internacional.</p>
-                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('¡Gracias por suscribirte!');">
-                    <input type="email" placeholder="correo@ejemplo.com" required>
-                    <button type="submit" data-i18n="newsletter_btn">Suscribirme</button>
+                
+                <!-- Formulario Newsletter conectado con backend y Mailchimp -->
+                <form class="newsletter-form" id="formNewsletter">
+                    <input type="email" id="emailNewsletter" placeholder="correo@ejemplo.com" required>
+                    <button type="submit" id="btnNewsletter" data-i18n="newsletter_btn">Suscribirme</button>
                 </form>
             </div>
 
@@ -450,5 +452,55 @@
     </footer>
 
     <script src="js/script.js"></script>
+
+    <!-- Script de Integración con el Backend para Newsletter -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const formNewsletter = document.getElementById('formNewsletter');
+            const inputNewsletter = document.getElementById('emailNewsletter');
+            const btnNewsletter = document.getElementById('btnNewsletter');
+
+            if (formNewsletter) {
+                formNewsletter.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const correo = inputNewsletter.value.trim();
+                    if (!correo || !correo.includes('@')) {
+                        alert('Por favor ingresa un correo electrónico válido.');
+                        inputNewsletter.focus();
+                        return;
+                    }
+
+                    const textoOriginal = btnNewsletter.innerText;
+                    btnNewsletter.disabled = true;
+                    btnNewsletter.innerText = 'Suscribiendo...';
+
+                    const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+                        ? 'http://localhost:3000/api'
+                        : 'https://sedco-backend.onrender.com/api';
+
+                    try {
+                        const res = await fetch(`${API_URL}/newsletter`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ correo })
+                        });
+
+                        const data = await res.json();
+                        alert(data.message || 'Respuesta recibida del servidor.');
+
+                        if (res.ok && data.status === 'success') {
+                            inputNewsletter.value = '';
+                        }
+                    } catch (error) {
+                        alert('No se pudo procesar la suscripción. Intenta de nuevo más tarde.');
+                    } finally {
+                        btnNewsletter.disabled = false;
+                        btnNewsletter.innerText = textoOriginal;
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
