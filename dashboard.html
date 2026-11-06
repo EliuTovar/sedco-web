@@ -100,6 +100,13 @@
         .badge-cerrado { background-color: #f1f5f9; color: #475569; cursor: pointer; }
         .badge-admin { background-color: #dbeafe; color: #1e40af; }
         .badge-abogado { background-color: #f3e8ff; color: #6b21a8; }
+        .badge-permiso { 
+            display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; 
+            border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 4px;
+            cursor: pointer; user-select: none; transition: opacity 0.2s;
+        }
+        .badge-permiso-on { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+        .badge-permiso-off { background: #f1f5f9; color: #94a3b8; border: 1px solid #e2e8f0; text-decoration: line-through; }
 
         .btn-files {
             background-color: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;
@@ -221,11 +228,11 @@
                 </div>
                 
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button class="btn-files" id="btnAutomatizarDOF" style="background-color: #fef08a; color: #854d0e; border: 1px solid #fde047; cursor: pointer;" onclick="abrirModalDOF()">
+                    <button class="btn-files" id="btnAutomatizarDOF" style="background-color: #fef08a; color: #854d0e; border: 1px solid #fde047; cursor: pointer; display: none;" onclick="abrirModalDOF()">
                         <i class="fa-solid fa-wand-magic-sparkles"></i> Obtener Índice DOF
                     </button>
 
-                    <button class="btn-add" onclick="abrirModal('modalExpediente')">
+                    <button class="btn-add" id="btnNuevoExpediente" onclick="abrirModal('modalExpediente')">
                         <i class="fa-solid fa-plus"></i> Nuevo Expediente
                     </button>
                 </div>
@@ -256,7 +263,7 @@
             <div class="toolbar">
                 <div>
                     <h2>Directorio de Usuarios</h2>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Cuentas autorizadas para operar la plataforma</p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Cuentas autorizadas y administración de permisos de acceso</p>
                 </div>
                 <button class="btn-add" onclick="abrirModal('modalUsuario')">
                     <i class="fa-solid fa-user-plus"></i> Registrar Usuario
@@ -270,6 +277,7 @@
                             <th>Nombre</th>
                             <th>Correo Corporativo</th>
                             <th>Rol</th>
+                            <th>Módulos Permitidos</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -437,7 +445,7 @@
         </div>
     </div>
 
-    <!-- MODAL NUEVO USUARIO -->
+    <!-- MODAL NUEVO USUARIO CON ASIGNACIÓN DE PERMISOS -->
     <div class="modal-overlay" id="modalUsuario">
         <div class="modal">
             <h2>Crear Cuenta de Abogado</h2>
@@ -458,6 +466,22 @@
                         <option value="ADMIN">Administrador</option>
                     </select>
                 </div>
+
+                <!-- Sección de Asignación de Permisos Granulares -->
+                <div class="form-group" style="background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);">
+                    <label style="font-weight: 700; margin-bottom: 8px;">Módulos Asignados:</label>
+                    
+                    <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer; margin-bottom: 6px;">
+                        <input type="checkbox" id="usrPermisoExpedientes" checked style="width: auto;">
+                        <span>Acceso a <strong>Expedientes y Enlaces</strong></span>
+                    </label>
+
+                    <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
+                        <input type="checkbox" id="usrPermisoDof" style="width: auto;">
+                        <span>Botón y Envío del <strong>Índice DOF</strong></span>
+                    </label>
+                </div>
+
                 <div class="modal-actions">
                     <button type="button" class="btn-cancel" onclick="cerrarModal('modalUsuario')">Cancelar</button>
                     <button type="submit" class="btn-add">Crear Usuario</button>
@@ -495,9 +519,32 @@
             ? 'http://localhost:3000/api'
             : 'https://sedco-backend.onrender.com/api';
 
+        // GESTIÓN DINÁMICA DE INTERFAZ SEGÚN PERMISOS DEL USUARIO
         if (user) {
             document.getElementById('userTag').innerText = `${user.nombre} (${user.rol})`;
-            if (user.rol === 'ADMIN') document.getElementById('tabUsuarios').style.display = 'inline-flex';
+            
+            // Pestaña de Usuarios solo para Administradores
+            if (user.rol === 'ADMIN') {
+                document.getElementById('tabUsuarios').style.display = 'inline-flex';
+            }
+
+            // Botón de emisión del DOF según permiso
+            const btnDof = document.getElementById('btnAutomatizarDOF');
+            if (btnDof && (user.rol === 'ADMIN' || user.permisoDof)) {
+                btnDof.style.display = 'inline-flex';
+            }
+
+            // Control de acceso al módulo de Expedientes
+            if (user.rol !== 'ADMIN' && !user.permisoExpedientes) {
+                document.getElementById('tabExpedientes').style.display = 'none';
+                document.getElementById('vista-expedientes').innerHTML = `
+                    <div style="text-align: center; padding: 5rem 1rem;">
+                        <i class="fa-solid fa-lock" style="font-size: 3.5rem; color: #94a3b8; margin-bottom: 1rem;"></i>
+                        <h2 style="color: #1e293b;">Acceso Restringido</h2>
+                        <p style="color: #64748b; font-size: 0.95rem; margin-top: 0.5rem;">Tu cuenta no tiene autorización para acceder al registro de expedientes del despacho.</p>
+                    </div>
+                `;
+            }
         }
 
         function cambiarVista(vista) {
@@ -523,6 +570,8 @@
         let tipoCreando = null; 
 
         async function cargarExpedientes() {
+            if (user.rol !== 'ADMIN' && !user.permisoExpedientes) return;
+
             const tbody = document.getElementById('tablaExpedientes');
             try {
                 const res = await fetch(`${API_URL}/expedientes`, {
@@ -536,8 +585,8 @@
                     filtrarExpedientes();
                 } else {
                     if (res.status === 401 || res.status === 403) {
-                        alert('Tu sesión ha expirado.');
-                        logout();
+                        alert(data.message || 'Tu sesión ha expirado.');
+                        if (res.status === 401) logout();
                         return;
                     }
                     tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #dc2626; padding: 2rem;">Error: ${data.message || 'No se pudieron obtener los expedientes.'}</td></tr>`;
@@ -989,30 +1038,72 @@
             }
         });
 
-        // --- FORMULARIO USUARIOS ---
+        // --- GESTIÓN DE USUARIOS Y PERMISOS ---
         async function cargarUsuarios() {
             try {
                 const res = await fetch(`${API_URL}/usuarios`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const data = await res.json();
                 if (res.ok && data.status === 'success') {
-                    document.getElementById('tablaUsuarios').innerHTML = data.data.map(usr => `
+                    document.getElementById('tablaUsuarios').innerHTML = data.data.map(usr => {
+                        const esMismoUsuario = usr.id === user.id;
+
+                        return `
                         <tr>
                             <td><strong>${usr.nombre}</strong></td>
                             <td>${usr.correo}</td>
                             <td><span class="badge ${usr.rol === 'ADMIN' ? 'badge-admin' : 'badge-abogado'}">${usr.rol}</span></td>
-                            <td><span style="color: ${usr.activo ? '#15803d' : '#ef4444'}; font-weight: 600;"><i class="fa-solid fa-circle" style="font-size: 0.65rem;"></i> ${usr.activo ? 'Activo' : 'Inactivo'}</span></td>
                             <td>
-                                ${usr.id === user.id ? '<span style="color: var(--text-muted); font-size: 0.85rem;">(Tú)</span>' : 
+                                <span class="badge-permiso ${usr.permisoExpedientes ? 'badge-permiso-on' : 'badge-permiso-off'}" 
+                                      title="Haz clic para activar/desactivar" 
+                                      onclick="togglePermisoUsuario(${usr.id}, 'permisoExpedientes', ${!usr.permisoExpedientes})">
+                                    <i class="fa-solid fa-folder"></i> Expedientes
+                                </span>
+                                <span class="badge-permiso ${usr.permisoDof ? 'badge-permiso-on' : 'badge-permiso-off'}" 
+                                      title="Haz clic para activar/desactivar" 
+                                      onclick="togglePermisoUsuario(${usr.id}, 'permisoDof', ${!usr.permisoDof})">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> DOF
+                                </span>
+                            </td>
+                            <td>
+                                <span style="color: ${usr.activo ? '#15803d' : '#ef4444'}; font-weight: 600; cursor: pointer;" 
+                                      onclick="togglePermisoUsuario(${usr.id}, 'activo', ${!usr.activo})">
+                                    <i class="fa-solid fa-circle" style="font-size: 0.65rem;"></i> ${usr.activo ? 'Activo' : 'Inactivo'}
+                                </span>
+                            </td>
+                            <td>
+                                ${esMismoUsuario ? '<span style="color: var(--text-muted); font-size: 0.85rem;">(Tu Cuenta)</span>' : 
                                 `<button class="btn-delete" onclick="eliminarUsuario(${usr.id}, '${usr.nombre}')"><i class="fa-solid fa-trash-can"></i> Eliminar</button>`}
                             </td>
                         </tr>
-                    `).join('');
+                    `}).join('');
                 }
             } catch (err) { console.error(err); }
         }
 
+        async function togglePermisoUsuario(idUsuario, campo, nuevoValor) {
+            try {
+                const body = {};
+                body[campo] = nuevoValor;
+
+                const res = await fetch(`${API_URL}/usuarios/${idUsuario}/permisos`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify(body)
+                });
+
+                if (res.ok) {
+                    cargarUsuarios();
+                } else {
+                    const data = await res.json();
+                    alert(data.message || 'No fue posible actualizar los permisos.');
+                }
+            } catch (e) {
+                alert('Error al comunicarse con el servidor.');
+            }
+        }
+
         async function eliminarUsuario(id, nombre) {
-            if (!confirm(`¿Eliminar permanentemente a "${nombre}"?`)) return;
+            if (!confirm(`¿Eliminar permanentemente la cuenta de "${nombre}"?`)) return;
             const res = await fetch(`${API_URL}/usuarios/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
             if (res.ok) cargarUsuarios();
         }
@@ -1023,7 +1114,9 @@
                 nombre: document.getElementById('usrNombre').value,
                 usuarioPrefix: document.getElementById('usrPrefijo').value,
                 password: document.getElementById('usrPass').value,
-                rol: document.getElementById('usrRol').value
+                rol: document.getElementById('usrRol').value,
+                permisoExpedientes: document.getElementById('usrPermisoExpedientes').checked,
+                permisoDof: document.getElementById('usrPermisoDof').checked
             };
             const res = await fetch(`${API_URL}/usuarios`, {
                 method: 'POST',
@@ -1031,9 +1124,12 @@
                 body: JSON.stringify(payload)
             });
             if (res.ok) {
-                alert('Usuario creado.');
+                alert('Usuario creado exitosamente.');
                 cerrarModal('modalUsuario');
                 cargarUsuarios();
+            } else {
+                const err = await res.json();
+                alert(err.message || 'Error al crear usuario.');
             }
         });
 
