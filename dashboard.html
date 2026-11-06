@@ -172,7 +172,7 @@
 
         @media (max-width: 768px) {
             .admin-nav { flex-direction: column; gap: 1rem; align-items: flex-start; }
-            .admin-nav .nav-tabs { margin-left: 0; width: 100%; }
+            .admin-nav .nav-tabs { margin-left: 0; width: 100%; flex-wrap: wrap; }
             .user-info { width: 100%; justify-content: space-between; }
             .toolbar { flex-direction: column; align-items: flex-start; }
         }
@@ -189,8 +189,11 @@
         </a>
         
         <div class="nav-tabs">
-            <button class="nav-tab-btn active" id="tabExpedientes" onclick="cambiarVista('expedientes')">
+            <button class="nav-tab-btn" id="tabExpedientes" style="display: none;" onclick="cambiarVista('expedientes')">
                 <i class="fa-solid fa-folder-open"></i> Expedientes
+            </button>
+            <button class="nav-tab-btn" id="tabDOF" style="display: none;" onclick="cambiarVista('dof')">
+                <i class="fa-solid fa-scale-balanced"></i> Diario Oficial (DOF)
             </button>
             <button class="nav-tab-btn" id="tabUsuarios" style="display: none;" onclick="cambiarVista('usuarios')">
                 <i class="fa-solid fa-users-gear"></i> Gestión de Usuarios
@@ -207,7 +210,7 @@
     <div class="main-container">
         
         <!-- VISTA EXPEDIENTES -->
-        <div id="vista-expedientes" class="view-section active">
+        <div id="vista-expedientes" class="view-section">
             <div class="metrics-grid">
                 <div class="metric-card"><p>Total Asuntos</p><h3 id="statTotal">0</h3></div>
                 <div class="metric-card"><p>Expedientes Abiertos</p><h3 id="statAbiertos" style="color: #16a34a;">0</h3></div>
@@ -258,6 +261,36 @@
             </div>
         </div>
 
+        <!-- VISTA DEDICADA AL DIARIO OFICIAL (DOF) -->
+        <div id="vista-dof" class="view-section">
+            <div class="toolbar" style="margin-bottom: 1.5rem;">
+                <div>
+                    <h2 style="color: var(--primary-dark); font-family: 'Montserrat', sans-serif;">Diario Oficial de la Federación</h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Automatización, recorte dinámico y distribución diaria del índice matutino</p>
+                </div>
+            </div>
+
+            <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 10px; padding: 2.2rem; max-width: 680px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);">
+                <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 1.25rem;">
+                    <div style="background: #fef3c7; color: #d97706; width: 52px; height: 52px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem;">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <div>
+                        <h3 style="margin: 0; color: var(--primary-dark); font-size: 1.15rem;">Distribución Oficial del DOF</h3>
+                        <p style="margin: 3px 0 0 0; color: var(--text-muted); font-size: 0.85rem;">Remitente verificado: Elisa Armendáriz (<code>earmendariz@sedcoasesores.com</code>)</p>
+                    </div>
+                </div>
+
+                <p style="color: #475569; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                    Al ejecutar el proceso, el sistema descargará el ejemplar matutino del día desde SEGOB, recortará las páginas del sumario exactamente donde concluye la leyenda oficial de responsabilidad del emisor y enviará el PDF con firma institucional adjunta a los licenciados autorizados.
+                </p>
+
+                <button class="btn-add" style="background-color: #d97706; font-size: 0.95rem; padding: 0.75rem 1.6rem;" onclick="abrirModalDOF()">
+                    <i class="fa-solid fa-paper-plane"></i> Preparar y Distribuir DOF
+                </button>
+            </div>
+        </div>
+
         <!-- VISTA USUARIOS -->
         <div id="vista-usuarios" class="view-section">
             <div class="toolbar">
@@ -287,6 +320,15 @@
             </div>
         </div>
 
+        <!-- VISTA SIN PERMISOS ASIGNADOS -->
+        <div id="vista-sin-acceso" class="view-section">
+            <div style="text-align: center; padding: 5rem 1rem;">
+                <i class="fa-solid fa-lock" style="font-size: 3.5rem; color: #94a3b8; margin-bottom: 1rem;"></i>
+                <h2 style="color: #1e293b;">Acceso Restringido</h2>
+                <p style="color: #64748b; font-size: 0.95rem; margin-top: 0.5rem;">Tu cuenta no tiene módulos asignados en este momento. Solicita a un administrador que habilite tus permisos.</p>
+            </div>
+        </div>
+
     </div>
 
     <!-- MODAL EXPLORADOR JERÁRQUICO DE CARPETAS Y ENLACES -->
@@ -298,10 +340,8 @@
             </div>
             <p id="expModalSubtitulo" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;"></p>
 
-            <!-- Migas de Pan (Breadcrumbs) -->
             <div class="breadcrumbs-bar" id="breadcrumbsContenedor"></div>
 
-            <!-- Botones de Acción Rápida -->
             <div style="display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap;">
                 <button type="button" class="btn-files" onclick="mostrarFormularioCrear('CARPETA')">
                     <i class="fa-solid fa-folder-plus" style="color: #d97706;"></i> + Nueva Carpeta
@@ -311,7 +351,6 @@
                 </button>
             </div>
 
-            <!-- Formulario dinámico para añadir Carpeta o Enlace -->
             <div id="formContenedorElemento" style="display: none; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem;">
                 <h4 id="formElementoTitulo" style="font-size: 0.9rem; margin-bottom: 0.5rem; color: #1e293b;"></h4>
                 <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
@@ -329,7 +368,6 @@
                 </p>
             </div>
 
-            <!-- Contenedor de Elementos -->
             <div id="listaElementosContenedor" style="max-height: 380px; overflow-y: auto; padding-right: 4px;">
                 <p style="color: var(--text-muted); font-size: 0.85rem;">Cargando contenido...</p>
             </div>
@@ -445,7 +483,7 @@
         </div>
     </div>
 
-    <!-- MODAL NUEVO USUARIO CON ASIGNACIÓN DE PERMISOS -->
+    <!-- MODAL NUEVO USUARIO -->
     <div class="modal-overlay" id="modalUsuario">
         <div class="modal">
             <h2>Crear Cuenta de Abogado</h2>
@@ -467,7 +505,6 @@
                     </select>
                 </div>
 
-                <!-- Sección de Asignación de Permisos Granulares -->
                 <div class="form-group" style="background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);">
                     <label style="font-weight: 700; margin-bottom: 8px;">Módulos Asignados:</label>
                     
@@ -478,7 +515,7 @@
 
                     <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
                         <input type="checkbox" id="usrPermisoDof" style="width: auto;">
-                        <span>Botón y Envío del <strong>Índice DOF</strong></span>
+                        <span>Módulo y Envío del <strong>Índice DOF</strong></span>
                     </label>
                 </div>
 
@@ -519,55 +556,65 @@
             ? 'http://localhost:3000/api'
             : 'https://sedco-backend.onrender.com/api';
 
-        // GESTIÓN DINÁMICA DE INTERFAZ SEGÚN PERMISOS DEL USUARIO
-        if (user) {
+        let listaExpedientes = [];
+        let expedienteSeleccionado = null;
+        let expedienteAEliminar = null;
+
+        let rutaActual = '/'; 
+        let tipoCreando = null;
+
+        function inicializarPermisosYVistas() {
+            if (!user) return;
             document.getElementById('userTag').innerText = `${user.nombre} (${user.rol})`;
-            
-            // Pestaña de Usuarios solo para Administradores
-            if (user.rol === 'ADMIN') {
+
+            const tieneExp = user.rol === 'ADMIN' || user.permisoExpedientes;
+            const tieneDof = user.rol === 'ADMIN' || user.permisoDof;
+            const tieneUsuarios = user.rol === 'ADMIN';
+
+            if (tieneExp) {
+                document.getElementById('tabExpedientes').style.display = 'inline-flex';
+            }
+            if (tieneDof) {
+                document.getElementById('tabDOF').style.display = 'inline-flex';
+                const btnDofToolbar = document.getElementById('btnAutomatizarDOF');
+                if (btnDofToolbar) btnDofToolbar.style.display = 'inline-flex';
+            }
+            if (tieneUsuarios) {
                 document.getElementById('tabUsuarios').style.display = 'inline-flex';
             }
 
-            // Botón de emisión del DOF según permiso
-            const btnDof = document.getElementById('btnAutomatizarDOF');
-            if (btnDof && (user.rol === 'ADMIN' || user.permisoDof)) {
-                btnDof.style.display = 'inline-flex';
-            }
-
-            // Control de acceso al módulo de Expedientes
-            if (user.rol !== 'ADMIN' && !user.permisoExpedientes) {
-                document.getElementById('tabExpedientes').style.display = 'none';
-                document.getElementById('vista-expedientes').innerHTML = `
-                    <div style="text-align: center; padding: 5rem 1rem;">
-                        <i class="fa-solid fa-lock" style="font-size: 3.5rem; color: #94a3b8; margin-bottom: 1rem;"></i>
-                        <h2 style="color: #1e293b;">Acceso Restringido</h2>
-                        <p style="color: #64748b; font-size: 0.95rem; margin-top: 0.5rem;">Tu cuenta no tiene autorización para acceder al registro de expedientes del despacho.</p>
-                    </div>
-                `;
+            // Seleccionar vista inicial según los permisos
+            if (tieneExp) {
+                cambiarVista('expedientes');
+            } else if (tieneDof) {
+                cambiarVista('dof');
+            } else if (tieneUsuarios) {
+                cambiarVista('usuarios');
+            } else {
+                cambiarVista('sin-acceso');
             }
         }
 
         function cambiarVista(vista) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(`vista-${vista}`).classList.add('active');
-            
+
+            const seccion = document.getElementById(`vista-${vista}`);
+            if (seccion) seccion.classList.add('active');
+
             if (vista === 'expedientes') {
-                document.getElementById('tabExpedientes').classList.add('active');
+                const tab = document.getElementById('tabExpedientes');
+                if (tab) tab.classList.add('active');
                 cargarExpedientes();
+            } else if (vista === 'dof') {
+                const tab = document.getElementById('tabDOF');
+                if (tab) tab.classList.add('active');
             } else if (vista === 'usuarios') {
-                document.getElementById('tabUsuarios').classList.add('active');
+                const tab = document.getElementById('tabUsuarios');
+                if (tab) tab.classList.add('active');
                 cargarUsuarios();
             }
         }
-
-        let listaExpedientes = [];
-        let expedienteSeleccionado = null;
-        let expedienteAEliminar = null;
-
-        // Variables del Explorador Jerárquico
-        let rutaActual = '/'; 
-        let tipoCreando = null; 
 
         async function cargarExpedientes() {
             if (user.rol !== 'ADMIN' && !user.permisoExpedientes) return;
@@ -1241,7 +1288,7 @@
             window.location.replace('login.html');
         }
 
-        cargarExpedientes();
+        inicializarPermisosYVistas();
     </script>
 </body>
 </html>
